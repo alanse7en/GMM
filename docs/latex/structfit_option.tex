@@ -1,0 +1,106 @@
+\hypertarget{structfit_option}{\section{fit\+Option Struct Reference}
+\label{structfit_option}\index{fit\+Option@{fit\+Option}}
+}
+
+
+{\ttfamily \#include $<$G\+M\+M.\+h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{structfit_option_ae1d880f6fcd26e15f07d50c77c5cceea}{cov\+Type} = \char`\"{}full\char`\"{}
+\item 
+bool \hyperlink{structfit_option_a2efaf3629539e3864967853058e80420}{shared\+Cov} = false
+\item 
+string \hyperlink{structfit_option_a4c1ecd5ba984e2e12faa29217c78f931}{start} = \char`\"{}kmeans\char`\"{}
+\item 
+double \hyperlink{structfit_option_abffa02537679becf07413b31f5889e6f}{regularize} = 0.\+0
+\item 
+string \hyperlink{structfit_option_acd949efbbb51ddf447d4cb86fd2ac901}{display} = \char`\"{}iter\char`\"{}
+\item 
+unsigned int \hyperlink{structfit_option_a54d1906ece53c348047c8b404ff06053}{max\+Iter} = 100
+\item 
+double \hyperlink{structfit_option_a4523efadc5bc4f29cd1648ac4ca018dd}{tol\+Fun} = 1e-\/6
+\item 
+bool \hyperlink{structfit_option_a600d82e88e845abb5a442f80eecf89cb}{converged} = false
+\item 
+unsigned int \hyperlink{structfit_option_a711048d488fccee5740b31e4149c46de}{iters} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+cov\+Type \+: 'diagonal' covariance matrices are restricted to be diagonal; 'spherical' covariance matrices are restricted to be spherical; 'full' covariance matrices are restricted to be full( default). shared\+Cov \+: True if the component covariance matrices are restricted to be the same, default is false. start \+: 'random' randomly select from train data to initialize model parameters; 'kmeans' use kmeans to get initial clustering index of the train data( default). regularize \+: Regularization parameter to avoid covariance being singular, defalut is 0. display \+: 'iter' show information during training (default); 'final' show final information. max\+Iter \+: Maximum iterations allowed, default is 100; tol\+Fun \+: The termination tolerance for the log-\/likelihood function, default is 1e-\/6. converged \+: 'true' \hyperlink{class_g_m_m}{G\+M\+M} training process converged; otherwise failed. iters \+: The num of iterations to finished training. 
+
+Definition at line 35 of file G\+M\+M.\+h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structfit_option_a600d82e88e845abb5a442f80eecf89cb}{\index{fit\+Option@{fit\+Option}!converged@{converged}}
+\index{converged@{converged}!fit\+Option@{fit\+Option}}
+\subsubsection[{converged}]{\setlength{\rightskip}{0pt plus 5cm}bool fit\+Option\+::converged = false}}\label{structfit_option_a600d82e88e845abb5a442f80eecf89cb}
+
+
+Definition at line 43 of file G\+M\+M.\+h.
+
+\hypertarget{structfit_option_ae1d880f6fcd26e15f07d50c77c5cceea}{\index{fit\+Option@{fit\+Option}!cov\+Type@{cov\+Type}}
+\index{cov\+Type@{cov\+Type}!fit\+Option@{fit\+Option}}
+\subsubsection[{cov\+Type}]{\setlength{\rightskip}{0pt plus 5cm}string fit\+Option\+::cov\+Type = \char`\"{}full\char`\"{}}}\label{structfit_option_ae1d880f6fcd26e15f07d50c77c5cceea}
+
+
+Definition at line 36 of file G\+M\+M.\+h.
+
+\hypertarget{structfit_option_acd949efbbb51ddf447d4cb86fd2ac901}{\index{fit\+Option@{fit\+Option}!display@{display}}
+\index{display@{display}!fit\+Option@{fit\+Option}}
+\subsubsection[{display}]{\setlength{\rightskip}{0pt plus 5cm}string fit\+Option\+::display = \char`\"{}iter\char`\"{}}}\label{structfit_option_acd949efbbb51ddf447d4cb86fd2ac901}
+
+
+Definition at line 40 of file G\+M\+M.\+h.
+
+\hypertarget{structfit_option_a711048d488fccee5740b31e4149c46de}{\index{fit\+Option@{fit\+Option}!iters@{iters}}
+\index{iters@{iters}!fit\+Option@{fit\+Option}}
+\subsubsection[{iters}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int fit\+Option\+::iters = 0}}\label{structfit_option_a711048d488fccee5740b31e4149c46de}
+
+
+Definition at line 44 of file G\+M\+M.\+h.
+
+\hypertarget{structfit_option_a54d1906ece53c348047c8b404ff06053}{\index{fit\+Option@{fit\+Option}!max\+Iter@{max\+Iter}}
+\index{max\+Iter@{max\+Iter}!fit\+Option@{fit\+Option}}
+\subsubsection[{max\+Iter}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int fit\+Option\+::max\+Iter = 100}}\label{structfit_option_a54d1906ece53c348047c8b404ff06053}
+
+
+Definition at line 41 of file G\+M\+M.\+h.
+
+\hypertarget{structfit_option_abffa02537679becf07413b31f5889e6f}{\index{fit\+Option@{fit\+Option}!regularize@{regularize}}
+\index{regularize@{regularize}!fit\+Option@{fit\+Option}}
+\subsubsection[{regularize}]{\setlength{\rightskip}{0pt plus 5cm}double fit\+Option\+::regularize = 0.\+0}}\label{structfit_option_abffa02537679becf07413b31f5889e6f}
+
+
+Definition at line 39 of file G\+M\+M.\+h.
+
+\hypertarget{structfit_option_a2efaf3629539e3864967853058e80420}{\index{fit\+Option@{fit\+Option}!shared\+Cov@{shared\+Cov}}
+\index{shared\+Cov@{shared\+Cov}!fit\+Option@{fit\+Option}}
+\subsubsection[{shared\+Cov}]{\setlength{\rightskip}{0pt plus 5cm}bool fit\+Option\+::shared\+Cov = false}}\label{structfit_option_a2efaf3629539e3864967853058e80420}
+
+
+Definition at line 37 of file G\+M\+M.\+h.
+
+\hypertarget{structfit_option_a4c1ecd5ba984e2e12faa29217c78f931}{\index{fit\+Option@{fit\+Option}!start@{start}}
+\index{start@{start}!fit\+Option@{fit\+Option}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}string fit\+Option\+::start = \char`\"{}kmeans\char`\"{}}}\label{structfit_option_a4c1ecd5ba984e2e12faa29217c78f931}
+
+
+Definition at line 38 of file G\+M\+M.\+h.
+
+\hypertarget{structfit_option_a4523efadc5bc4f29cd1648ac4ca018dd}{\index{fit\+Option@{fit\+Option}!tol\+Fun@{tol\+Fun}}
+\index{tol\+Fun@{tol\+Fun}!fit\+Option@{fit\+Option}}
+\subsubsection[{tol\+Fun}]{\setlength{\rightskip}{0pt plus 5cm}double fit\+Option\+::tol\+Fun = 1e-\/6}}\label{structfit_option_a4523efadc5bc4f29cd1648ac4ca018dd}
+
+
+Definition at line 42 of file G\+M\+M.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_g_m_m_8h}{G\+M\+M.\+h}\end{DoxyCompactItemize}

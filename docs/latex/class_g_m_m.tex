@@ -1,0 +1,154 @@
+\hypertarget{class_g_m_m}{\section{G\+M\+M Class Reference}
+\label{class_g_m_m}\index{G\+M\+M@{G\+M\+M}}
+}
+
+
+{\ttfamily \#include $<$G\+M\+M.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_m_m_a780eb798b963d64324e60f8a05511793}{G\+M\+M} (long n\+Components, long n\+Dimensions, \hyperlink{structfit_option}{fit\+Option} option=\hyperlink{structfit_option}{fit\+Option}())
+\begin{DoxyCompactList}\small\item\em Constructors with n\+Components, n\+Dimensions and option. \end{DoxyCompactList}\item 
+\hyperlink{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}{G\+M\+M} (Matrix\+Xd mu, vector$<$ Matrix\+Xd $>$ Sigma, Vector\+Xd p, \hyperlink{structfit_option}{fit\+Option} option=\hyperlink{structfit_option}{fit\+Option}())
+\begin{DoxyCompactList}\small\item\em Constructors with mu, Sigma, p, and option. \end{DoxyCompactList}\item 
+\hyperlink{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}{G\+M\+M} (string file\+Name)
+\begin{DoxyCompactList}\small\item\em Load \hyperlink{class_g_m_m}{G\+M\+M} from file\+Name. \end{DoxyCompactList}\item 
+\hyperlink{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}{G\+M\+M} (\hyperlink{class_g_m_m}{G\+M\+M} \&gmm)
+\begin{DoxyCompactList}\small\item\em Copy constructors. \end{DoxyCompactList}\item 
+\hyperlink{class_g_m_m}{G\+M\+M} \& \hyperlink{class_g_m_m_a60cc7218be23fa401a804b5d419632b9}{operator=} (const \hyperlink{class_g_m_m}{G\+M\+M} \&gmm)
+\begin{DoxyCompactList}\small\item\em = operator \end{DoxyCompactList}\item 
+void \hyperlink{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{fit} (Matrix\+Xd data)
+\item 
+void \hyperlink{class_g_m_m_a520a9559626e08e3cb4e9863262da300}{cluster} (Matrix\+Xd data, Vector\+Xd \&idx, int \&n\+Log\+L, Matrix\+Xd \&post, Vector\+Xd \&log\+Pdf)
+\item 
+void \hyperlink{class_g_m_m_af57b5c21205ecd53619f67117555388e}{save} (string file\+Name)
+\begin{DoxyCompactList}\small\item\em Save \hyperlink{class_g_m_m}{G\+M\+M} to file\+Name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+n\+Components \+: The number of mixture components, K; n\+Dimensions \+: The number of dimensions for each Gaussian component, D; mu \+: A K-\/by-\/\+D matrix of component means; Sigma \+: A K-\/by-\/\+D-\/by-\/\+D matrix of component covariance matrices; p \+: A K-\/by-\/1 vector of the proportion of each component. option \+: Containing options about the \hyperlink{class_g_m_m}{G\+M\+M} model. 
+
+Definition at line 55 of file G\+M\+M.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_m_m_a780eb798b963d64324e60f8a05511793}{\index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
+\index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{G\+M\+M}]{\setlength{\rightskip}{0pt plus 5cm}G\+M\+M\+::\+G\+M\+M (
+\begin{DoxyParamCaption}
+\item[{long}]{n\+Components, }
+\item[{long}]{n\+Dimensions, }
+\item[{{\bf fit\+Option}}]{option = {\ttfamily {\bf fit\+Option}()}}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_a780eb798b963d64324e60f8a05511793}
+
+
+Constructors with n\+Components, n\+Dimensions and option. 
+
+
+
+Definition at line 31 of file G\+M\+M.\+cpp.
+
+\hypertarget{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}{\index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
+\index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{G\+M\+M}]{\setlength{\rightskip}{0pt plus 5cm}G\+M\+M\+::\+G\+M\+M (
+\begin{DoxyParamCaption}
+\item[{Matrix\+Xd}]{mu, }
+\item[{vector$<$ Matrix\+Xd $>$}]{Sigma, }
+\item[{Vector\+Xd}]{p, }
+\item[{{\bf fit\+Option}}]{option = {\ttfamily {\bf fit\+Option}()}}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}
+
+
+Constructors with mu, Sigma, p, and option. 
+
+
+
+Definition at line 40 of file G\+M\+M.\+cpp.
+
+\hypertarget{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}{\index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
+\index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{G\+M\+M}]{\setlength{\rightskip}{0pt plus 5cm}G\+M\+M\+::\+G\+M\+M (
+\begin{DoxyParamCaption}
+\item[{string}]{file\+Name}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}
+
+
+Load \hyperlink{class_g_m_m}{G\+M\+M} from file\+Name. 
+
+\hypertarget{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}{\index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
+\index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{G\+M\+M}]{\setlength{\rightskip}{0pt plus 5cm}G\+M\+M\+::\+G\+M\+M (
+\begin{DoxyParamCaption}
+\item[{{\bf G\+M\+M} \&}]{gmm}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}
+
+
+Copy constructors. 
+
+
+
+Definition at line 59 of file G\+M\+M.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_m_m_a520a9559626e08e3cb4e9863262da300}{\index{G\+M\+M@{G\+M\+M}!cluster@{cluster}}
+\index{cluster@{cluster}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{cluster}]{\setlength{\rightskip}{0pt plus 5cm}void G\+M\+M\+::cluster (
+\begin{DoxyParamCaption}
+\item[{Matrix\+Xd}]{data, }
+\item[{Vector\+Xd \&}]{idx, }
+\item[{int \&}]{n\+Log\+L, }
+\item[{Matrix\+Xd \&}]{post, }
+\item[{Vector\+Xd \&}]{log\+Pdf}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_a520a9559626e08e3cb4e9863262da300}
+data \+: A N-\/by-\/\+D matrix containing the test data; idx \+: A N-\/by-\/1 vector representing N data points' correspoding Gaussian components; n\+Log\+L \+: The negative of the log-\/likelihood of the data; post \+: A N-\/by-\/\+K matrix containing the posterior peobability of p(component J $\vert$ data\+Point I); log\+Pdf \+: A N-\/by-\/1 vector containing estimates of the P\+D\+F of data\+Point I, the P\+D\+F of I is the sum of p(data\+Point I $\vert$ component J) $\ast$ Pr(component J). \hypertarget{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{\index{G\+M\+M@{G\+M\+M}!fit@{fit}}
+\index{fit@{fit}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{fit}]{\setlength{\rightskip}{0pt plus 5cm}void G\+M\+M\+::fit (
+\begin{DoxyParamCaption}
+\item[{Matrix\+Xd}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}
+Train \hyperlink{class_g_m_m}{G\+M\+M} to fit data; data \+: A N-\/by-\/\+D matrix containing the train data. 
+
+Definition at line 119 of file G\+M\+M.\+cpp.
+
+\hypertarget{class_g_m_m_a60cc7218be23fa401a804b5d419632b9}{\index{G\+M\+M@{G\+M\+M}!operator=@{operator=}}
+\index{operator=@{operator=}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\+M\+M} \& G\+M\+M\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\+M\+M} \&}]{gmm}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_a60cc7218be23fa401a804b5d419632b9}
+
+
+= operator 
+
+
+
+Definition at line 49 of file G\+M\+M.\+cpp.
+
+\hypertarget{class_g_m_m_af57b5c21205ecd53619f67117555388e}{\index{G\+M\+M@{G\+M\+M}!save@{save}}
+\index{save@{save}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{save}]{\setlength{\rightskip}{0pt plus 5cm}void G\+M\+M\+::save (
+\begin{DoxyParamCaption}
+\item[{string}]{file\+Name}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_af57b5c21205ecd53619f67117555388e}
+
+
+Save \hyperlink{class_g_m_m}{G\+M\+M} to file\+Name. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_g_m_m_8h}{G\+M\+M.\+h}\item 
+\hyperlink{_g_m_m_8cpp}{G\+M\+M.\+cpp}\end{DoxyCompactItemize}
