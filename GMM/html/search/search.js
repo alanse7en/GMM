@@ -9,16 +9,14 @@ var indexSectionsWithContent =
 {
   0: "cfgos",
   1: "fg",
-  2: "cfgos",
-  3: "c"
+  2: "cfgos"
 };
 
 var indexSectionNames =
 {
   0: "all",
   1: "classes",
-  2: "functions",
-  3: "variables"
+  2: "functions"
 };
 
 function convertToId(search)

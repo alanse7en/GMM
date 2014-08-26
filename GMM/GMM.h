@@ -18,8 +18,7 @@
 using namespace std;
 using namespace Eigen;
 
-struct fitOption {
-    /*!
+/*!
      *covType : 'diagonal' covariance matrices are restricted to be diagonal;
      *          'spherical' covariance matrices are restricted to be spherical;
      *          'full' covariance matrices are restricted to be full( default).
@@ -32,7 +31,8 @@ struct fitOption {
      *tolFun : The termination tolerance for the log-likelihood function, default is 1e-6.
      *converged : 'true' GMM training process converged; otherwise failed.
      *iters : The num of iterations to finished training.
-     */
+*/
+struct fitOption {
     string covType = "full";
     bool sharedCov = false;
     string start = "kmeans";

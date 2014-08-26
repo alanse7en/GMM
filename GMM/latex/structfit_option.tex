@@ -1,10 +1,15 @@
 \hypertarget{structfit_option}{\section{fit\+Option Struct Reference}
 \label{structfit_option}\index{fit\+Option@{fit\+Option}}
 }
+
+
+{\ttfamily \#include $<$G\+M\+M.\+h$>$}
+
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-string \hyperlink{structfit_option_ae1d880f6fcd26e15f07d50c77c5cceea}{cov\+Type} = \char`\"{}full\char`\"{}
+\hypertarget{structfit_option_ae1d880f6fcd26e15f07d50c77c5cceea}{string {\bfseries cov\+Type} = \char`\"{}full\char`\"{}}\label{structfit_option_ae1d880f6fcd26e15f07d50c77c5cceea}
+
 \item 
 \hypertarget{structfit_option_a2efaf3629539e3864967853058e80420}{bool {\bfseries shared\+Cov} = false}\label{structfit_option_a2efaf3629539e3864967853058e80420}
 
@@ -32,10 +37,7 @@ string \hyperlink{structfit_option_ae1d880f6fcd26e15f07d50c77c5cceea}{cov\+Type}
 \end{DoxyCompactItemize}
 
 
-\subsection{Member Data Documentation}
-\hypertarget{structfit_option_ae1d880f6fcd26e15f07d50c77c5cceea}{\index{fit\+Option@{fit\+Option}!cov\+Type@{cov\+Type}}
-\index{cov\+Type@{cov\+Type}!fit\+Option@{fit\+Option}}
-\subsubsection[{cov\+Type}]{\setlength{\rightskip}{0pt plus 5cm}string fit\+Option\+::cov\+Type = \char`\"{}full\char`\"{}}}\label{structfit_option_ae1d880f6fcd26e15f07d50c77c5cceea}
+\subsection{Detailed Description}
 cov\+Type \+: 'diagonal' covariance matrices are restricted to be diagonal; 'spherical' covariance matrices are restricted to be spherical; 'full' covariance matrices are restricted to be full( default). shared\+Cov \+: True if the component covariance matrices are restricted to be the same, default is false. start \+: 'random' randomly select from train data to initialize model parameters; 'kmeans' use kmeans to get initial clustering index of the train data( default). regularize \+: Regularization parameter to avoid covariance being singular, defalut is 0. display \+: 'iter' show information during training (default); 'final' show final information. max\+Iter \+: Maximum iterations allowed, default is 100; tol\+Fun \+: The termination tolerance for the log-\/likelihood function, default is 1e-\/6. converged \+: 'true' \hyperlink{class_g_m_m}{G\+M\+M} training process converged; otherwise failed. iters \+: The num of iterations to finished training. 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
