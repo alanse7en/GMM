@@ -95,10 +95,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a780eb798b963d64324e60f8a05511793"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a780eb798b963d64324e60f8a05511793"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#a780eb798b963d64324e60f8a05511793">GMM</a> (long nComponents, long nDimensions, <a class="el" href="structfit_option.html">fitOption</a> option=<a class="el" href="structfit_option.html">fitOption</a>())</td></tr>
-<tr class="memdesc:a780eb798b963d64324e60f8a05511793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructors. <br /></td></tr>
+<tr class="memdesc:a780eb798b963d64324e60f8a05511793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructors with nComponents, nDimensions and option. <br /></td></tr>
 <tr class="separator:a780eb798b963d64324e60f8a05511793"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a204c0939ce8e0544a70f6bacac70430e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a204c0939ce8e0544a70f6bacac70430e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GMM</b> (MatrixXd mu, vector&lt; MatrixXd &gt; Sigma, VectorXd p, <a class="el" href="structfit_option.html">fitOption</a> option=<a class="el" href="structfit_option.html">fitOption</a>())</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#a204c0939ce8e0544a70f6bacac70430e">GMM</a> (MatrixXd mu, vector&lt; MatrixXd &gt; Sigma, VectorXd p, <a class="el" href="structfit_option.html">fitOption</a> option=<a class="el" href="structfit_option.html">fitOption</a>())</td></tr>
+<tr class="memdesc:a204c0939ce8e0544a70f6bacac70430e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructors with mu, Sigma, p, and option. <br /></td></tr>
 <tr class="separator:a204c0939ce8e0544a70f6bacac70430e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fd2ad1e4b02532fbcc8c268f60b4ee8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3fd2ad1e4b02532fbcc8c268f60b4ee8"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#a3fd2ad1e4b02532fbcc8c268f60b4ee8">GMM</a> (string fileName)</td></tr>
@@ -122,7 +123,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:af57b5c21205ecd53619f67117555388e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>nComponents The number of mixture components, K; nDimensions The number of dimensions for each Gaussian component, D; mu A K-by-D matrix of component means; Sigma A K-by-D-by-D matrix of component covariance matrices; p A K-by-1 vector of the proportion of each component. option Containing options about the <a class="el" href="class_g_m_m.html">GMM</a> model. </p>
+<div class="textblock"><p>nComponents : The number of mixture components, K; nDimensions : The number of dimensions for each Gaussian component, D; mu : A K-by-D matrix of component means; Sigma : A K-by-D-by-D matrix of component covariance matrices; p : A K-by-1 vector of the proportion of each component. option : Containing options about the <a class="el" href="class_g_m_m.html">GMM</a> model. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a520a9559626e08e3cb4e9863262da300"></a>
 <div class="memitem">
@@ -165,7 +166,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         </tr>
       </table>
 </div><div class="memdoc">
-<p>data A N-by-D matrix containing the test data; idx A N-by-1 vector representing N data points' correspoding Gaussian components; nLogL The negative of the log-likelihood of the data; post A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I); logPdf A N-by-1 vector containing estimates of the PDF of dataPoint I, the PDF of I is the sum of p(dataPoint I | component J) * Pr(component J). </p>
+<p>data : A N-by-D matrix containing the test data; idx : A N-by-1 vector representing N data points' correspoding Gaussian components; nLogL : The negative of the log-likelihood of the data; post : A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I); logPdf : A N-by-1 vector containing estimates of the PDF of dataPoint I, the PDF of I is the sum of p(dataPoint I | component J) * Pr(component J). </p>
 
 </div>
 </div>
@@ -182,7 +183,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Train <a class="el" href="class_g_m_m.html">GMM</a> to fit data with option opt; data A N-by-D matrix containing the train data. </p>
+<p>Train <a class="el" href="class_g_m_m.html">GMM</a> to fit data; data : A N-by-D matrix containing the train data. </p>
 
 </div>
 </div>
@@ -193,7 +194,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 26 2014 16:44:44 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 26 2014 17:06:23 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

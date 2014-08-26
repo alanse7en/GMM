@@ -1,10 +1,10 @@
-//
-//  GMM.h
-//  GMM
-//
-//  Created by deng on 14-8-18.
-//  Copyright (c) 2014年 deng. All rights reserved.
-//
+/*!
+    *  GMM.h
+    *  Gaussian Mixture Model
+    *
+    *  Created by deng on 14-8-18.
+    *  Copyright (c) 2014年 deng. All rights reserved.
+*/
 
 #ifndef __GMM__GMM__
 #define __GMM__GMM__
@@ -44,14 +44,14 @@ struct fitOption {
     unsigned int iters = 0;
 };
 
-    /*!
-     *nComponents The number of mixture components, K;
-     *nDimensions The number of dimensions for each Gaussian component, D;
-     *mu A K-by-D matrix of component means;
-     *Sigma A K-by-D-by-D matrix of component covariance matrices;
-     *p A K-by-1 vector of the proportion of each component.
-     *option Containing options about the GMM model.
-     */
+/*!
+     *nComponents : The number of mixture components, K;
+     *nDimensions : The number of dimensions for each Gaussian component, D;
+     *mu : A K-by-D matrix of component means;
+     *Sigma : A K-by-D-by-D matrix of component covariance matrices;
+     *p : A K-by-1 vector of the proportion of each component.
+     *option : Containing options about the GMM model.
+*/
 class GMM {
     long nComponents;
     long nDimensions;
@@ -69,8 +69,9 @@ class GMM {
     void initParam(MatrixXd data);
     
 public:
-    ///  Constructors
+    ///  Constructors with nComponents, nDimensions and option
     GMM(long nComponents, long nDimensions, fitOption option = fitOption());
+    ///  Constructors with mu, Sigma, p, and option
     GMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption());
     ///  Load GMM from fileName
     GMM(string fileName);
@@ -79,16 +80,16 @@ public:
     ///  = operator
     GMM& operator=(const GMM& gmm);
     /*!
-     *Train GMM to fit data with option opt;
-     *data A N-by-D matrix containing the train data.
+     *Train GMM to fit data;
+     *data : A N-by-D matrix containing the train data.
      */
     void fit(MatrixXd data);
     /*!
-     *data A N-by-D matrix containing the test data;
-     *idx A N-by-1 vector representing N data points' correspoding Gaussian components;
-     *nLogL The negative of the log-likelihood of the data;
-     *post A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I);
-     *logPdf A N-by-1 vector containing estimates of the PDF of dataPoint I, the PDF of I is the
+     *data : A N-by-D matrix containing the test data;
+     *idx : A N-by-1 vector representing N data points' correspoding Gaussian components;
+     *nLogL : The negative of the log-likelihood of the data;
+     *post : A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I);
+     *logPdf : A N-by-1 vector containing estimates of the PDF of dataPoint I, the PDF of I is the
      *sum of p(dataPoint I | component J) * Pr(component J).
      */
     void cluster(MatrixXd data, VectorXd &idx, int &nLogL, MatrixXd &post, VectorXd &logPdf);
@@ -96,7 +97,8 @@ public:
     void save(string fileName);
 };
 
-/// Generate random permutation
+/// random number generator
 int myRandom(int i);
+/// random permutation generator
 VectorXd randperm(unsigned long n);
 #endif /* defined(__GMM__GMM__) */

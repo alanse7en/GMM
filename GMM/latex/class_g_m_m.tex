@@ -10,10 +10,10 @@
 \item 
 \hypertarget{class_g_m_m_a780eb798b963d64324e60f8a05511793}{\hyperlink{class_g_m_m_a780eb798b963d64324e60f8a05511793}{G\+M\+M} (long n\+Components, long n\+Dimensions, \hyperlink{structfit_option}{fit\+Option} option=\hyperlink{structfit_option}{fit\+Option}())}\label{class_g_m_m_a780eb798b963d64324e60f8a05511793}
 
-\begin{DoxyCompactList}\small\item\em Constructors. \end{DoxyCompactList}\item 
-\hypertarget{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}{{\bfseries G\+M\+M} (Matrix\+Xd mu, vector$<$ Matrix\+Xd $>$ Sigma, Vector\+Xd p, \hyperlink{structfit_option}{fit\+Option} option=\hyperlink{structfit_option}{fit\+Option}())}\label{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}
+\begin{DoxyCompactList}\small\item\em Constructors with n\+Components, n\+Dimensions and option. \end{DoxyCompactList}\item 
+\hypertarget{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}{\hyperlink{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}{G\+M\+M} (Matrix\+Xd mu, vector$<$ Matrix\+Xd $>$ Sigma, Vector\+Xd p, \hyperlink{structfit_option}{fit\+Option} option=\hyperlink{structfit_option}{fit\+Option}())}\label{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}
 
-\item 
+\begin{DoxyCompactList}\small\item\em Constructors with mu, Sigma, p, and option. \end{DoxyCompactList}\item 
 \hypertarget{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}{\hyperlink{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}{G\+M\+M} (string file\+Name)}\label{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}
 
 \begin{DoxyCompactList}\small\item\em Load \hyperlink{class_g_m_m}{G\+M\+M} from file\+Name. \end{DoxyCompactList}\item 
@@ -33,7 +33,7 @@ void \hyperlink{class_g_m_m_a520a9559626e08e3cb4e9863262da300}{cluster} (Matrix\
 
 
 \subsection{Detailed Description}
-n\+Components The number of mixture components, K; n\+Dimensions The number of dimensions for each Gaussian component, D; mu A K-\/by-\/\+D matrix of component means; Sigma A K-\/by-\/\+D-\/by-\/\+D matrix of component covariance matrices; p A K-\/by-\/1 vector of the proportion of each component. option Containing options about the \hyperlink{class_g_m_m}{G\+M\+M} model. 
+n\+Components \+: The number of mixture components, K; n\+Dimensions \+: The number of dimensions for each Gaussian component, D; mu \+: A K-\/by-\/\+D matrix of component means; Sigma \+: A K-\/by-\/\+D-\/by-\/\+D matrix of component covariance matrices; p \+: A K-\/by-\/1 vector of the proportion of each component. option \+: Containing options about the \hyperlink{class_g_m_m}{G\+M\+M} model. 
 
 \subsection{Member Function Documentation}
 \hypertarget{class_g_m_m_a520a9559626e08e3cb4e9863262da300}{\index{G\+M\+M@{G\+M\+M}!cluster@{cluster}}
@@ -47,14 +47,14 @@ n\+Components The number of mixture components, K; n\+Dimensions The number of d
 \item[{Vector\+Xd \&}]{log\+Pdf}
 \end{DoxyParamCaption}
 )}}\label{class_g_m_m_a520a9559626e08e3cb4e9863262da300}
-data A N-\/by-\/\+D matrix containing the test data; idx A N-\/by-\/1 vector representing N data points' correspoding Gaussian components; n\+Log\+L The negative of the log-\/likelihood of the data; post A N-\/by-\/\+K matrix containing the posterior peobability of p(component J $\vert$ data\+Point I); log\+Pdf A N-\/by-\/1 vector containing estimates of the P\+D\+F of data\+Point I, the P\+D\+F of I is the sum of p(data\+Point I $\vert$ component J) $\ast$ Pr(component J). \hypertarget{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{\index{G\+M\+M@{G\+M\+M}!fit@{fit}}
+data \+: A N-\/by-\/\+D matrix containing the test data; idx \+: A N-\/by-\/1 vector representing N data points' correspoding Gaussian components; n\+Log\+L \+: The negative of the log-\/likelihood of the data; post \+: A N-\/by-\/\+K matrix containing the posterior peobability of p(component J $\vert$ data\+Point I); log\+Pdf \+: A N-\/by-\/1 vector containing estimates of the P\+D\+F of data\+Point I, the P\+D\+F of I is the sum of p(data\+Point I $\vert$ component J) $\ast$ Pr(component J). \hypertarget{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{\index{G\+M\+M@{G\+M\+M}!fit@{fit}}
 \index{fit@{fit}!G\+M\+M@{G\+M\+M}}
 \subsubsection[{fit}]{\setlength{\rightskip}{0pt plus 5cm}void G\+M\+M\+::fit (
 \begin{DoxyParamCaption}
 \item[{Matrix\+Xd}]{data}
 \end{DoxyParamCaption}
 )}}\label{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}
-Train \hyperlink{class_g_m_m}{G\+M\+M} to fit data with option opt; data A N-\/by-\/\+D matrix containing the train data. 
+Train \hyperlink{class_g_m_m}{G\+M\+M} to fit data; data \+: A N-\/by-\/\+D matrix containing the train data. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
