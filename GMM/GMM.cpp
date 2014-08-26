@@ -20,7 +20,7 @@ VectorXd randperm(unsigned long n) {
         ++ite;
     }
     srand( unsigned( time( 0)));
-    random_shuffle(randPerm.begin(), randPerm.end(), myRandom); 
+    random_shuffle(randPerm.begin(), randPerm.end(), myRandom);
     VectorXd randVec(n, 1);
     for (int i = 0; i < n; ++i) {
         randVec(i) = randPerm.at(i);

@@ -2,4 +2,5 @@
 \mainpage documentation
 Gaussian Mixture Model provides some easy-to-use functions to fit and cluster data with GMM.
 Further details can be found in Classes section.
+Dependency : Eigen
 */
