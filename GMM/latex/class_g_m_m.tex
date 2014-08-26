@@ -4,31 +4,50 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_g_m_m_a780eb798b963d64324e60f8a05511793}{{\bfseries G\+M\+M} (long n\+Components, long n\+Dimensions, \hyperlink{structfit_option}{fit\+Option} option=\hyperlink{structfit_option}{fit\+Option}())}\label{class_g_m_m_a780eb798b963d64324e60f8a05511793}
+\hypertarget{class_g_m_m_a780eb798b963d64324e60f8a05511793}{\hyperlink{class_g_m_m_a780eb798b963d64324e60f8a05511793}{G\+M\+M} (long n\+Components, long n\+Dimensions, \hyperlink{structfit_option}{fit\+Option} option=\hyperlink{structfit_option}{fit\+Option}())}\label{class_g_m_m_a780eb798b963d64324e60f8a05511793}
 
-\item 
+\begin{DoxyCompactList}\small\item\em Constructors. \end{DoxyCompactList}\item 
 \hypertarget{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}{{\bfseries G\+M\+M} (Matrix\+Xd mu, vector$<$ Matrix\+Xd $>$ Sigma, Vector\+Xd p, \hyperlink{structfit_option}{fit\+Option} option=\hyperlink{structfit_option}{fit\+Option}())}\label{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}
 
 \item 
-\hypertarget{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}{{\bfseries G\+M\+M} (string file\+Name)}\label{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}
+\hypertarget{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}{\hyperlink{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}{G\+M\+M} (string file\+Name)}\label{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}
 
+\begin{DoxyCompactList}\small\item\em Load \hyperlink{class_g_m_m}{G\+M\+M} from file\+Name. \end{DoxyCompactList}\item 
+\hypertarget{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}{\hyperlink{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}{G\+M\+M} (\hyperlink{class_g_m_m}{G\+M\+M} \&gmm)}\label{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}
+
+\begin{DoxyCompactList}\small\item\em Copy constructors. \end{DoxyCompactList}\item 
+\hypertarget{class_g_m_m_a60cc7218be23fa401a804b5d419632b9}{\hyperlink{class_g_m_m}{G\+M\+M} \& \hyperlink{class_g_m_m_a60cc7218be23fa401a804b5d419632b9}{operator=} (const \hyperlink{class_g_m_m}{G\+M\+M} \&gmm)}\label{class_g_m_m_a60cc7218be23fa401a804b5d419632b9}
+
+\begin{DoxyCompactList}\small\item\em = operator \end{DoxyCompactList}\item 
+void \hyperlink{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{fit} (Matrix\+Xd data)
 \item 
-\hypertarget{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}{{\bfseries G\+M\+M} (\hyperlink{class_g_m_m}{G\+M\+M} \&gmm)}\label{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}
-
+void \hyperlink{class_g_m_m_a520a9559626e08e3cb4e9863262da300}{cluster} (Matrix\+Xd data, Vector\+Xd \&idx, int \&n\+Log\+L, Matrix\+Xd \&post, Vector\+Xd \&log\+Pdf)
 \item 
-\hypertarget{class_g_m_m_a60cc7218be23fa401a804b5d419632b9}{\hyperlink{class_g_m_m}{G\+M\+M} \& {\bfseries operator=} (const \hyperlink{class_g_m_m}{G\+M\+M} \&gmm)}\label{class_g_m_m_a60cc7218be23fa401a804b5d419632b9}
+\hypertarget{class_g_m_m_af57b5c21205ecd53619f67117555388e}{void \hyperlink{class_g_m_m_af57b5c21205ecd53619f67117555388e}{save} (string file\+Name)}\label{class_g_m_m_af57b5c21205ecd53619f67117555388e}
 
-\item 
-\hypertarget{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{void {\bfseries fit} (Matrix\+Xd data)}\label{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}
+\begin{DoxyCompactList}\small\item\em Save \hyperlink{class_g_m_m}{G\+M\+M} to file\+Name. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
-\item 
-\hypertarget{class_g_m_m_a520a9559626e08e3cb4e9863262da300}{void {\bfseries cluster} (Matrix\+Xd data, Vector\+Xd \&idx, int \&n\+Log\+L, Matrix\+Xd \&post, Vector\+Xd \&log\+Pdf)}\label{class_g_m_m_a520a9559626e08e3cb4e9863262da300}
 
-\item 
-\hypertarget{class_g_m_m_af57b5c21205ecd53619f67117555388e}{void {\bfseries save} (string file\+Name)}\label{class_g_m_m_af57b5c21205ecd53619f67117555388e}
-
-\end{DoxyCompactItemize}
-
+\subsection{Member Function Documentation}
+\hypertarget{class_g_m_m_a520a9559626e08e3cb4e9863262da300}{\index{G\+M\+M@{G\+M\+M}!cluster@{cluster}}
+\index{cluster@{cluster}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{cluster}]{\setlength{\rightskip}{0pt plus 5cm}void G\+M\+M\+::cluster (
+\begin{DoxyParamCaption}
+\item[{Matrix\+Xd}]{data, }
+\item[{Vector\+Xd \&}]{idx, }
+\item[{int \&}]{n\+Log\+L, }
+\item[{Matrix\+Xd \&}]{post, }
+\item[{Vector\+Xd \&}]{log\+Pdf}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_a520a9559626e08e3cb4e9863262da300}
+data A N-\/by-\/\+D matrix containing the test data; idx A N-\/by-\/1 vector representing N data points' correspoding Gaussian components; n\+Log\+L The negative of the log-\/likelihood of the data; post A N-\/by-\/\+K matrix containing the posterior peobability of p(component J $\vert$ data\+Point I); log\+Pdf A N-\/by-\/1 vector containing estimates of the P\+D\+F of data\+Point I, the P\+D\+F of I is the sum of p(data\+Point I $\vert$ component J) $\ast$ Pr(component J). \hypertarget{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{\index{G\+M\+M@{G\+M\+M}!fit@{fit}}
+\index{fit@{fit}!G\+M\+M@{G\+M\+M}}
+\subsubsection[{fit}]{\setlength{\rightskip}{0pt plus 5cm}void G\+M\+M\+::fit (
+\begin{DoxyParamCaption}
+\item[{Matrix\+Xd}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}
+Train \hyperlink{class_g_m_m}{G\+M\+M} to fit data with option opt; data A N-\/by-\/\+D matrix containing the train data. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

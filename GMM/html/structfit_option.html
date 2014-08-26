@@ -62,6 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -90,8 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ae1d880f6fcd26e15f07d50c77c5cceea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1d880f6fcd26e15f07d50c77c5cceea"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>covType</b> = &quot;full&quot;</td></tr>
+<tr class="memitem:ae1d880f6fcd26e15f07d50c77c5cceea"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfit_option.html#ae1d880f6fcd26e15f07d50c77c5cceea">covType</a> = &quot;full&quot;</td></tr>
 <tr class="separator:ae1d880f6fcd26e15f07d50c77c5cceea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2efaf3629539e3864967853058e80420"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2efaf3629539e3864967853058e80420"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>sharedCov</b> = false</td></tr>
@@ -118,13 +118,27 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>converged</b> = false
 unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>iters</b> = 0</td></tr>
 <tr class="separator:a711048d488fccee5740b31e4149c46de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="ae1d880f6fcd26e15f07d50c77c5cceea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string fitOption::covType = &quot;full&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>covType : 'diagonal' covariance matrices are restricted to be diagonal; 'spherical' covariance matrices are restricted to be spherical; 'full' covariance matrices are restricted to be full( default). sharedCov : True if the component covariance matrices are restricted to be the same, default is false. start : 'random' randomly select from train data to initialize model parameters; 'kmeans' use kmeans to get initial clustering index of the train data( default). regularize : Regularization parameter to avoid covariance being singular, defalut is 0. display : 'iter' show information during training (default); 'final' show final information. maxIter : Maximum iterations allowed, default is 100; tolFun : The termination tolerance for the log-likelihood function, default is 1e-6. converged : 'true' <a class="el" href="class_g_m_m.html">GMM</a> training process converged; otherwise failed. iters : The num of iterations to finished training. </p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="_g_m_m_8h_source.html">GMM.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 26 2014 15:24:46 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 26 2014 16:03:42 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

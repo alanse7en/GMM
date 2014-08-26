@@ -44,7 +44,6 @@ struct fitOption {
     unsigned int iters = 0;
 };
 
-class GMM {
     /*!
      *nComponents The number of mixture components, K;
      *nDimensions The number of dimensions for each Gaussian component, D;
@@ -53,6 +52,7 @@ class GMM {
      *p A K-by-1 vector of the proportion of each component.
      *option Containing options about the GMM model.
      */
+class GMM {
     long nComponents;
     long nDimensions;
     MatrixXd mu;
