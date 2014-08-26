@@ -7,12 +7,21 @@
 //
 
 #include <iostream>
+#include "GMM.h"
+#include <vector>
+#include <ctime>
 
 int main(int argc, const char * argv[])
 {
 
-    // insert code here...
-    std::cout << "Hello, World!\n";
+//    fitOption option;
+//    option.covType = "spherical";
+//    MatrixXd mu = MatrixXd::Random(2, 10);
+//    VectorXd p = VectorXd::Random(2, 1);
+//    vector<MatrixXd> cov{2, MatrixXd::Random(5, 5)};
+//    GMM gmm(mu, cov, p, option);
+//    std::cout << "Hello, World!\n";
+    cout << randperm(9);
     return 0;
 }
 
