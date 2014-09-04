@@ -106,17 +106,49 @@ void GMM::checkModel() {
 void GMM::initParam(MatrixXd data) {
     if (option.start == "random") {
         // Generate random permutation
-        VectorXd randPerm = randperm(nComponents);
-        for (int i = 0; i < randPerm.size(); ++i)
+        VectorXd randPerm = randperm(data.rows()-1);
+        MatrixXd centered = data.rowwise() - data.colwise().mean();
+        MatrixXd sigma    = (centered.transpose() * centered) / double(data.rows() -1);
+        for (int i = 0; i < nComponents; ++i)
         {
-            mu.block(i,1,1,mu.cols()) = data.block(randPerm(i),1,1,mu.cols());
+            mu.block(i,0,1,mu.cols()) = data.block(randPerm(i),0,1,mu.cols());
             p(i) = 1/nComponents;
-            MatrixXd sigma();
+            Sigma.at(i) = sigma;
         }
     }
+}
+
+MatrixXd GMM::likelihood(MatrixXd data) {
+    MatrixXd lh = MatrixXd::Zero(data.rows(), nComponents);
+    cout << lh.rows() << endl;
+    for (int i = 0; i < lh.rows(); ++i)
+    {
+        for (int j = 0; j < lh.cols(); ++j)
+        {
+            auto det  = Sigma.at(j).determinant();
+            auto para = sqrt(pow(2*M_PI, nDimensions) * det);
+            MatrixXd centered = data.block(i, 0, 1, data.cols()) - mu.block(j, 0, 1, mu.cols());
+            MatrixXd tmpv = centered * (Sigma.at(j).inverse()) * (centered.transpose());
+            lh(i, j) = exp( -0.5*tmpv(0,0) )/para;
+        }
+    }
+    return lh;
+}
+
+MatrixXd GMM::posterior(MatrixXd data) {
+    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+    MatrixXd lh = MatrixXd::Zero(data.rows(), nComponents);
+    lh = likelihood(data);
+    
+    cout << lh << endl;
+    return post;
 }
 
 void GMM::fit(MatrixXd data) {
     checkData(data);
     initParam(data);
+    for (auto ite = 0; ite < option.maxIter; ++ite) {
+        // E step
+        MatrixXd post = posterior(data);
+    }
 }

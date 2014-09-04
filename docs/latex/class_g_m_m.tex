@@ -13,23 +13,23 @@
 \hyperlink{class_g_m_m_a204c0939ce8e0544a70f6bacac70430e}{G\+M\+M} (Matrix\+Xd mu, vector$<$ Matrix\+Xd $>$ Sigma, Vector\+Xd p, \hyperlink{structfit_option}{fit\+Option} option=\hyperlink{structfit_option}{fit\+Option}())
 \begin{DoxyCompactList}\small\item\em Constructors with mu, Sigma, p, and option. \end{DoxyCompactList}\item 
 \hyperlink{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}{G\+M\+M} (string file\+Name)
-\begin{DoxyCompactList}\small\item\em Load \hyperlink{class_g_m_m}{G\+M\+M} from file\+Name. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Load \hyperlink{class_g_m_m}{G\+M\+M} from file\+Name and contruct the object. \end{DoxyCompactList}\item 
 \hyperlink{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}{G\+M\+M} (\hyperlink{class_g_m_m}{G\+M\+M} \&gmm)
 \begin{DoxyCompactList}\small\item\em Copy constructors. \end{DoxyCompactList}\item 
 \hyperlink{class_g_m_m}{G\+M\+M} \& \hyperlink{class_g_m_m_a60cc7218be23fa401a804b5d419632b9}{operator=} (const \hyperlink{class_g_m_m}{G\+M\+M} \&gmm)
 \begin{DoxyCompactList}\small\item\em = operator \end{DoxyCompactList}\item 
 void \hyperlink{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{fit} (Matrix\+Xd data)
-\item 
+\begin{DoxyCompactList}\small\item\em Train \hyperlink{class_g_m_m}{G\+M\+M} to fit data;. \end{DoxyCompactList}\item 
 void \hyperlink{class_g_m_m_a520a9559626e08e3cb4e9863262da300}{cluster} (Matrix\+Xd data, Vector\+Xd \&idx, int \&n\+Log\+L, Matrix\+Xd \&post, Vector\+Xd \&log\+Pdf)
-\item 
+\begin{DoxyCompactList}\small\item\em Cluster the with trained model. \end{DoxyCompactList}\item 
 void \hyperlink{class_g_m_m_af57b5c21205ecd53619f67117555388e}{save} (string file\+Name)
 \begin{DoxyCompactList}\small\item\em Save \hyperlink{class_g_m_m}{G\+M\+M} to file\+Name. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-n\+Components \+: The number of mixture components, K; n\+Dimensions \+: The number of dimensions for each Gaussian component, D; mu \+: A K-\/by-\/\+D matrix of component means; Sigma \+: A K-\/by-\/\+D-\/by-\/\+D matrix of component covariance matrices; p \+: A K-\/by-\/1 vector of the proportion of each component. option \+: Containing options about the \hyperlink{class_g_m_m}{G\+M\+M} model. 
+Gaussian mixture model class. Provide fit, cluster and save functionality. 
 
-Definition at line 55 of file G\+M\+M.\+h.
+Definition at line 62 of file G\+M\+M.\+h.
 
 
 
@@ -78,7 +78,7 @@ Definition at line 40 of file G\+M\+M.\+cpp.
 )}}\label{class_g_m_m_a3fd2ad1e4b02532fbcc8c268f60b4ee8}
 
 
-Load \hyperlink{class_g_m_m}{G\+M\+M} from file\+Name. 
+Load \hyperlink{class_g_m_m}{G\+M\+M} from file\+Name and contruct the object. 
 
 \hypertarget{class_g_m_m_ae4a3fdfee01a1f37a58d405b701f1469}{\index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
 \index{G\+M\+M@{G\+M\+M}!G\+M\+M@{G\+M\+M}}
@@ -109,14 +109,40 @@ Definition at line 59 of file G\+M\+M.\+cpp.
 \item[{Vector\+Xd \&}]{log\+Pdf}
 \end{DoxyParamCaption}
 )}}\label{class_g_m_m_a520a9559626e08e3cb4e9863262da300}
-data \+: A N-\/by-\/\+D matrix containing the test data; idx \+: A N-\/by-\/1 vector representing N data points' correspoding Gaussian components; n\+Log\+L \+: The negative of the log-\/likelihood of the data; post \+: A N-\/by-\/\+K matrix containing the posterior peobability of p(component J $\vert$ data\+Point I); log\+Pdf \+: A N-\/by-\/1 vector containing estimates of the P\+D\+F of data\+Point I, the P\+D\+F of I is the sum of p(data\+Point I $\vert$ component J) $\ast$ Pr(component J). \hypertarget{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{\index{G\+M\+M@{G\+M\+M}!fit@{fit}}
+
+
+Cluster the with trained model. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & A N-\/by-\/\+D matrix containing the test data; \\
+\hline
+{\em idx} & A N-\/by-\/1 vector representing N data points' correspoding Gaussian components; \\
+\hline
+{\em n\+Log\+L} & The negative of the log-\/likelihood of the data; \\
+\hline
+{\em post} & A N-\/by-\/\+K matrix containing the posterior peobability of p(component J $\vert$ data\+Point I); \\
+\hline
+{\em log\+Pdf} & A N-\/by-\/1 vector containing estimates of the P\+D\+F of data\+Point I, the P\+D\+F of I is the sum of p(data\+Point I $\vert$ component J) $\ast$ Pr(component J). \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{\index{G\+M\+M@{G\+M\+M}!fit@{fit}}
 \index{fit@{fit}!G\+M\+M@{G\+M\+M}}
 \subsubsection[{fit}]{\setlength{\rightskip}{0pt plus 5cm}void G\+M\+M\+::fit (
 \begin{DoxyParamCaption}
 \item[{Matrix\+Xd}]{data}
 \end{DoxyParamCaption}
 )}}\label{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}
-Train \hyperlink{class_g_m_m}{G\+M\+M} to fit data; data \+: A N-\/by-\/\+D matrix containing the train data. 
+
+
+Train \hyperlink{class_g_m_m}{G\+M\+M} to fit data;. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & A N-\/by-\/\+D matrix containing the train data. \\
+\hline
+\end{DoxyParams}
+
 
 Definition at line 119 of file G\+M\+M.\+cpp.
 
@@ -146,6 +172,11 @@ Definition at line 49 of file G\+M\+M.\+cpp.
 
 Save \hyperlink{class_g_m_m}{G\+M\+M} to file\+Name. 
 
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & The dest filename. \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
