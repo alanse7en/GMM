@@ -19,12 +19,8 @@ int main(int argc, const char * argv[])
     fitOption option;
     option.covType = "spherical";
     option.start = "random";
-    GMM gmmTest(2, 1, option);
-    MatrixXd data = MatrixXd::Random(3, 1);
+    GMM gmmTest(2, 10, option);
+    MatrixXd data = MatrixXd::Random(400, 10);
     gmmTest.fit(data);
-//    MatrixXd x = MatrixXd::Random(3, 3);
-//    MatrixXd t = MatrixXd::Zero(x.rows(), x.cols());
-//    cout << t << endl;
-    return 0;
 }
 

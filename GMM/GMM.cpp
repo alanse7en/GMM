@@ -112,15 +112,13 @@ void GMM::initParam(MatrixXd data) {
         for (int i = 0; i < nComponents; ++i)
         {
             mu.block(i,0,1,mu.cols()) = data.block(randPerm(i),0,1,mu.cols());
-            p(i) = 1/nComponents;
+            p(i) = 1/double(nComponents);
             Sigma.at(i) = sigma;
         }
     }
 }
 
-MatrixXd GMM::likelihood(MatrixXd data) {
-    MatrixXd lh = MatrixXd::Zero(data.rows(), nComponents);
-    cout << lh.rows() << endl;
+void GMM::likelihood(MatrixXd data, MatrixXd &lh) {
     for (int i = 0; i < lh.rows(); ++i)
     {
         for (int j = 0; j < lh.cols(); ++j)
@@ -132,23 +130,54 @@ MatrixXd GMM::likelihood(MatrixXd data) {
             lh(i, j) = exp( -0.5*tmpv(0,0) )/para;
         }
     }
-    return lh;
 }
 
-MatrixXd GMM::posterior(MatrixXd data) {
-    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+double GMM::posterior(MatrixXd data, MatrixXd &post) {
     MatrixXd lh = MatrixXd::Zero(data.rows(), nComponents);
-    lh = likelihood(data);
-    
-    cout << lh << endl;
-    return post;
+    likelihood(data, lh);
+    MatrixXd P = (p.transpose() ).replicate(data.rows(), 1);
+    MatrixXd lh_m_P = lh.cwiseProduct(P);
+    post = lh_m_P.cwiseQuotient( lh_m_P.rowwise().sum().replicate(1, nComponents));
+    double loss = lh_m_P.array().rowwise().sum().log().sum();
+    return loss;
 }
 
 void GMM::fit(MatrixXd data) {
     checkData(data);
     initParam(data);
+    double oldLoss = 0.0;
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
-        MatrixXd post = posterior(data);
+        option.iters = ite +1;
+        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+        auto loss = posterior(data, post);
+        if (option.display == "iter")
+        {
+            printf("The loss is %f\n", loss);
+        }
+        if (abs(oldLoss - loss) <= option.tolFun)
+        {
+            option.converged = true;
+            break;
+        }
+        oldLoss = loss;
+        // M step
+        for (int i = 0; i < nComponents; ++i)
+        {
+            p(i) = post.colwise().sum()(i)/double(data.rows());
+            MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+            MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+            for (int j = 0; j < data.rows(); ++j)
+            {
+                muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                    - mu.block(i,0,1,mu.cols());
+                sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+            }
+            double normPara = post.colwise().sum()(i);
+            mu.block(i,0,1,mu.cols()) = muTmp/normPara;
+            Sigma.at(i) = sigmaTmp/normPara;
+        }
     }
+    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
 }

@@ -89,8 +89,8 @@ class GMM {
     /*! calculate posterior probability of given data and GMM
         * @param data A N-by-D matrix containing the data;
     */
-    MatrixXd likelihood(MatrixXd data);
-    MatrixXd posterior(MatrixXd data);
+    void likelihood(MatrixXd data, MatrixXd &lh);
+    double posterior(MatrixXd data, MatrixXd &post);
     
 public:
     ///  Constructors with nComponents, nDimensions and option
