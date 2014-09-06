@@ -39,9 +39,9 @@ struct fitOption {
     /*!<
      *Show information during training (default); 'final' show final information.
      */
-    unsigned int maxIter = 100;
+    unsigned int maxIter = 1000;
     /*!<
-     *Maximum iterations allowed, default is 100;
+     *Maximum iterations allowed, default is 1000;
      */
     double tolFun = 1e-6;
     /*!<
@@ -81,6 +81,10 @@ class GMM {
         * Check model to ensure it is valid.
     */
     void checkModel();
+    /*!
+        * Check if there is Not-a-Number in the matrix
+    */
+    void checkNaN(MatrixXd mat);
     /*!
         * Initialize model parameters.
         * @param data The train data matrix.
