@@ -123,7 +123,7 @@ int main(int argc, const char * argv[])
     option.covType = "spherical";
     option.start = "random";
     option.display = "iter";
-    option.maxIter = 0;
+    option.maxIter = 1e4;
     option.tolFun = 1e-10;
     option.sharedCov = true;
 //    option.regularize = 1e-4;

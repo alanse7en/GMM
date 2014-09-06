@@ -225,7 +225,7 @@ void GMM::fit(MatrixXd data) {
                 mu.block(i,0,1,mu.cols()) = muTmp/p(i);
                 sigma = sigma + sigmaTmp/p(i);
             }
-            sigma = sigma/double(data.rows()) + option.regularize *
+            sigma = sigma/double(nComponents) + option.regularize *
                     MatrixXd::Identity(sigma.rows(), sigma.cols());
             Sigma = vector<MatrixXd>(nComponents, sigma);
         }
