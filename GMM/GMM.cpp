@@ -240,5 +240,10 @@ void GMM::fit(MatrixXd data) {
     cout << "The sigma of the model:" << endl;
     for (auto ite = Sigma.begin(); ite != Sigma.cend(); ++ite) {
         cout << *ite << endl;
+        cout << " " << endl;
     }
+}
+
+void GMM::cluster(MatrixXd data, VectorXd &idx, int &nLogL, MatrixXd &post, VectorXd &logPdf) {
+
 }
