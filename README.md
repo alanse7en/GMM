@@ -2,5 +2,4 @@ GMM
 ===
 
 Gaussian Mixture Model
-
-Still working on it.
+Finished the basic functionalities. Working on the "diagonal" and "spherical" sigma constraint.
