@@ -115,12 +115,17 @@ public:
     /*!
         * \brief Cluster the with trained model.
         * @param data  A N-by-D matrix containing the test data;
-        * @param idx  A N-by-1 vector representing N data points' correspoding Gaussian components;
-        * @param nLogL  The negative of the log-likelihood of the data;
         * @param post  A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I);
-        * [out] The negative Log likelihood
+        * @return The negative Log likelihood
     */
     double cluster(MatrixXd data, MatrixXd &post);
+    /*!
+        * \brief Cluster the with trained model.
+        * @param data  A N-by-D matrix containing the test data;
+        * @param idx  A N-by-1 vector representing N data points' correspoding Gaussian components;
+        * @param post  A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I);
+        * @return The negative Log likelihood
+    */
     double cluster(MatrixXd data, MatrixXd &post, VectorXd &idx);
     /*! 
         * \brief Save GMM to fileName

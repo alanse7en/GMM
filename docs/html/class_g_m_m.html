@@ -116,6 +116,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa3aca6454ee2d714c5a262b96940e1a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cluster the with trained model.  <a href="#aa3aca6454ee2d714c5a262b96940e1a0">More...</a><br /></td></tr>
 <tr class="separator:aa3aca6454ee2d714c5a262b96940e1a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a971c9035d871cb376ce4ec43ca0a36af"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#a971c9035d871cb376ce4ec43ca0a36af">cluster</a> (MatrixXd data, MatrixXd &amp;post, VectorXd &amp;idx)</td></tr>
+<tr class="memdesc:a971c9035d871cb376ce4ec43ca0a36af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cluster the with trained model.  <a href="#a971c9035d871cb376ce4ec43ca0a36af">More...</a><br /></td></tr>
 <tr class="separator:a971c9035d871cb376ce4ec43ca0a36af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af57b5c21205ecd53619f67117555388e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#af57b5c21205ecd53619f67117555388e">save</a> (string fileName)</td></tr>
 <tr class="memdesc:af57b5c21205ecd53619f67117555388e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save <a class="el" href="class_g_m_m.html">GMM</a> to fileName.  <a href="#af57b5c21205ecd53619f67117555388e">More...</a><br /></td></tr>
@@ -271,12 +272,11 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>A N-by-D matrix containing the test data; </td></tr>
-    <tr><td class="paramname">idx</td><td>A N-by-1 vector representing N data points' correspoding Gaussian components; </td></tr>
-    <tr><td class="paramname">nLogL</td><td>The negative of the log-likelihood of the data; </td></tr>
-    <tr><td class="paramname">post</td><td>A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I); [out] The negative Log likelihood </td></tr>
+    <tr><td class="paramname">post</td><td>A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I); </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>The negative Log likelihood </dd></dl>
 
 <p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00247">247</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
 
@@ -311,6 +311,17 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Cluster the with trained model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>A N-by-D matrix containing the test data; </td></tr>
+    <tr><td class="paramname">idx</td><td>A N-by-1 vector representing N data points' correspoding Gaussian components; </td></tr>
+    <tr><td class="paramname">post</td><td>A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I); </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The negative Log likelihood </dd></dl>
 
 <p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00253">253</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
 
@@ -393,7 +404,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 8 2014 10:38:27 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Sep 8 2014 10:47:50 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

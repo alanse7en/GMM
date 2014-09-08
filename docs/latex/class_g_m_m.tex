@@ -23,7 +23,7 @@ void \hyperlink{class_g_m_m_a8da11088f8e7371786a80d64fc21e378}{fit} (Matrix\+Xd 
 double \hyperlink{class_g_m_m_aa3aca6454ee2d714c5a262b96940e1a0}{cluster} (Matrix\+Xd data, Matrix\+Xd \&post)
 \begin{DoxyCompactList}\small\item\em Cluster the with trained model. \end{DoxyCompactList}\item 
 double \hyperlink{class_g_m_m_a971c9035d871cb376ce4ec43ca0a36af}{cluster} (Matrix\+Xd data, Matrix\+Xd \&post, Vector\+Xd \&idx)
-\item 
+\begin{DoxyCompactList}\small\item\em Cluster the with trained model. \end{DoxyCompactList}\item 
 void \hyperlink{class_g_m_m_af57b5c21205ecd53619f67117555388e}{save} (string file\+Name)
 \begin{DoxyCompactList}\small\item\em Save \hyperlink{class_g_m_m}{G\+M\+M} to file\+Name. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -116,13 +116,12 @@ Cluster the with trained model.
 \begin{DoxyParams}{Parameters}
 {\em data} & A N-\/by-\/\+D matrix containing the test data; \\
 \hline
-{\em idx} & A N-\/by-\/1 vector representing N data points' correspoding Gaussian components; \\
-\hline
-{\em n\+Log\+L} & The negative of the log-\/likelihood of the data; \\
-\hline
-{\em post} & A N-\/by-\/\+K matrix containing the posterior peobability of p(component J $\vert$ data\+Point I); \mbox{[}out\mbox{]} The negative Log likelihood \\
+{\em post} & A N-\/by-\/\+K matrix containing the posterior peobability of p(component J $\vert$ data\+Point I); \\
 \hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The negative Log likelihood 
+\end{DoxyReturn}
 
 
 Definition at line 247 of file G\+M\+M.\+cpp.
@@ -136,6 +135,22 @@ Definition at line 247 of file G\+M\+M.\+cpp.
 \item[{Vector\+Xd \&}]{idx}
 \end{DoxyParamCaption}
 )}}\label{class_g_m_m_a971c9035d871cb376ce4ec43ca0a36af}
+
+
+Cluster the with trained model. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & A N-\/by-\/\+D matrix containing the test data; \\
+\hline
+{\em idx} & A N-\/by-\/1 vector representing N data points' correspoding Gaussian components; \\
+\hline
+{\em post} & A N-\/by-\/\+K matrix containing the posterior peobability of p(component J $\vert$ data\+Point I); \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The negative Log likelihood 
+\end{DoxyReturn}
 
 
 Definition at line 253 of file G\+M\+M.\+cpp.
