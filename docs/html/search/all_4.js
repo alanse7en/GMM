@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['iters',['iters',['../structfit_option.html#a711048d488fccee5740b31e4149c46de',1,'fitOption']]]
+  ['generatedata',['generateData',['../main_8cpp.html#ac0c0bf1f2a8c4d65667992c417cc938b',1,'main.cpp']]],
+  ['gmm',['GMM',['../class_g_m_m.html',1,'GMM'],['../class_g_m_m.html#a780eb798b963d64324e60f8a05511793',1,'GMM::GMM(long nComponents, long nDimensions, fitOption option=fitOption())'],['../class_g_m_m.html#a204c0939ce8e0544a70f6bacac70430e',1,'GMM::GMM(MatrixXd mu, vector&lt; MatrixXd &gt; Sigma, VectorXd p, fitOption option=fitOption())'],['../class_g_m_m.html#a3fd2ad1e4b02532fbcc8c268f60b4ee8',1,'GMM::GMM(string fileName)'],['../class_g_m_m.html#ae4a3fdfee01a1f37a58d405b701f1469',1,'GMM::GMM(GMM &amp;gmm)']]],
+  ['gmm_2ecpp',['GMM.cpp',['../_g_m_m_8cpp.html',1,'']]],
+  ['gmm_2eh',['GMM.h',['../_g_m_m_8h.html',1,'']]],
+  ['gmm_20documentation',['GMM documentation',['../index.html',1,'']]]
 ];

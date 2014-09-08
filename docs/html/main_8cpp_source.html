@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -96,28 +97,155 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_g_m_m_8h.html">GMM.h</a>&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="main_8cpp.html#ac0f2228420376f4db7e1274f2b41667c">   14</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="main_8cpp.html#ac0f2228420376f4db7e1274f2b41667c">main</a>(<span class="keywordtype">int</span> argc, <span class="keyword">const</span> <span class="keywordtype">char</span> * argv[])</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;boost/random/mersenne_twister.hpp&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;boost/random/normal_distribution.hpp&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//    fitOption option;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">//    option.covType = &quot;spherical&quot;;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">//    MatrixXd mu = MatrixXd::Random(2, 10);</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">//    VectorXd p = VectorXd::Random(2, 1);</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">//    vector&lt;MatrixXd&gt; cov{2, MatrixXd::Random(5, 5)};</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">//    GMM gmm(mu, cov, p, option);</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//    std::cout &lt;&lt; &quot;Hello, World!\n&quot;;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    cout &lt;&lt; <a class="code" href="_g_m_m_8cpp.html#af1b8f541b0c14c0a600e4c175e521130">randperm</a>(9);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="ttc" id="_g_m_m_8cpp_html_af1b8f541b0c14c0a600e4c175e521130"><div class="ttname"><a href="_g_m_m_8cpp.html#af1b8f541b0c14c0a600e4c175e521130">randperm</a></div><div class="ttdeci">VectorXd randperm(unsigned long n)</div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8cpp_source.html#l00015">GMM.cpp:15</a></div></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> We need a functor that can pretend it&#39;s const,</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> but to be a good random number generator</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> it needs mutable state.</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespace_eigen.html">   22</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_eigen.html">Eigen</a> {</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespace_eigen_1_1internal.html">   23</a></span>&#160;<span class="keyword">namespace </span>internal {</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html">   24</a></span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> Scalar&gt; <span class="keyword">struct </span><a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html">scalar_normal_dist_op</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        {</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#aa088a6e6b0b17b44a1e409fd8e024969">   26</a></span>&#160;            <span class="keyword">static</span> boost::mt19937 <a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#aa088a6e6b0b17b44a1e409fd8e024969">rng</a>;    <span class="comment">// The uniform pseudo-random algorithm</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#a2838ee2b54942da88f385babd6b01bbf">   27</a></span>&#160;            <span class="keyword">mutable</span> boost::normal_distribution&lt;Scalar&gt; <a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#a2838ee2b54942da88f385babd6b01bbf">norm</a>;  <span class="comment">// The gaussian combinator</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            EIGEN_EMPTY_STRUCT_CTOR(<a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html">scalar_normal_dist_op</a>)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            template&lt;typename Index&gt;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#a06ff4908382c1360169dce38b93463da">   32</a></span>&#160;            inline const Scalar operator() (Index, Index = 0)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#a2838ee2b54942da88f385babd6b01bbf">norm</a>(rng); }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        };</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Scalar&gt; boost::mt19937 scalar_normal_dist_op&lt;Scalar&gt;::rng;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Scalar&gt;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="struct_eigen_1_1internal_1_1functor__traits_3_01scalar__normal__dist__op_3_01_scalar_01_4_01_4.html">   38</a></span>&#160;        <span class="keyword">struct </span>functor_traits&lt;<a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html">scalar_normal_dist_op</a>&lt;Scalar&gt; &gt;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="struct_eigen_1_1internal_1_1functor__traits_3_01scalar__normal__dist__op_3_01_scalar_01_4_01_4.html#aa24d49756a42945135cf4bb233f70852aa50396f958a83c30593e034700290b00">   39</a></span>&#160;        { <span class="keyword">enum</span> { Cost = 50 * NumTraits&lt;Scalar&gt;::MulCost, PacketAccess = <span class="keyword">false</span>, IsRepeatable = <span class="keyword">false</span> }; };</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    } <span class="comment">// end namespace internal</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;} <span class="comment">// end namespace Eigen</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="main_8cpp.html#ac0c0bf1f2a8c4d65667992c417cc938b">   43</a></span>&#160;MatrixXd <a class="code" href="main_8cpp.html#ac0c0bf1f2a8c4d65667992c417cc938b">generateData</a>(){</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">int</span> size_1 = 2; <span class="comment">// Dimensionality (rows)</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">int</span> nn_1= 500;     <span class="comment">// How many samples (columns) to draw</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html">Eigen::internal::scalar_normal_dist_op&lt;double&gt;</a> randN_1; <span class="comment">// Gaussian functor</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html">Eigen::internal::scalar_normal_dist_op&lt;double&gt;::rng</a>.seed(1); <span class="comment">// Seed the rng</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// Define mean and covariance of the distribution</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    Eigen::VectorXd mean_1(size_1);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    Eigen::MatrixXd covar_1(size_1,size_1);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    mean_1  &lt;&lt;  0,  0;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    covar_1 &lt;&lt;  1, .5,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    .5,  1;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    Eigen::MatrixXd normTransform_1(size_1,size_1);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    Eigen::LLT&lt;Eigen::MatrixXd&gt; cholSolver_1(covar_1);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">// We can only use the cholesky decomposition if</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">// the covariance matrix is symmetric, pos-definite.</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">// But a covariance matrix might be pos-semi-definite.</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// In that case, we&#39;ll go to an EigenSolver</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">if</span> (cholSolver_1.info()==Eigen::Success) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">// Use cholesky solver</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        normTransform_1 = cholSolver_1.matrixL();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="comment">// Use eigen solver</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        Eigen::SelfAdjointEigenSolver&lt;Eigen::MatrixXd&gt; eigenSolver_1(covar_1);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        normTransform_1 = eigenSolver_1.eigenvectors()</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        * eigenSolver_1.eigenvalues().cwiseSqrt().asDiagonal();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    Eigen::MatrixXd samples_1 = (normTransform_1</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                 * Eigen::MatrixXd::NullaryExpr(size_1,nn_1,randN_1)).colwise()</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    + mean_1;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">int</span> size_2 = 2; <span class="comment">// Dimensionality (rows)</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">int</span> nn_2= 500;     <span class="comment">// How many samples (columns) to draw</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html">Eigen::internal::scalar_normal_dist_op&lt;double&gt;</a> randN_2; <span class="comment">// Gaussian functor</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html">Eigen::internal::scalar_normal_dist_op&lt;double&gt;::rng</a>.seed(1); <span class="comment">// Seed the rng</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">// Define mean and covariance of the distribution</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    Eigen::VectorXd mean_2(size_2);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    Eigen::MatrixXd covar_2(size_2,size_2);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    mean_2  &lt;&lt;  3,  2;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    covar_2 &lt;&lt;  1, .5,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    .5,  1;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    Eigen::MatrixXd normTransform_2(size_2,size_2);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    Eigen::LLT&lt;Eigen::MatrixXd&gt; cholSolver_2(covar_2);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="comment">// We can only use the cholesky decomposition if</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">// the covariance matrix is symmetric, pos-definite.</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="comment">// But a covariance matrix might be pos-semi-definite.</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">// In that case, we&#39;ll go to an EigenSolver</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">if</span> (cholSolver_2.info()==Eigen::Success) {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="comment">// Use cholesky solver</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        normTransform_2 = cholSolver_2.matrixL();</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="comment">// Use eigen solver</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        Eigen::SelfAdjointEigenSolver&lt;Eigen::MatrixXd&gt; eigenSolver_2(covar_2);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        normTransform_2 = eigenSolver_2.eigenvectors()</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        * eigenSolver_2.eigenvalues().cwiseSqrt().asDiagonal();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    Eigen::MatrixXd samples_2 = (normTransform_2</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                                 * Eigen::MatrixXd::NullaryExpr(size_2,nn_2,randN_2)).colwise()</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    + mean_2;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    Eigen::MatrixXd data(samples_1.cols()+samples_2.cols(), 2);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    data.block(0, 0, samples_1.cols(), 2) = samples_1.transpose();</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    data.block(samples_1.cols(), 0, samples_2.cols(), 2) = samples_2.transpose();</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordflow">return</span> data;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}</div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="main_8cpp.html#ac0f2228420376f4db7e1274f2b41667c">  119</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="main_8cpp.html#ac0f2228420376f4db7e1274f2b41667c">main</a>(<span class="keywordtype">int</span> argc, <span class="keyword">const</span> <span class="keywordtype">char</span> * argv[])</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;{</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    MatrixXd data = <a class="code" href="main_8cpp.html#ac0c0bf1f2a8c4d65667992c417cc938b">generateData</a>();</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <a class="code" href="structfit_option.html">fitOption</a> option;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    option.<a class="code" href="structfit_option.html#ae1d880f6fcd26e15f07d50c77c5cceea">covType</a> = <span class="stringliteral">&quot;spherical&quot;</span>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    option.<a class="code" href="structfit_option.html#a4c1ecd5ba984e2e12faa29217c78f931">start</a> = <span class="stringliteral">&quot;random&quot;</span>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    option.<a class="code" href="structfit_option.html#acd949efbbb51ddf447d4cb86fd2ac901">display</a> = <span class="stringliteral">&quot;iter&quot;</span>;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    option.<a class="code" href="structfit_option.html#a54d1906ece53c348047c8b404ff06053">maxIter</a> = 1e4;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    option.<a class="code" href="structfit_option.html#a4523efadc5bc4f29cd1648ac4ca018dd">tolFun</a> = 1e-10;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    option.<a class="code" href="structfit_option.html#a2efaf3629539e3864967853058e80420">sharedCov</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment">//    option.regularize = 1e-4;</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordtype">int</span> nComponents = 2;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">int</span> nDimensions = 2;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a> gmmTest(nComponents, nDimensions, option);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment">//    MatrixXd data2 = MatrixXd::Random(3, 1);</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    gmmTest.<a class="code" href="class_g_m_m.html#a8da11088f8e7371786a80d64fc21e378">fit</a>(data);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    VectorXd idx = VectorXd::Zero(data.rows());</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keyword">auto</span> nLogL = gmmTest.<a class="code" href="class_g_m_m.html#aa3aca6454ee2d714c5a262b96940e1a0">cluster</a>(data, post, idx);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    printf(<span class="stringliteral">&quot;The negative Log-likelihood is %f \n&quot;</span>, nLogL);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="ttc" id="class_g_m_m_html"><div class="ttname"><a href="class_g_m_m.html">GMM</a></div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00063">GMM.h:63</a></div></div>
+<div class="ttc" id="structfit_option_html"><div class="ttname"><a href="structfit_option.html">fitOption</a></div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00015">GMM.h:15</a></div></div>
+<div class="ttc" id="structfit_option_html_acd949efbbb51ddf447d4cb86fd2ac901"><div class="ttname"><a href="structfit_option.html#acd949efbbb51ddf447d4cb86fd2ac901">fitOption::display</a></div><div class="ttdeci">string display</div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00038">GMM.h:38</a></div></div>
+<div class="ttc" id="class_g_m_m_html_a8da11088f8e7371786a80d64fc21e378"><div class="ttname"><a href="class_g_m_m.html#a8da11088f8e7371786a80d64fc21e378">GMM::fit</a></div><div class="ttdeci">void fit(MatrixXd data)</div><div class="ttdoc">Train GMM to fit data;. </div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8cpp_source.html#l00168">GMM.cpp:168</a></div></div>
+<div class="ttc" id="structfit_option_html_a2efaf3629539e3864967853058e80420"><div class="ttname"><a href="structfit_option.html#a2efaf3629539e3864967853058e80420">fitOption::sharedCov</a></div><div class="ttdeci">bool sharedCov</div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00024">GMM.h:24</a></div></div>
+<div class="ttc" id="namespace_eigen_html"><div class="ttname"><a href="namespace_eigen.html">Eigen</a></div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00022">main.cpp:22</a></div></div>
+<div class="ttc" id="structfit_option_html_a54d1906ece53c348047c8b404ff06053"><div class="ttname"><a href="structfit_option.html#a54d1906ece53c348047c8b404ff06053">fitOption::maxIter</a></div><div class="ttdeci">unsigned int maxIter</div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00042">GMM.h:42</a></div></div>
+<div class="ttc" id="struct_eigen_1_1internal_1_1scalar__normal__dist__op_html_aa088a6e6b0b17b44a1e409fd8e024969"><div class="ttname"><a href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#aa088a6e6b0b17b44a1e409fd8e024969">Eigen::internal::scalar_normal_dist_op::rng</a></div><div class="ttdeci">static boost::mt19937 rng</div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00026">main.cpp:26</a></div></div>
 <div class="ttc" id="_g_m_m_8h_html"><div class="ttname"><a href="_g_m_m_8h.html">GMM.h</a></div></div>
-<div class="ttc" id="main_8cpp_html_ac0f2228420376f4db7e1274f2b41667c"><div class="ttname"><a href="main_8cpp.html#ac0f2228420376f4db7e1274f2b41667c">main</a></div><div class="ttdeci">int main(int argc, const char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00014">main.cpp:14</a></div></div>
+<div class="ttc" id="main_8cpp_html_ac0f2228420376f4db7e1274f2b41667c"><div class="ttname"><a href="main_8cpp.html#ac0f2228420376f4db7e1274f2b41667c">main</a></div><div class="ttdeci">int main(int argc, const char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00119">main.cpp:119</a></div></div>
+<div class="ttc" id="structfit_option_html_a4523efadc5bc4f29cd1648ac4ca018dd"><div class="ttname"><a href="structfit_option.html#a4523efadc5bc4f29cd1648ac4ca018dd">fitOption::tolFun</a></div><div class="ttdeci">double tolFun</div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00046">GMM.h:46</a></div></div>
+<div class="ttc" id="struct_eigen_1_1internal_1_1scalar__normal__dist__op_html"><div class="ttname"><a href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html">Eigen::internal::scalar_normal_dist_op</a></div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00024">main.cpp:24</a></div></div>
+<div class="ttc" id="struct_eigen_1_1internal_1_1scalar__normal__dist__op_html_a2838ee2b54942da88f385babd6b01bbf"><div class="ttname"><a href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#a2838ee2b54942da88f385babd6b01bbf">Eigen::internal::scalar_normal_dist_op::norm</a></div><div class="ttdeci">boost::normal_distribution&lt; Scalar &gt; norm</div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00027">main.cpp:27</a></div></div>
+<div class="ttc" id="class_g_m_m_html_aa3aca6454ee2d714c5a262b96940e1a0"><div class="ttname"><a href="class_g_m_m.html#aa3aca6454ee2d714c5a262b96940e1a0">GMM::cluster</a></div><div class="ttdeci">double cluster(MatrixXd data, MatrixXd &amp;post)</div><div class="ttdoc">Cluster the with trained model. </div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8cpp_source.html#l00247">GMM.cpp:247</a></div></div>
+<div class="ttc" id="main_8cpp_html_ac0c0bf1f2a8c4d65667992c417cc938b"><div class="ttname"><a href="main_8cpp.html#ac0c0bf1f2a8c4d65667992c417cc938b">generateData</a></div><div class="ttdeci">MatrixXd generateData()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00043">main.cpp:43</a></div></div>
+<div class="ttc" id="structfit_option_html_a4c1ecd5ba984e2e12faa29217c78f931"><div class="ttname"><a href="structfit_option.html#a4c1ecd5ba984e2e12faa29217c78f931">fitOption::start</a></div><div class="ttdeci">string start</div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00028">GMM.h:28</a></div></div>
+<div class="ttc" id="structfit_option_html_ae1d880f6fcd26e15f07d50c77c5cceea"><div class="ttname"><a href="structfit_option.html#ae1d880f6fcd26e15f07d50c77c5cceea">fitOption::covType</a></div><div class="ttdeci">string covType</div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00016">GMM.h:16</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 4 2014 15:46:52 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Sep 8 2014 10:38:27 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['save',['save',['../class_g_m_m.html#af57b5c21205ecd53619f67117555388e',1,'GMM']]],
-  ['sharedcov',['sharedCov',['../structfit_option.html#a2efaf3629539e3864967853058e80420',1,'fitOption']]],
-  ['start',['start',['../structfit_option.html#a4c1ecd5ba984e2e12faa29217c78f931',1,'fitOption']]]
+  ['operator_28_29',['operator()',['../struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#a06ff4908382c1360169dce38b93463da',1,'Eigen::internal::scalar_normal_dist_op']]],
+  ['operator_3d',['operator=',['../class_g_m_m.html#a60cc7218be23fa401a804b5d419632b9',1,'GMM']]]
 ];

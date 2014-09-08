@@ -244,6 +244,19 @@ void GMM::fit(MatrixXd data) {
     }
 }
 
-void GMM::cluster(MatrixXd data, VectorXd &idx, int &nLogL, MatrixXd &post, VectorXd &logPdf) {
-
+double GMM::cluster(MatrixXd data, MatrixXd &post) {
+    checkData(data);
+    double nLogL = -posterior(data, post);
+    return nLogL;
 }
+
+double GMM::cluster(MatrixXd data, MatrixXd &post, VectorXd &idx) {
+    double nLogL = this->cluster(data, post);
+    for (int i = 0; i < data.rows(); ++i)
+    {
+        post.row(i).maxCoeff( &idx(i));
+    }
+    return nLogL;
+}
+
+

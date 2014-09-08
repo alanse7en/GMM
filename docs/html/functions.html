@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -70,6 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -78,7 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -90,10 +92,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock">Here is a list of all class members with links to the classes they belong to:</div><ul>
 <li>cluster()
-: <a class="el" href="class_g_m_m.html#a520a9559626e08e3cb4e9863262da300">GMM</a>
+: <a class="el" href="class_g_m_m.html#aa3aca6454ee2d714c5a262b96940e1a0">GMM</a>
 </li>
 <li>converged
 : <a class="el" href="structfit_option.html#a600d82e88e845abb5a442f80eecf89cb">fitOption</a>
+</li>
+<li>Cost
+: <a class="el" href="struct_eigen_1_1internal_1_1functor__traits_3_01scalar__normal__dist__op_3_01_scalar_01_4_01_4.html#aa24d49756a42945135cf4bb233f70852ad22cd8b04dd82075ca39efd3ba99acd6">Eigen::internal::functor_traits&lt; scalar_normal_dist_op&lt; Scalar &gt; &gt;</a>
 </li>
 <li>covType
 : <a class="el" href="structfit_option.html#ae1d880f6fcd26e15f07d50c77c5cceea">fitOption</a>
@@ -107,17 +112,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>GMM()
 : <a class="el" href="class_g_m_m.html#a780eb798b963d64324e60f8a05511793">GMM</a>
 </li>
+<li>IsRepeatable
+: <a class="el" href="struct_eigen_1_1internal_1_1functor__traits_3_01scalar__normal__dist__op_3_01_scalar_01_4_01_4.html#aa24d49756a42945135cf4bb233f70852a953ef8c87ba7a342649b4b09347c6fda">Eigen::internal::functor_traits&lt; scalar_normal_dist_op&lt; Scalar &gt; &gt;</a>
+</li>
 <li>iters
 : <a class="el" href="structfit_option.html#a711048d488fccee5740b31e4149c46de">fitOption</a>
 </li>
 <li>maxIter
 : <a class="el" href="structfit_option.html#a54d1906ece53c348047c8b404ff06053">fitOption</a>
 </li>
+<li>norm
+: <a class="el" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#a2838ee2b54942da88f385babd6b01bbf">Eigen::internal::scalar_normal_dist_op&lt; Scalar &gt;</a>
+</li>
+<li>operator()()
+: <a class="el" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#a06ff4908382c1360169dce38b93463da">Eigen::internal::scalar_normal_dist_op&lt; Scalar &gt;</a>
+</li>
 <li>operator=()
 : <a class="el" href="class_g_m_m.html#a60cc7218be23fa401a804b5d419632b9">GMM</a>
 </li>
+<li>PacketAccess
+: <a class="el" href="struct_eigen_1_1internal_1_1functor__traits_3_01scalar__normal__dist__op_3_01_scalar_01_4_01_4.html#aa24d49756a42945135cf4bb233f70852aa50396f958a83c30593e034700290b00">Eigen::internal::functor_traits&lt; scalar_normal_dist_op&lt; Scalar &gt; &gt;</a>
+</li>
 <li>regularize
 : <a class="el" href="structfit_option.html#abffa02537679becf07413b31f5889e6f">fitOption</a>
+</li>
+<li>rng
+: <a class="el" href="struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#aa088a6e6b0b17b44a1e409fd8e024969">Eigen::internal::scalar_normal_dist_op&lt; Scalar &gt;</a>
 </li>
 <li>save()
 : <a class="el" href="class_g_m_m.html#af57b5c21205ecd53619f67117555388e">GMM</a>
@@ -135,7 +155,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 4 2014 15:46:52 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Sep 8 2014 10:38:27 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

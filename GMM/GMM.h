@@ -118,10 +118,10 @@ public:
         * @param idx  A N-by-1 vector representing N data points' correspoding Gaussian components;
         * @param nLogL  The negative of the log-likelihood of the data;
         * @param post  A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I);
-        * @param logPdf  A N-by-1 vector containing estimates of the PDF of dataPoint I, the PDF of I is the
-        * sum of p(dataPoint I | component J) * Pr(component J).
+        * [out] The negative Log likelihood
     */
-    void cluster(MatrixXd data, VectorXd &idx, int &nLogL, MatrixXd &post, VectorXd &logPdf);
+    double cluster(MatrixXd data, MatrixXd &post);
+    double cluster(MatrixXd data, MatrixXd &post, VectorXd &idx);
     /*! 
         * \brief Save GMM to fileName
         * @param fileName The dest filename.

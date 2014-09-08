@@ -7,22 +7,26 @@
 
 var indexSectionsWithContent =
 {
-  0: "cdfgimorst",
-  1: "fg",
-  2: "gm",
-  3: "cfgmors",
-  4: "cdimrst",
-  5: "g"
+  0: "cdefgimnoprst",
+  1: "fgs",
+  2: "e",
+  3: "gm",
+  4: "cfgmors",
+  5: "cdimnrst",
+  6: "cip",
+  7: "g"
 };
 
 var indexSectionNames =
 {
   0: "all",
   1: "classes",
-  2: "files",
-  3: "functions",
-  4: "variables",
-  5: "pages"
+  2: "namespaces",
+  3: "files",
+  4: "functions",
+  5: "variables",
+  6: "enumvalues",
+  7: "pages"
 };
 
 function convertToId(search)

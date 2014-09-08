@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['sharedcov',['sharedCov',['../structfit_option.html#a2efaf3629539e3864967853058e80420',1,'fitOption']]],
-  ['start',['start',['../structfit_option.html#a4c1ecd5ba984e2e12faa29217c78f931',1,'fitOption']]]
+  ['regularize',['regularize',['../structfit_option.html#abffa02537679becf07413b31f5889e6f',1,'fitOption']]],
+  ['rng',['rng',['../struct_eigen_1_1internal_1_1scalar__normal__dist__op.html#aa088a6e6b0b17b44a1e409fd8e024969',1,'Eigen::internal::scalar_normal_dist_op']]]
 ];

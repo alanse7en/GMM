@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,9 +112,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8da11088f8e7371786a80d64fc21e378"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#a8da11088f8e7371786a80d64fc21e378">fit</a> (MatrixXd data)</td></tr>
 <tr class="memdesc:a8da11088f8e7371786a80d64fc21e378"><td class="mdescLeft">&#160;</td><td class="mdescRight">Train <a class="el" href="class_g_m_m.html">GMM</a> to fit data;.  <a href="#a8da11088f8e7371786a80d64fc21e378">More...</a><br /></td></tr>
 <tr class="separator:a8da11088f8e7371786a80d64fc21e378"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a520a9559626e08e3cb4e9863262da300"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#a520a9559626e08e3cb4e9863262da300">cluster</a> (MatrixXd data, VectorXd &amp;idx, int &amp;nLogL, MatrixXd &amp;post, VectorXd &amp;logPdf)</td></tr>
-<tr class="memdesc:a520a9559626e08e3cb4e9863262da300"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cluster the with trained model.  <a href="#a520a9559626e08e3cb4e9863262da300">More...</a><br /></td></tr>
-<tr class="separator:a520a9559626e08e3cb4e9863262da300"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3aca6454ee2d714c5a262b96940e1a0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#aa3aca6454ee2d714c5a262b96940e1a0">cluster</a> (MatrixXd data, MatrixXd &amp;post)</td></tr>
+<tr class="memdesc:aa3aca6454ee2d714c5a262b96940e1a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cluster the with trained model.  <a href="#aa3aca6454ee2d714c5a262b96940e1a0">More...</a><br /></td></tr>
+<tr class="separator:aa3aca6454ee2d714c5a262b96940e1a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a971c9035d871cb376ce4ec43ca0a36af"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#a971c9035d871cb376ce4ec43ca0a36af">cluster</a> (MatrixXd data, MatrixXd &amp;post, VectorXd &amp;idx)</td></tr>
+<tr class="separator:a971c9035d871cb376ce4ec43ca0a36af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af57b5c21205ecd53619f67117555388e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_m_m.html#af57b5c21205ecd53619f67117555388e">save</a> (string fileName)</td></tr>
 <tr class="memdesc:af57b5c21205ecd53619f67117555388e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save <a class="el" href="class_g_m_m.html">GMM</a> to fileName.  <a href="#af57b5c21205ecd53619f67117555388e">More...</a><br /></td></tr>
 <tr class="separator:af57b5c21205ecd53619f67117555388e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,7 +124,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Gaussian mixture model class. Provide fit, cluster and save functionality. </p>
 
-<p>Definition at line <a class="el" href="_g_m_m_8h_source.html#l00062">62</a> of file <a class="el" href="_g_m_m_8h_source.html">GMM.h</a>.</p>
+<p>Definition at line <a class="el" href="_g_m_m_8h_source.html#l00063">63</a> of file <a class="el" href="_g_m_m_8h_source.html">GMM.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a780eb798b963d64324e60f8a05511793"></a>
 <div class="memitem">
@@ -197,7 +200,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Constructors with mu, Sigma, p, and option. </p>
 
-<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00040">40</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00041">41</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
 
 </div>
 </div>
@@ -235,17 +238,17 @@ Public Member Functions</h2></td></tr>
 
 <p>Copy constructors. </p>
 
-<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00059">59</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00060">60</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a520a9559626e08e3cb4e9863262da300"></a>
+<a class="anchor" id="aa3aca6454ee2d714c5a262b96940e1a0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void GMM::cluster </td>
+          <td class="memname">double GMM::cluster </td>
           <td>(</td>
           <td class="paramtype">MatrixXd&#160;</td>
           <td class="paramname"><em>data</em>, </td>
@@ -253,26 +256,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>nLogL</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">MatrixXd &amp;&#160;</td>
-          <td class="paramname"><em>post</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>logPdf</em>&#160;</td>
+          <td class="paramname"><em>post</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -288,11 +273,46 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">data</td><td>A N-by-D matrix containing the test data; </td></tr>
     <tr><td class="paramname">idx</td><td>A N-by-1 vector representing N data points' correspoding Gaussian components; </td></tr>
     <tr><td class="paramname">nLogL</td><td>The negative of the log-likelihood of the data; </td></tr>
-    <tr><td class="paramname">post</td><td>A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I); </td></tr>
-    <tr><td class="paramname">logPdf</td><td>A N-by-1 vector containing estimates of the PDF of dataPoint I, the PDF of I is the sum of p(dataPoint I | component J) * Pr(component J). </td></tr>
+    <tr><td class="paramname">post</td><td>A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I); [out] The negative Log likelihood </td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00247">247</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a971c9035d871cb376ce4ec43ca0a36af"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double GMM::cluster </td>
+          <td>(</td>
+          <td class="paramtype">MatrixXd&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>post</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>idx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00253">253</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
 
 </div>
 </div>
@@ -318,7 +338,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00119">119</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00168">168</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
 
 </div>
 </div>
@@ -338,7 +358,7 @@ Public Member Functions</h2></td></tr>
 
 <p>= operator </p>
 
-<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00049">49</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_g_m_m_8cpp_source.html#l00050">50</a> of file <a class="el" href="_g_m_m_8cpp_source.html">GMM.cpp</a>.</p>
 
 </div>
 </div>
@@ -373,7 +393,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 4 2014 15:46:52 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Sep 8 2014 10:38:27 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -93,59 +94,63 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Eigen/Dense&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_eigen.html">Eigen</a>;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structfit_option.html">   14</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structfit_option.html">fitOption</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structfit_option.html#ae1d880f6fcd26e15f07d50c77c5cceea">   15</a></span>&#160;    <span class="keywordtype">string</span> covType = <span class="stringliteral">&quot;full&quot;</span>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="structfit_option.html#a2efaf3629539e3864967853058e80420">   23</a></span>&#160;    <span class="keywordtype">bool</span> sharedCov = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="structfit_option.html#a4c1ecd5ba984e2e12faa29217c78f931">   27</a></span>&#160;    <span class="keywordtype">string</span> start = <span class="stringliteral">&quot;kmeans&quot;</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="structfit_option.html#abffa02537679becf07413b31f5889e6f">   33</a></span>&#160;    <span class="keywordtype">double</span> regularize = 0.0;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="structfit_option.html#acd949efbbb51ddf447d4cb86fd2ac901">   37</a></span>&#160;    <span class="keywordtype">string</span> display = <span class="stringliteral">&quot;iter&quot;</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="structfit_option.html#a54d1906ece53c348047c8b404ff06053">   41</a></span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> maxIter = 100;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="structfit_option.html#a4523efadc5bc4f29cd1648ac4ca018dd">   45</a></span>&#160;    <span class="keywordtype">double</span> tolFun = 1e-6;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="structfit_option.html#a600d82e88e845abb5a442f80eecf89cb">   49</a></span>&#160;    <span class="keywordtype">bool</span> converged = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="structfit_option.html#a711048d488fccee5740b31e4149c46de">   53</a></span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> iters = 0;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="class_g_m_m.html">   62</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_g_m_m.html">GMM</a> {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">long</span> nComponents;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">long</span> nDimensions;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    MatrixXd mu;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    vector&lt;MatrixXd&gt; Sigma;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    VectorXd p;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="structfit_option.html">fitOption</a> option;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> checkData(MatrixXd data);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> checkOption(<a class="code" href="structfit_option.html">fitOption</a> option);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span> checkModel();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span> initParam(MatrixXd data);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>(<span class="keywordtype">long</span> nComponents, <span class="keywordtype">long</span> nDimensions, <a class="code" href="structfit_option.html">fitOption</a> option = <a class="code" href="structfit_option.html">fitOption</a>());</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>(MatrixXd mu, vector&lt;MatrixXd&gt; Sigma, VectorXd p, <a class="code" href="structfit_option.html">fitOption</a> option = <a class="code" href="structfit_option.html">fitOption</a>());</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>(<span class="keywordtype">string</span> fileName);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>(<a class="code" href="class_g_m_m.html">GMM</a> &amp;gmm);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="class_g_m_m.html">GMM</a>&amp; gmm);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">void</span> fit(MatrixXd data);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordtype">void</span> cluster(MatrixXd data, VectorXd &amp;idx, <span class="keywordtype">int</span> &amp;nLogL, MatrixXd &amp;post, VectorXd &amp;logPdf);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">void</span> save(<span class="keywordtype">string</span> fileName);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;};</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="keywordtype">int</span> <a class="code" href="_g_m_m_8h.html#ad73ea3ef8b0513114a88f2090099f29c">myRandom</a>(<span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;VectorXd <a class="code" href="_g_m_m_8h.html#af1b8f541b0c14c0a600e4c175e521130">randperm</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> n);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__GMM__GMM__) */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="class_g_m_m_html"><div class="ttname"><a href="class_g_m_m.html">GMM</a></div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00062">GMM.h:62</a></div></div>
-<div class="ttc" id="structfit_option_html"><div class="ttname"><a href="structfit_option.html">fitOption</a></div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00014">GMM.h:14</a></div></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_eigen.html">Eigen</a>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structfit_option.html">   15</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structfit_option.html">fitOption</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="structfit_option.html#ae1d880f6fcd26e15f07d50c77c5cceea">   16</a></span>&#160;    <span class="keywordtype">string</span> covType = <span class="stringliteral">&quot;full&quot;</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="structfit_option.html#a2efaf3629539e3864967853058e80420">   24</a></span>&#160;    <span class="keywordtype">bool</span> sharedCov = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="structfit_option.html#a4c1ecd5ba984e2e12faa29217c78f931">   28</a></span>&#160;    <span class="keywordtype">string</span> start = <span class="stringliteral">&quot;kmeans&quot;</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structfit_option.html#abffa02537679becf07413b31f5889e6f">   34</a></span>&#160;    <span class="keywordtype">double</span> regularize = 0.0;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="structfit_option.html#acd949efbbb51ddf447d4cb86fd2ac901">   38</a></span>&#160;    <span class="keywordtype">string</span> display = <span class="stringliteral">&quot;iter&quot;</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="structfit_option.html#a54d1906ece53c348047c8b404ff06053">   42</a></span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> maxIter = 1000;</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="structfit_option.html#a4523efadc5bc4f29cd1648ac4ca018dd">   46</a></span>&#160;    <span class="keywordtype">double</span> tolFun = 1e-6;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structfit_option.html#a600d82e88e845abb5a442f80eecf89cb">   50</a></span>&#160;    <span class="keywordtype">bool</span> converged = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="structfit_option.html#a711048d488fccee5740b31e4149c46de">   54</a></span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> iters = 0;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="class_g_m_m.html">   63</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_g_m_m.html">GMM</a> {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">long</span> nComponents;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">long</span> nDimensions;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    MatrixXd mu;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    vector&lt;MatrixXd&gt; Sigma;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    VectorXd p;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="structfit_option.html">fitOption</a> option;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> checkData(MatrixXd data);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> checkOption(<a class="code" href="structfit_option.html">fitOption</a> option);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> checkModel();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span> checkNaN(MatrixXd mat);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">void</span> initParam(MatrixXd data);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">void</span> likelihood(MatrixXd data, MatrixXd &amp;lh);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">double</span> posterior(MatrixXd data, MatrixXd &amp;post);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>(<span class="keywordtype">long</span> nComponents, <span class="keywordtype">long</span> nDimensions, <a class="code" href="structfit_option.html">fitOption</a> option = <a class="code" href="structfit_option.html">fitOption</a>());</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>(MatrixXd mu, vector&lt;MatrixXd&gt; Sigma, VectorXd p, <a class="code" href="structfit_option.html">fitOption</a> option = <a class="code" href="structfit_option.html">fitOption</a>());</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>(<span class="keywordtype">string</span> fileName);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>(<a class="code" href="class_g_m_m.html">GMM</a> &amp;gmm);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <a class="code" href="class_g_m_m.html">GMM</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="class_g_m_m.html">GMM</a>&amp; gmm);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordtype">void</span> fit(MatrixXd data);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">double</span> cluster(MatrixXd data, MatrixXd &amp;post);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">double</span> cluster(MatrixXd data, MatrixXd &amp;post, VectorXd &amp;idx);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">void</span> save(<span class="keywordtype">string</span> fileName);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;};</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keywordtype">int</span> <a class="code" href="_g_m_m_8h.html#ad73ea3ef8b0513114a88f2090099f29c">myRandom</a>(<span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;VectorXd <a class="code" href="_g_m_m_8h.html#af1b8f541b0c14c0a600e4c175e521130">randperm</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> n);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__GMM__GMM__) */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="class_g_m_m_html"><div class="ttname"><a href="class_g_m_m.html">GMM</a></div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00063">GMM.h:63</a></div></div>
+<div class="ttc" id="structfit_option_html"><div class="ttname"><a href="structfit_option.html">fitOption</a></div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8h_source.html#l00015">GMM.h:15</a></div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div></div>
-<div class="ttc" id="namespace_eigen_html"><div class="ttname"><a href="namespace_eigen.html">Eigen</a></div></div>
+<div class="ttc" id="namespace_eigen_html"><div class="ttname"><a href="namespace_eigen.html">Eigen</a></div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00022">main.cpp:22</a></div></div>
 <div class="ttc" id="_g_m_m_8h_html_ad73ea3ef8b0513114a88f2090099f29c"><div class="ttname"><a href="_g_m_m_8h.html#ad73ea3ef8b0513114a88f2090099f29c">myRandom</a></div><div class="ttdeci">int myRandom(int i)</div><div class="ttdoc">Random number generator. </div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8cpp_source.html#l00011">GMM.cpp:11</a></div></div>
 <div class="ttc" id="_g_m_m_8h_html_af1b8f541b0c14c0a600e4c175e521130"><div class="ttname"><a href="_g_m_m_8h.html#af1b8f541b0c14c0a600e4c175e521130">randperm</a></div><div class="ttdeci">VectorXd randperm(unsigned long n)</div><div class="ttdef"><b>Definition:</b> <a href="_g_m_m_8cpp_source.html#l00015">GMM.cpp:15</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 4 2014 15:46:52 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Sep 8 2014 10:38:27 for GMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

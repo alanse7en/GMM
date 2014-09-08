@@ -127,8 +127,14 @@ int main(int argc, const char * argv[])
     option.tolFun = 1e-10;
     option.sharedCov = true;
 //    option.regularize = 1e-4;
-    GMM gmmTest(2, 2, option);
+    int nComponents = 2;
+    int nDimensions = 2;
+    GMM gmmTest(nComponents, nDimensions, option);
 //    MatrixXd data2 = MatrixXd::Random(3, 1);
     gmmTest.fit(data);
+    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+    VectorXd idx = VectorXd::Zero(data.rows());
+    auto nLogL = gmmTest.cluster(data, post, idx);
+    printf("The negative Log-likelihood is %f \n", nLogL);
 }
 
