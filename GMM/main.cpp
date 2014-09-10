@@ -136,5 +136,6 @@ int main(int argc, const char * argv[])
     VectorXd idx = VectorXd::Zero(data.rows());
     auto nLogL = gmmTest.cluster(data, post, idx);
     printf("The negative Log-likelihood is %f \n", nLogL);
+    gmmTest.save("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
 }
 

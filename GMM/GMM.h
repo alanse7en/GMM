@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <math.h>
+#include <fstream>
 
 using namespace std;
 using namespace Eigen;
@@ -90,10 +91,16 @@ class GMM {
         * @param data The train data matrix.
     */
     void initParam(MatrixXd data);
-    /*! calculate posterior probability of given data and GMM
+    /*!
         * @param data A N-by-D matrix containing the data;
+        * @param lh A N-by-K matrix containing the likelihood,
+        * lh(i, j) = Pr(datapoint I | component J)
     */
     void likelihood(MatrixXd data, MatrixXd &lh);
+    /*! calculate posterior probability of given data and GMM
+        * @param data A N-by-D matrix containing the data;
+        * @return The Log-likelihood loss
+    */
     double posterior(MatrixXd data, MatrixXd &post);
     
 public:

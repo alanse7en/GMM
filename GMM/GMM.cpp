@@ -259,4 +259,54 @@ double GMM::cluster(MatrixXd data, MatrixXd &post, VectorXd &idx) {
     return nLogL;
 }
 
-
+void GMM::save(string fileName) {
+    try
+    {
+        // write nComponents and nDimensions
+        ofstream out(fileName);
+        out << nComponents << "\n";
+        out << nDimensions << "\n";
+        // write p
+        for (int i = 0; i < p.rows(); ++i)
+        {
+            out << p(i) << " ";
+        }
+        out << "\n";
+        // write mu
+        for (int i = 0; i < mu.rows(); ++i)
+        {
+            for (int j = 0; j < mu.cols(); ++j)
+            {
+                out << mu(i,j) << " ";
+            }
+            out << "\n";
+        }
+        // write Sigma
+        for (auto ite = Sigma.begin(); ite != Sigma.cend(); ++ite)
+        {
+            MatrixXd sigma = *ite;
+            for (int i = 0; i < sigma.rows(); ++i)
+            {
+                for (int j = 0; j < sigma.cols(); ++j)
+                {
+                    out << sigma(i,j) << " ";
+                }
+                out << "\n";
+            }
+        }
+        out << option.covType << "\n";
+        out << option.sharedCov << "\n";
+        out << option.start << "\n";
+        out << option.regularize << "\n";
+        out << option.display << "\n";
+        out << option.maxIter << "\n";
+        out << option.tolFun << "\n";
+        out << option.converged << "\n";
+        out << option.iters << "\n";
+        out.close();
+    }
+    catch(runtime_error)
+    {
+        printf("Can't open the file: %s", fileName.c_str());
+    }
+}
