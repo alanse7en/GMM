@@ -119,23 +119,24 @@ MatrixXd generateData(){
 int main(int argc, const char * argv[])
 {
     MatrixXd data = generateData();
-    fitOption option;
-    option.covType = "spherical";
-    option.start = "random";
-    option.display = "iter";
-    option.maxIter = 1e4;
-    option.tolFun = 1e-10;
-    option.sharedCov = true;
-//    option.regularize = 1e-4;
-    int nComponents = 2;
-    int nDimensions = 2;
-    GMM gmmTest(nComponents, nDimensions, option);
+//    fitOption option;
+//    option.covType = "spherical";
+//    option.start = "random";
+//    option.display = "iter";
+//    option.maxIter = 1e4;
+//    option.tolFun = 1e-10;
+//    option.sharedCov = true;
+////    option.regularize = 1e-4;
+//    int nComponents = 2;
+//    int nDimensions = 2;
+    GMM gmmTest("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
 //    MatrixXd data2 = MatrixXd::Random(3, 1);
-    gmmTest.fit(data);
-    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+//    gmmTest.fit(data);
+    MatrixXd post = MatrixXd::Zero(data.rows(), 2);
     VectorXd idx = VectorXd::Zero(data.rows());
     auto nLogL = gmmTest.cluster(data, post, idx);
+    cout << gmmTest.option.iters << endl;
     printf("The negative Log-likelihood is %f \n", nLogL);
-    gmmTest.save("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
+//    gmmTest.save("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
 }
 
