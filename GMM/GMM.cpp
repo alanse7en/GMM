@@ -263,45 +263,144 @@ void GMM::fit(MatrixXd data) {
         oldLoss = loss;
         // M step
         p = post.colwise().sum();
+        // different sigma
         if (option.sharedCov == false)
         {
-            for (int i = 0; i < nComponents; ++i)
+            // full sigma
+            if ( option.covType == "full")
             {
-                MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
-                MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
-                for (int j = 0; j < data.rows(); ++j)
+                for (int i = 0; i < nComponents; ++i)
                 {
-                    muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                    MatrixXd centered = data.block(j, 0, 1, data.cols()) 
-                        - mu.block(i,0,1,mu.cols());
-                    sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+                    for (int j = 0; j < data.rows(); ++j)
+                    {
+                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                            - mu.block(i,0,1,mu.cols());
+                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+                    }
+                    // double normPara = post.colwise().sum()(i);
+                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+                    Sigma.at(i) = sigmaTmp/p(i) + option.regularize * 
+                        MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
                 }
-                // double normPara = post.colwise().sum()(i);
-                mu.block(i,0,1,mu.cols()) = muTmp/p(i);
-                Sigma.at(i) = sigmaTmp/p(i) + option.regularize * 
-                    MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
+            }
+            // diagonal sigma
+            else if ( option.covType == "diagonal")
+            {
+                for (int i = 0; i < nComponents; ++i)
+                {
+                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+                    for (int j = 0; j < data.rows(); ++j)
+                    {
+                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                            - mu.block(i,0,1,mu.cols());
+                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+                    }
+                    sigmaTmp = sigmaTmp/p(i) + option.regularize * 
+                        MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
+                    MatrixXd sigma = (sigmaTmp.diagonal()).asDiagonal();
+                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+                    Sigma.at(i) = sigma;
+                }                
+            }
+            // spherical sigma
+            else
+            {
+                for (int i = 0; i < nComponents; ++i)
+                {
+                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+                    for (int j = 0; j < data.rows(); ++j)
+                    {
+                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                            - mu.block(i,0,1,mu.cols());
+                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+                    }
+                    sigmaTmp = sigmaTmp/p(i) + option.regularize * 
+                        MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
+                    double diagonal = (sigmaTmp.diagonal()).sum()/sigmaTmp.rows();
+                    VectorXd sigmaDia = VectorXd::Ones(sigmaTmp.rows())*diagonal;
+                    MatrixXd sigma = sigmaDia.asDiagonal();
+                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+                    Sigma.at(i) = sigma;
+                }                
             }
         }
+        // sharing sigma
         else
         {
             MatrixXd sigma = MatrixXd::Zero(data.cols(), data.cols());
-            for (int i = 0; i < nComponents; ++i)
+            // full sigma
+            if ( option.covType == "full")
             {
-                MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
-                MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
-                for (int j = 0; j < data.rows(); ++j)
+                
+                for (int i = 0; i < nComponents; ++i)
                 {
-                    muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                    MatrixXd centered = data.block(j, 0, 1, data.cols()) 
-                        - mu.block(i,0,1,mu.cols());
-                    sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+                    for (int j = 0; j < data.rows(); ++j)
+                    {
+                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                            - mu.block(i,0,1,mu.cols());
+                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+                    }
+                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+                    sigma = sigma + sigmaTmp/p(i);
                 }
-                // double normPara = post.colwise().sum()(i);
-                mu.block(i,0,1,mu.cols()) = muTmp/p(i);
-                sigma = sigma + sigmaTmp/p(i);
+                sigma = sigma/double(nComponents) + option.regularize *
+                        MatrixXd::Identity(sigma.rows(), sigma.cols());
             }
-            sigma = sigma/double(nComponents) + option.regularize *
-                    MatrixXd::Identity(sigma.rows(), sigma.cols());
+            // diagonal sigma
+            else if ( option.covType == "diagonal")
+            {
+                for (int i = 0; i < nComponents; ++i)
+                {
+                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+                    for (int j = 0; j < data.rows(); ++j)
+                    {
+                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                            - mu.block(i,0,1,mu.cols());
+                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+                    }
+                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+                    sigma = sigma + sigmaTmp/p(i);
+                }
+                sigma = sigma/double(nComponents) + option.regularize *
+                        MatrixXd::Identity(sigma.rows(), sigma.cols());
+                VectorXd sigDia = sigma.diagonal();
+                sigma = sigDia.asDiagonal();
+            }
+            // spherical sigma
+            else
+            {
+                for (int i = 0; i < nComponents; ++i)
+                {
+                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+                    for (int j = 0; j < data.rows(); ++j)
+                    {
+                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                            - mu.block(i,0,1,mu.cols());
+                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+                    }
+                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+                    sigma = sigma + sigmaTmp/p(i);
+                }
+                sigma = sigma/double(nComponents) + option.regularize *
+                        MatrixXd::Identity(sigma.rows(), sigma.cols());
+                double diagonal = sigma.diagonal().sum()/sigma.rows();
+                sigma = (VectorXd::Ones(sigma.rows())*diagonal).asDiagonal();
+            }
+            
             Sigma = vector<MatrixXd>(nComponents, sigma);
         }
         
