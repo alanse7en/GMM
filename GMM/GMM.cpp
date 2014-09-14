@@ -28,6 +28,152 @@ VectorXd randperm(unsigned long n) {
     return randVec;
 }
 
+void kMeans(MatrixXd data, long nComponents, VectorXd &idx,
+        VectorXd &p, MatrixXd &mu, vector<MatrixXd> Sigma)
+{
+
+}
+
+ifstream & operator>>(ifstream &in, GMM &gmm)
+{
+    // Read nComponents
+    string nComponentsStr;
+    getline(in, nComponentsStr);
+    gmm.nComponents = atol(nComponentsStr.c_str());
+    // Read nDimensions
+    string nDimensionsStr;
+    getline(in, nDimensionsStr);
+    gmm.nDimensions = atol(nDimensionsStr.c_str());
+    // Make sure the file is a valid one.
+    gmm.checkModel();
+    //Initialize p, mu, Sigma
+    gmm.p = VectorXd::Zero(gmm.nComponents);
+    gmm.mu = MatrixXd::Zero(gmm.nComponents, gmm.nDimensions);
+    MatrixXd sigma = MatrixXd::Zero(gmm.nDimensions, gmm.nDimensions);
+    gmm.Sigma = vector<MatrixXd>(gmm.nComponents, sigma);
+    // Read p
+    for (long i = 0; i < gmm.nComponents; ++i)
+    {
+        string pStr;
+        getline(in, pStr);
+        gmm.p(i) = atof(pStr.c_str());
+    }
+    // Read mu
+    for (int i = 0; i < gmm.nComponents; ++i)
+    {
+        string muStr;
+        getline(in, muStr);
+        istringstream muStream(muStr);
+        for (int j = 0; j < gmm.nDimensions; ++j)
+        {
+            string mustr;
+            muStream >> mustr;
+            gmm.mu(i, j) = atof(mustr.c_str());
+        }
+    }
+    // Read Sigma
+    for (auto ite = gmm.Sigma.begin(); ite != gmm.Sigma.cend(); ++ite)
+    {
+        for (long i = 0; i < gmm.nDimensions; ++i)
+        {
+            string SigmaStr;
+            getline(in, SigmaStr);
+            istringstream SigmaStream(SigmaStr);
+            for (long j = 0; j < gmm.nDimensions; ++j)
+            {
+                string sigmastr;
+                SigmaStream >> sigmastr;
+                (*ite)(i, j) = atof(sigmastr.c_str());
+            }
+        }
+    }
+    // Read Options
+    fitOption option;
+    string tmpStr;
+    getline(in, option.covType);
+    getline(in, tmpStr);
+    option.sharedCov = atoi(tmpStr.c_str());;
+    getline(in, option.start);
+    getline(in ,tmpStr);
+    option.regularize = atof(tmpStr.c_str());;
+    getline(in, option.display);
+    getline(in, tmpStr);
+    option.maxIter = atoi(tmpStr.c_str());;
+    getline(in, tmpStr);
+    option.tolFun = atof(tmpStr.c_str());;
+    getline(in, tmpStr);
+    option.converged = atoi(tmpStr.c_str());;
+    getline(in ,tmpStr);
+    option.iters = atoi(tmpStr.c_str());
+    gmm.checkOption(option);
+    gmm.option = option;
+
+    if (!in)
+    {
+        throw runtime_error
+            ( "Can not read from the file.\n");
+    }
+    return in;
+}
+
+ostream & operator<<(ostream &os, const GMM &gmm)
+{
+    os << "nComponents: " << gmm.nComponents << "\tnDimensions: " << gmm.nDimensions << endl;
+    cout << "The p of the model:\n" << gmm.p.transpose() << endl;
+    cout << "The mean of the model:\n " << gmm.mu << endl;
+    cout << "The sigma of the model:";
+    for (auto ite = gmm.Sigma.begin(); ite != gmm.Sigma.cend(); ++ite) {
+        cout << endl;
+        cout << "Sigma " <<(ite - gmm.Sigma.cbegin()) + 1 << ":" << endl;
+        cout << *ite;
+    }
+    return os;
+}
+
+ofstream & operator<<(ofstream &out, const GMM & gmm)
+{
+    // write nComponents and nDimensions
+    
+    out << gmm.nComponents << "\n";
+    out << gmm.nDimensions << "\n";
+    // write p
+    out << gmm.p << "\n";
+    // write mu
+    for (int i = 0; i < gmm.mu.rows(); ++i)
+    {
+        for (int j = 0; j < gmm.mu.cols(); ++j)
+        {
+            out << gmm.mu(i,j) << " ";
+        }
+        out << "\n";
+    }
+    // write Sigma
+    for (auto ite = gmm.Sigma.begin(); ite != gmm.Sigma.cend(); ++ite)
+    {
+        MatrixXd sigma = *ite;
+        for (int i = 0; i < sigma.rows(); ++i)
+        {
+            for (int j = 0; j < sigma.cols(); ++j)
+            {
+                out << sigma(i,j) << " ";
+            }
+            out << "\n";
+        }
+    }
+    fitOption option = gmm.option;
+    out << option.covType << "\n";
+    out << option.sharedCov << "\n";
+    out << option.start << "\n";
+    out << option.regularize << "\n";
+    out << option.display << "\n";
+    out << option.maxIter << "\n";
+    out << option.tolFun << "\n";
+    out << option.converged << "\n";
+    out << option.iters << "\n";
+    
+    return out;
+}
+
 GMM::GMM(long nComponents, long nDimensions, fitOption option) : 
     nComponents(nComponents), nDimensions(nDimensions), option(option)
 {
@@ -45,81 +191,6 @@ GMM::GMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option)
     checkOption(this->option);
     nComponents = mu.rows();
     nDimensions = mu.cols();
-}
-
-GMM::GMM(string fileName) {
-    ifstream in(fileName);
-    if (in) {
-        // Read nComponents
-        string nComponentsStr;
-        getline(in, nComponentsStr);
-        nComponents = atol(nComponentsStr.c_str());
-        // Read nDimensions
-        string nDimensionsStr;
-        getline(in, nDimensionsStr);
-        nDimensions = atol(nDimensionsStr.c_str());
-        
-        //Initialize p, mu, Sigma
-        p = VectorXd::Zero(nComponents);
-        mu = MatrixXd::Zero(nComponents, nDimensions);
-        MatrixXd sigma = MatrixXd::Zero(nDimensions, nDimensions);
-        Sigma = vector<MatrixXd>(nComponents, sigma);
-        // Read p
-        for (long i = 0; i < nComponents; ++i)
-        {
-            string pStr;
-            getline(in, pStr);
-            p(i) = atof(pStr.c_str());
-        }
-        // Read mu
-        for (int i = 0; i < nComponents; ++i)
-        {
-            string muStr;
-            getline(in, muStr);
-            istringstream muStream(muStr);
-            for (int j = 0; j < nDimensions; ++j)
-            {
-                string mustr;
-                muStream >> mustr;
-                mu(i, j) = atof(mustr.c_str());
-            }
-        }
-        // Read Sigma
-        for (auto ite = Sigma.begin(); ite != Sigma.cend(); ++ite)
-        {
-            for (long i = 0; i < nDimensions; ++i)
-            {
-                string SigmaStr;
-                getline(in, SigmaStr);
-                istringstream SigmaStream(SigmaStr);
-                for (long j = 0; j < nDimensions; ++j)
-                {
-                    string sigmastr;
-                    SigmaStream >> sigmastr;
-                    (*ite)(i, j) = atof(sigmastr.c_str());
-                }
-            }
-        }
-        // Read Options
-        string tmpStr;
-        getline(in, option.covType);
-        getline(in, tmpStr);
-        option.sharedCov = atoi(tmpStr.c_str());;
-        getline(in, option.start);
-        getline(in ,tmpStr);
-        option.regularize = atof(tmpStr.c_str());;
-        getline(in, option.display);
-        getline(in, tmpStr);
-        option.maxIter = atoi(tmpStr.c_str());;
-        getline(in, tmpStr);
-        option.tolFun = atof(tmpStr.c_str());;
-        getline(in, tmpStr);
-        option.converged = atoi(tmpStr.c_str());;
-        getline(in ,tmpStr);
-        option.iters = atoi(tmpStr.c_str());
-    }
-    else
-        printf("Can't open the file: %s\n", fileName.c_str());
 }
 
 GMM& GMM::operator=(const GMM &gmm) {
@@ -157,17 +228,17 @@ void GMM::checkData(MatrixXd data) {
 
 void GMM::checkOption(fitOption option) {
     if (option.regularize < 0) {
-        throw runtime_error( "The regularize must be a non-negative scalar");
+        throw runtime_error( "The regularize must be a non-negative scalar.\n");
     }
     if ( (option.covType != "spherical") 
             && (option.covType != "diagonal") && (option.covType != "full") ) {
-        throw runtime_error( "Invalid covType option.");
+        throw runtime_error( "Invalid covType option.\n");
     }
     if ( (option.display != "iter") && (option.display != "final") ) {
-        throw runtime_error( "Invalid display option.");
+        throw runtime_error( "Invalid display option.\n");
     }
     if ( (option.start != "random") && (option.start != "kmeans") ) {
-        throw runtime_error( "Invalid start option.");
+        throw runtime_error( "Invalid start option.\n");
     }
 }
 
@@ -176,7 +247,12 @@ void GMM::checkModel() {
         || (mu.rows() != Sigma.size()) || (p.rows() != Sigma.size()) )
     {
         throw runtime_error
-            ( "The dimension of mean, p and cov must agree with each other");
+            ( "The dimension of mean, p and cov must agree with each other\n");
+    }
+    if (nComponents == 0 || nDimensions == 0)
+    {
+        throw runtime_error
+            ( "nComponents or nDimensions should not be 0. Bad initialization.\n");
     }
 }
 
@@ -209,6 +285,11 @@ void GMM::initParam(MatrixXd data) {
             p(i) = 1/double(nComponents);
             Sigma.at(i) = sigma;
         }
+    }
+    else
+    {
+        VectorXd idx = VectorXd::Zero(data.rows());
+        kMeans(data, nComponents, idx, p, mu, Sigma);
     }
 }
 
@@ -409,13 +490,6 @@ void GMM::fit(MatrixXd data) {
 
     // Print the final result: the likelihood loss, mean and sigma.
     printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
-    cout << "The p of the model:\n" << p << endl;
-    cout << "The mean of the model:\n " << mu << endl;
-    cout << "The sigma of the model:" << endl;
-    for (auto ite = Sigma.begin(); ite != Sigma.cend(); ++ite) {
-        cout << *ite << endl;
-        cout << " " << endl;
-    }
 }
 
 double GMM::cluster(MatrixXd data, MatrixXd &post) {
@@ -431,53 +505,4 @@ double GMM::cluster(MatrixXd data, MatrixXd &post, VectorXd &idx) {
         post.row(i).maxCoeff( &idx(i));
     }
     return nLogL;
-}
-
-void GMM::save(string fileName) {
-    ofstream out(fileName);
-    if (out)
-    {
-        // write nComponents and nDimensions
-        
-        out << nComponents << "\n";
-        out << nDimensions << "\n";
-        // write p
-        out << p << "\n";
-        // write mu
-        for (int i = 0; i < mu.rows(); ++i)
-        {
-            for (int j = 0; j < mu.cols(); ++j)
-            {
-                out << mu(i,j) << " ";
-            }
-            out << "\n";
-        }
-        // write Sigma
-        for (auto ite = Sigma.begin(); ite != Sigma.cend(); ++ite)
-        {
-            MatrixXd sigma = *ite;
-            for (int i = 0; i < sigma.rows(); ++i)
-            {
-                for (int j = 0; j < sigma.cols(); ++j)
-                {
-                    out << sigma(i,j) << " ";
-                }
-                out << "\n";
-            }
-        }
-        out << option.covType << "\n";
-        out << option.sharedCov << "\n";
-        out << option.start << "\n";
-        out << option.regularize << "\n";
-        out << option.display << "\n";
-        out << option.maxIter << "\n";
-        out << option.tolFun << "\n";
-        out << option.converged << "\n";
-        out << option.iters << "\n";
-        out.close();
-    }
-    else
-    {
-        printf("Can't open the file: %s\n", fileName.c_str());
-    }
 }

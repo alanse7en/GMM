@@ -7,6 +7,7 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include "GMM.h"
 #include <vector>
 #include <ctime>
@@ -42,7 +43,7 @@ template<typename Scalar> struct scalar_normal_dist_op
 
 MatrixXd generateData(){
     int size_1 = 2; // Dimensionality (rows)
-    int nn_1= 500;     // How many samples (columns) to draw
+    int nn_1= 499;     // How many samples (columns) to draw
     Eigen::internal::scalar_normal_dist_op<double> randN_1; // Gaussian functor
     Eigen::internal::scalar_normal_dist_op<double>::rng.seed(1); // Seed the rng
     
@@ -85,7 +86,7 @@ MatrixXd generateData(){
     Eigen::VectorXd mean_2(size_2);
     Eigen::MatrixXd covar_2(size_2,size_2);
     
-    mean_2  <<  3,  2;
+    mean_2  <<  7,  3;
     covar_2 <<  1.5, 0,
     0,  1;
     
@@ -130,8 +131,18 @@ int main(int argc, const char * argv[])
     int nComponents = 2;
     int nDimensions = 2;
     GMM gmmTest(nComponents, nDimensions, option);
+//    GMM gmm("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
+//    GMM gmm;
+//    ifstream in("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
+//    in >> gmm;
 ////    MatrixXd data2 = MatrixXd::Random(3, 1);
     gmmTest.fit(data);
+    cout << gmmTest << endl;
+    ofstream out("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
+    if (out) {
+        out << gmmTest;
+        out.close();
+    }
 //    MatrixXd post = MatrixXd::Zero(data.rows(), 2);
 //    VectorXd idx = VectorXd::Zero(data.rows());
 //    auto nLogL = gmmTest.cluster(data, post, idx);

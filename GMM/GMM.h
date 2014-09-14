@@ -3,6 +3,7 @@
 #define __GMM__GMM__
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <Eigen/Dense>
 #include <cstdlib>
@@ -59,9 +60,12 @@ struct fitOption {
 };
 
 /*! 
-    * \breif Gaussian mixture model class. Provide fit, cluster and save functionality.
+    * \brief Gaussian mixture model class. Provide fit, cluster and save functionality.
 */
 class GMM {
+    friend ostream & operator<<(ostream &os, const GMM &gmm);
+    friend ifstream & operator>>(ifstream &in, GMM &gmm);
+    friend ofstream & operator<<(ofstream &out, const GMM &gmm); 
     long nComponents;/*!< The number of mixture components, K; */
     long nDimensions;/*!< The number of dimensions for each Gaussian component, D; */
     MatrixXd mu;/*!< A K-by-D matrix of component means; */
@@ -104,12 +108,12 @@ class GMM {
     double posterior(MatrixXd data, MatrixXd &post);
     
 public:
+    /// Default constructor
+    GMM() = default;
     ///  Constructors with nComponents, nDimensions and option
     GMM(long nComponents, long nDimensions, fitOption option = fitOption());
     ///  Constructors with mu, Sigma, p, and option
     GMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption());
-    ///  Load GMM from fileName and contruct the object.
-    GMM(string fileName);
     ///  Copy constructors
     GMM(GMM &gmm);
     ///  = operator
@@ -134,19 +138,34 @@ public:
         * @return The negative Log likelihood
     */
     double cluster(MatrixXd data, MatrixXd &post, VectorXd &idx);
-    /*! 
-        * \brief Save GMM to fileName
-        * @param fileName The dest filename.
-    */
-    void save(string fileName);
 };
 
 /// Random number generator
 int myRandom(int i);
 /*! 
-    * \breif Random permutation generator.
+    * \brief Random permutation generator.
     * @param n The function permutates 1:n.
 */
 VectorXd randperm(unsigned long n);
+
+/*!
+    * \brief K-Means class. Provide fit functionality.
+*/
+
+void kMeans(MatrixXd data, long nComponents, VectorXd &idx,
+        VectorXd &p, MatrixXd &mu, vector<MatrixXd> Sigma);
+
+/*!
+    * \brief Read GMM from a file stream.
+*/
+ifstream & operator>>(ifstream &in, GMM &gmm);
+/*!
+    * \brief Print GMM.
+*/
+ostream & operator<<(ostream &os, const GMM &gmm);
+/*!
+    * \brief write GMM into a file
+*/
+ofstream & operator<<(ofstream &out, const GMM &gmm);
 
 #endif /* defined(__GMM__GMM__) */
