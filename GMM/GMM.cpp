@@ -34,52 +34,52 @@ void kMeans(MatrixXd data, long nComponents, VectorXd &idx,
 
 }
 
-ifstream & operator>>(ifstream &in, GMM &gmm)
+ifstream & operator>>(ifstream &in, BaseGMM &BaseGMM)
 {
     // Read nComponents
     string nComponentsStr;
     getline(in, nComponentsStr);
-    gmm.nComponents = atol(nComponentsStr.c_str());
+    BaseGMM.nComponents = atol(nComponentsStr.c_str());
     // Read nDimensions
     string nDimensionsStr;
     getline(in, nDimensionsStr);
-    gmm.nDimensions = atol(nDimensionsStr.c_str());
+    BaseGMM.nDimensions = atol(nDimensionsStr.c_str());
     // Make sure the file is a valid one.
-    gmm.checkModel();
+    BaseGMM.checkModel();
     //Initialize p, mu, Sigma
-    gmm.p = VectorXd::Zero(gmm.nComponents);
-    gmm.mu = MatrixXd::Zero(gmm.nComponents, gmm.nDimensions);
-    MatrixXd sigma = MatrixXd::Zero(gmm.nDimensions, gmm.nDimensions);
-    gmm.Sigma = vector<MatrixXd>(gmm.nComponents, sigma);
+    BaseGMM.p = VectorXd::Zero(BaseGMM.nComponents);
+    BaseGMM.mu = MatrixXd::Zero(BaseGMM.nComponents, BaseGMM.nDimensions);
+    MatrixXd sigma = MatrixXd::Zero(BaseGMM.nDimensions, BaseGMM.nDimensions);
+    BaseGMM.Sigma = vector<MatrixXd>(BaseGMM.nComponents, sigma);
     // Read p
-    for (long i = 0; i < gmm.nComponents; ++i)
+    for (long i = 0; i < BaseGMM.nComponents; ++i)
     {
         string pStr;
         getline(in, pStr);
-        gmm.p(i) = atof(pStr.c_str());
+        BaseGMM.p(i) = atof(pStr.c_str());
     }
     // Read mu
-    for (int i = 0; i < gmm.nComponents; ++i)
+    for (int i = 0; i < BaseGMM.nComponents; ++i)
     {
         string muStr;
         getline(in, muStr);
         istringstream muStream(muStr);
-        for (int j = 0; j < gmm.nDimensions; ++j)
+        for (int j = 0; j < BaseGMM.nDimensions; ++j)
         {
             string mustr;
             muStream >> mustr;
-            gmm.mu(i, j) = atof(mustr.c_str());
+            BaseGMM.mu(i, j) = atof(mustr.c_str());
         }
     }
     // Read Sigma
-    for (auto ite = gmm.Sigma.begin(); ite != gmm.Sigma.cend(); ++ite)
+    for (auto ite = BaseGMM.Sigma.begin(); ite != BaseGMM.Sigma.cend(); ++ite)
     {
-        for (long i = 0; i < gmm.nDimensions; ++i)
+        for (long i = 0; i < BaseGMM.nDimensions; ++i)
         {
             string SigmaStr;
             getline(in, SigmaStr);
             istringstream SigmaStream(SigmaStr);
-            for (long j = 0; j < gmm.nDimensions; ++j)
+            for (long j = 0; j < BaseGMM.nDimensions; ++j)
             {
                 string sigmastr;
                 SigmaStream >> sigmastr;
@@ -105,8 +105,8 @@ ifstream & operator>>(ifstream &in, GMM &gmm)
     option.converged = atoi(tmpStr.c_str());;
     getline(in ,tmpStr);
     option.iters = atoi(tmpStr.c_str());
-    gmm.checkOption(option);
-    gmm.option = option;
+    BaseGMM.checkOption(option);
+    BaseGMM.option = option;
 
     if (!in)
     {
@@ -116,39 +116,39 @@ ifstream & operator>>(ifstream &in, GMM &gmm)
     return in;
 }
 
-ostream & operator<<(ostream &os, const GMM &gmm)
+ostream & operator<<(ostream &os, const BaseGMM &BaseGMM)
 {
-    os << "nComponents: " << gmm.nComponents << "\tnDimensions: " << gmm.nDimensions << endl;
-    cout << "The p of the model:\n" << gmm.p.transpose() << endl;
-    cout << "The mean of the model:\n " << gmm.mu << endl;
+    os << "nComponents: " << BaseGMM.nComponents << "\tnDimensions: " << BaseGMM.nDimensions << endl;
+    cout << "The p of the model:\n" << BaseGMM.p.transpose() << endl;
+    cout << "The mean of the model:\n " << BaseGMM.mu << endl;
     cout << "The sigma of the model:";
-    for (auto ite = gmm.Sigma.begin(); ite != gmm.Sigma.cend(); ++ite) {
+    for (auto ite = BaseGMM.Sigma.begin(); ite != BaseGMM.Sigma.cend(); ++ite) {
         cout << endl;
-        cout << "Sigma " <<(ite - gmm.Sigma.cbegin()) + 1 << ":" << endl;
+        cout << "Sigma " <<(ite - BaseGMM.Sigma.cbegin()) + 1 << ":" << endl;
         cout << *ite;
     }
     return os;
 }
 
-ofstream & operator<<(ofstream &out, const GMM & gmm)
+ofstream & operator<<(ofstream &out, const BaseGMM & BaseGMM)
 {
     // write nComponents and nDimensions
     
-    out << gmm.nComponents << "\n";
-    out << gmm.nDimensions << "\n";
+    out << BaseGMM.nComponents << "\n";
+    out << BaseGMM.nDimensions << "\n";
     // write p
-    out << gmm.p << "\n";
+    out << BaseGMM.p << "\n";
     // write mu
-    for (int i = 0; i < gmm.mu.rows(); ++i)
+    for (int i = 0; i < BaseGMM.mu.rows(); ++i)
     {
-        for (int j = 0; j < gmm.mu.cols(); ++j)
+        for (int j = 0; j < BaseGMM.mu.cols(); ++j)
         {
-            out << gmm.mu(i,j) << " ";
+            out << BaseGMM.mu(i,j) << " ";
         }
         out << "\n";
     }
     // write Sigma
-    for (auto ite = gmm.Sigma.begin(); ite != gmm.Sigma.cend(); ++ite)
+    for (auto ite = BaseGMM.Sigma.begin(); ite != BaseGMM.Sigma.cend(); ++ite)
     {
         MatrixXd sigma = *ite;
         for (int i = 0; i < sigma.rows(); ++i)
@@ -160,7 +160,7 @@ ofstream & operator<<(ofstream &out, const GMM & gmm)
             out << "\n";
         }
     }
-    fitOption option = gmm.option;
+    fitOption option = BaseGMM.option;
     out << option.covType << "\n";
     out << option.sharedCov << "\n";
     out << option.start << "\n";
@@ -170,11 +170,15 @@ ofstream & operator<<(ofstream &out, const GMM & gmm)
     out << option.tolFun << "\n";
     out << option.converged << "\n";
     out << option.iters << "\n";
-    
+    if (!out)
+    {
+        throw runtime_error
+            ( "Can not write into the file.\n");
+    }
     return out;
 }
 
-GMM::GMM(long nComponents, long nDimensions, fitOption option) : 
+BaseGMM::BaseGMM(long nComponents, long nDimensions, fitOption option) : 
     nComponents(nComponents), nDimensions(nDimensions), option(option)
 {
     checkOption(this->option);
@@ -184,7 +188,7 @@ GMM::GMM(long nComponents, long nDimensions, fitOption option) :
     p = VectorXd::Zero(nComponents);
 }
 
-GMM::GMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option)
+BaseGMM::BaseGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option)
      : mu(mu), Sigma(Sigma), p(p), option(option)
 {
     checkModel();
@@ -193,26 +197,26 @@ GMM::GMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option)
     nDimensions = mu.cols();
 }
 
-GMM& GMM::operator=(const GMM &gmm) {
-    mu = gmm.mu;
-    Sigma = gmm.Sigma;
-    p = gmm.p;
-    nComponents = gmm.nComponents;
-    nDimensions = gmm.nDimensions;
-    option = gmm.option;
+BaseGMM& BaseGMM::operator=(const BaseGMM &BaseGMM) {
+    mu = BaseGMM.mu;
+    Sigma = BaseGMM.Sigma;
+    p = BaseGMM.p;
+    nComponents = BaseGMM.nComponents;
+    nDimensions = BaseGMM.nDimensions;
+    option = BaseGMM.option;
     return *this;
 }
 
-GMM::GMM(GMM& gmm) {
-    mu = gmm.mu;
-    Sigma = gmm.Sigma;
-    p = gmm.p;
-    nComponents = gmm.nComponents;
-    nDimensions = gmm.nDimensions;
-    option = gmm.option;
+BaseGMM::BaseGMM(BaseGMM& BaseGMM) {
+    mu = BaseGMM.mu;
+    Sigma = BaseGMM.Sigma;
+    p = BaseGMM.p;
+    nComponents = BaseGMM.nComponents;
+    nDimensions = BaseGMM.nDimensions;
+    option = BaseGMM.option;
 }
 
-void GMM::checkData(MatrixXd data) {
+void BaseGMM::checkData(MatrixXd data) {
     checkNaN(data);
     if (data.cols() != nDimensions) {
         throw runtime_error( "Dimension of Data must agree with the model.");
@@ -226,7 +230,7 @@ void GMM::checkData(MatrixXd data) {
     }
 }
 
-void GMM::checkOption(fitOption option) {
+void BaseGMM::checkOption(fitOption option) {
     if (option.regularize < 0) {
         throw runtime_error( "The regularize must be a non-negative scalar.\n");
     }
@@ -242,7 +246,7 @@ void GMM::checkOption(fitOption option) {
     }
 }
 
-void GMM::checkModel() {
+void BaseGMM::checkModel() {
     if ( (mu.rows() != p.rows()) 
         || (mu.rows() != Sigma.size()) || (p.rows() != Sigma.size()) )
     {
@@ -256,7 +260,7 @@ void GMM::checkModel() {
     }
 }
 
-void GMM::checkNaN(MatrixXd mat) {
+void BaseGMM::checkNaN(MatrixXd mat) {
     for (int i = 0; i < mat.rows(); ++i)
     {
         for (int j = 0; j < mat.cols(); ++j)
@@ -272,7 +276,7 @@ void GMM::checkNaN(MatrixXd mat) {
     }
 }
 
-void GMM::initParam(MatrixXd data) {
+void BaseGMM::initParam(MatrixXd data) {
     if (option.start == "random") {
         // Generate random permutation
         VectorXd randPerm = randperm(data.rows()-1);
@@ -293,7 +297,7 @@ void GMM::initParam(MatrixXd data) {
     }
 }
 
-void GMM::likelihood(MatrixXd data, MatrixXd &lh) {
+void BaseGMM::likelihood(MatrixXd data, MatrixXd &lh) {
     for (int i = 0; i < lh.rows(); ++i)
     {
         for (int j = 0; j < lh.cols(); ++j)
@@ -310,7 +314,7 @@ void GMM::likelihood(MatrixXd data, MatrixXd &lh) {
     checkNaN(lh);
 }
 
-double GMM::posterior(MatrixXd data, MatrixXd &post) {
+double BaseGMM::posterior(MatrixXd data, MatrixXd &post) {
     MatrixXd lh = MatrixXd::Zero(data.rows(), nComponents);
     likelihood(data, lh);
     MatrixXd P = (p.transpose() ).replicate(data.rows(), 1);
@@ -321,7 +325,7 @@ double GMM::posterior(MatrixXd data, MatrixXd &post) {
     return loss;
 }
 
-void GMM::fit(MatrixXd data) {
+void DiffFullGMM::fit(MatrixXd data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
@@ -345,146 +349,71 @@ void GMM::fit(MatrixXd data) {
         // M step
         p = post.colwise().sum();
         // different sigma
-        if (option.sharedCov == false)
+        for (int i = 0; i < nComponents; ++i)
         {
-            // full sigma
-            if ( option.covType == "full")
+            MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+            MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+            for (int j = 0; j < data.rows(); ++j)
             {
-                for (int i = 0; i < nComponents; ++i)
-                {
-                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
-                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
-                    for (int j = 0; j < data.rows(); ++j)
-                    {
-                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
-                            - mu.block(i,0,1,mu.cols());
-                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
-                    }
-                    // double normPara = post.colwise().sum()(i);
-                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
-                    Sigma.at(i) = sigmaTmp/p(i) + option.regularize * 
-                        MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
-                }
+                muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                    - mu.block(i,0,1,mu.cols());
+                sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
             }
-            // diagonal sigma
-            else if ( option.covType == "diagonal")
-            {
-                for (int i = 0; i < nComponents; ++i)
-                {
-                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
-                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
-                    for (int j = 0; j < data.rows(); ++j)
-                    {
-                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
-                            - mu.block(i,0,1,mu.cols());
-                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
-                    }
-                    sigmaTmp = sigmaTmp/p(i) + option.regularize * 
-                        MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
-                    MatrixXd sigma = (sigmaTmp.diagonal()).asDiagonal();
-                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
-                    Sigma.at(i) = sigma;
-                }                
-            }
-            // spherical sigma
-            else
-            {
-                for (int i = 0; i < nComponents; ++i)
-                {
-                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
-                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
-                    for (int j = 0; j < data.rows(); ++j)
-                    {
-                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
-                            - mu.block(i,0,1,mu.cols());
-                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
-                    }
-                    sigmaTmp = sigmaTmp/p(i) + option.regularize * 
-                        MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
-                    double diagonal = (sigmaTmp.diagonal()).sum()/sigmaTmp.rows();
-                    VectorXd sigmaDia = VectorXd::Ones(sigmaTmp.rows())*diagonal;
-                    MatrixXd sigma = sigmaDia.asDiagonal();
-                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
-                    Sigma.at(i) = sigma;
-                }                
-            }
+            // double normPara = post.colwise().sum()(i);
+            mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+            Sigma.at(i) = sigmaTmp/p(i) + option.regularize * 
+            MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
         }
-        // sharing sigma
-        else
+        p = p/double(data.rows());
+}
+
+    // Print the final result: the likelihood loss, mean and sigma.
+    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+}
+
+void DiffDiagGMM::fit(MatrixXd data) {
+    checkData(data);
+    initParam(data);
+    double oldLoss = 0.0;
+    for (auto ite = 0; ite < option.maxIter; ++ite) { 
+        // E step
+        option.iters = ite +1;
+        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+        auto loss = posterior(data, post);
+        if (option.display == "iter")
         {
-            MatrixXd sigma = MatrixXd::Zero(data.cols(), data.cols());
-            // full sigma
-            if ( option.covType == "full")
-            {
-                
-                for (int i = 0; i < nComponents; ++i)
-                {
-                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
-                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
-                    for (int j = 0; j < data.rows(); ++j)
-                    {
-                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
-                            - mu.block(i,0,1,mu.cols());
-                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
-                    }
-                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
-                    sigma = sigma + sigmaTmp/p(i);
-                }
-                sigma = sigma/double(nComponents) + option.regularize *
-                        MatrixXd::Identity(sigma.rows(), sigma.cols());
-            }
-            // diagonal sigma
-            else if ( option.covType == "diagonal")
-            {
-                for (int i = 0; i < nComponents; ++i)
-                {
-                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
-                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
-                    for (int j = 0; j < data.rows(); ++j)
-                    {
-                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
-                            - mu.block(i,0,1,mu.cols());
-                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
-                    }
-                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
-                    sigma = sigma + sigmaTmp/p(i);
-                }
-                sigma = sigma/double(nComponents) + option.regularize *
-                        MatrixXd::Identity(sigma.rows(), sigma.cols());
-                VectorXd sigDia = sigma.diagonal();
-                sigma = sigDia.asDiagonal();
-            }
-            // spherical sigma
-            else
-            {
-                for (int i = 0; i < nComponents; ++i)
-                {
-                    MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
-                    MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
-                    for (int j = 0; j < data.rows(); ++j)
-                    {
-                        muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                        MatrixXd centered = data.block(j, 0, 1, data.cols()) 
-                            - mu.block(i,0,1,mu.cols());
-                        sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
-                    }
-                    mu.block(i,0,1,mu.cols()) = muTmp/p(i);
-                    sigma = sigma + sigmaTmp/p(i);
-                }
-                sigma = sigma/double(nComponents) + option.regularize *
-                        MatrixXd::Identity(sigma.rows(), sigma.cols());
-                double diagonal = sigma.diagonal().sum()/sigma.rows();
-                sigma = (VectorXd::Ones(sigma.rows())*diagonal).asDiagonal();
-            }
-            
-            Sigma = vector<MatrixXd>(nComponents, sigma);
+            printf("Iteration: %d  Loss: %f\n", ite+1,loss);
         }
-        
+        // Check the converge condition.
+        double lossDiff = oldLoss -loss;
+        if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
+        {
+            option.converged = true;
+            break;
+        }
+        oldLoss = loss;
+        // M step
+        p = post.colwise().sum();
+        // different sigma
+        // diagonal sigma
+        for (int i = 0; i < nComponents; ++i)
+        {
+            MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+            MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+            for (int j = 0; j < data.rows(); ++j)
+            {
+                muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                    - mu.block(i,0,1,mu.cols());
+                sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+            }
+            sigmaTmp = sigmaTmp/p(i) + option.regularize * 
+                MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
+            MatrixXd sigma = (sigmaTmp.diagonal()).asDiagonal();
+            mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+            Sigma.at(i) = sigma;
+        }                
         p = p/double(data.rows());
     }
 
@@ -492,13 +421,217 @@ void GMM::fit(MatrixXd data) {
     printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
 }
 
-double GMM::cluster(MatrixXd data, MatrixXd &post) {
+void DiffSpheGMM::fit(MatrixXd data) {
+    checkData(data);
+    initParam(data);
+    double oldLoss = 0.0;
+    for (auto ite = 0; ite < option.maxIter; ++ite) {
+        // E step
+        option.iters = ite +1;
+        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+        auto loss = posterior(data, post);
+        if (option.display == "iter")
+        {
+            printf("Iteration: %d  Loss: %f\n", ite+1,loss);
+        }
+        // Check the converge condition.
+        double lossDiff = oldLoss -loss;
+        if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
+        {
+            option.converged = true;
+            break;
+        }
+        oldLoss = loss;
+        // M step
+        p = post.colwise().sum();
+        // different sigma
+        // spherical sigma
+        for (int i = 0; i < nComponents; ++i)
+        {
+            MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+            MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+            for (int j = 0; j < data.rows(); ++j)
+            {
+                muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                    - mu.block(i,0,1,mu.cols());
+                sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+            }
+            sigmaTmp = sigmaTmp/p(i) + option.regularize * 
+                MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
+            double diagonal = (sigmaTmp.diagonal()).sum()/sigmaTmp.rows();
+            VectorXd sigmaDia = VectorXd::Ones(sigmaTmp.rows())*diagonal;
+            MatrixXd sigma = sigmaDia.asDiagonal();
+            mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+            Sigma.at(i) = sigma;
+        }                
+        p = p/double(data.rows());
+    }
+
+    // Print the final result: the likelihood loss, mean and sigma.
+    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+}
+
+void ShaFullGMM::fit(MatrixXd data) {
+    checkData(data);
+    initParam(data);
+    double oldLoss = 0.0;
+    for (auto ite = 0; ite < option.maxIter; ++ite) {
+        // E step
+        option.iters = ite +1;
+        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+        auto loss = posterior(data, post);
+        if (option.display == "iter")
+        {
+            printf("Iteration: %d  Loss: %f\n", ite+1,loss);
+        }
+        // Check the converge condition.
+        double lossDiff = oldLoss -loss;
+        if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
+        {
+            option.converged = true;
+            break;
+        }
+        oldLoss = loss;
+        // M step
+        p = post.colwise().sum();
+        // sharing sigma
+        MatrixXd sigma = MatrixXd::Zero(data.cols(), data.cols());
+        // full sigma                
+        for (int i = 0; i < nComponents; ++i)
+        {
+            MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+            MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+            for (int j = 0; j < data.rows(); ++j)
+            {
+                muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                    - mu.block(i,0,1,mu.cols());
+                sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+            }
+            mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+            sigma = sigma + sigmaTmp/p(i);
+        }
+        sigma = sigma/double(nComponents) + option.regularize *
+                MatrixXd::Identity(sigma.rows(), sigma.cols());
+            
+        Sigma = vector<MatrixXd>(nComponents, sigma);        
+        p = p/double(data.rows());
+    }
+
+    // Print the final result: the likelihood loss, mean and sigma.
+    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+}
+
+void ShaDiagGMM::fit(MatrixXd data) {
+    checkData(data);
+    initParam(data);
+    double oldLoss = 0.0;
+    for (auto ite = 0; ite < option.maxIter; ++ite) {
+        // E step
+        option.iters = ite +1;
+        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+        auto loss = posterior(data, post);
+        if (option.display == "iter")
+        {
+            printf("Iteration: %d  Loss: %f\n", ite+1,loss);
+        }
+        // Check the converge condition.
+        double lossDiff = oldLoss -loss;
+        if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
+        {
+            option.converged = true;
+            break;
+        }
+        oldLoss = loss;
+        // M step
+        p = post.colwise().sum();
+        MatrixXd sigma = MatrixXd::Zero(data.cols(), data.cols());
+        // diagonal sigma
+        for (int i = 0; i < nComponents; ++i)
+        {
+            MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+            MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+            for (int j = 0; j < data.rows(); ++j)
+            {
+                muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                    - mu.block(i,0,1,mu.cols());
+                sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+            }
+            mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+            sigma = sigma + sigmaTmp/p(i);
+        }
+        sigma = sigma/double(nComponents) + option.regularize *
+                MatrixXd::Identity(sigma.rows(), sigma.cols());
+        VectorXd sigDia = sigma.diagonal();
+        sigma = sigDia.asDiagonal();
+        Sigma = vector<MatrixXd>(nComponents, sigma);
+        p = p/double(data.rows());
+    }
+
+    // Print the final result: the likelihood loss, mean and sigma.
+    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+}
+
+void ShaSpheGMM::fit(MatrixXd data) {
+    checkData(data);
+    initParam(data);
+    double oldLoss = 0.0;
+    for (auto ite = 0; ite < option.maxIter; ++ite) {
+        // E step
+        option.iters = ite +1;
+        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+        auto loss = posterior(data, post);
+        if (option.display == "iter")
+        {
+            printf("Iteration: %d  Loss: %f\n", ite+1,loss);
+        }
+        // Check the converge condition.
+        double lossDiff = oldLoss -loss;
+        if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
+        {
+            option.converged = true;
+            break;
+        }
+        oldLoss = loss;
+        // M step
+        p = post.colwise().sum();
+        // sharing sigma
+        MatrixXd sigma = MatrixXd::Zero(data.cols(), data.cols());
+        for (int i = 0; i < nComponents; ++i)
+        {
+            MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
+            MatrixXd sigmaTmp = MatrixXd::Zero(data.cols(), data.cols());
+            for (int j = 0; j < data.rows(); ++j)
+            {
+                muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
+                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                    - mu.block(i,0,1,mu.cols());
+                sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
+            }
+            mu.block(i,0,1,mu.cols()) = muTmp/p(i);
+            sigma = sigma + sigmaTmp/p(i);
+        }
+        sigma = sigma/double(nComponents) + option.regularize *
+                MatrixXd::Identity(sigma.rows(), sigma.cols());
+        double diagonal = sigma.diagonal().sum()/sigma.rows();
+        sigma = (VectorXd::Ones(sigma.rows())*diagonal).asDiagonal();            
+        Sigma = vector<MatrixXd>(nComponents, sigma);
+        p = p/double(data.rows());
+    }
+
+    // Print the final result: the likelihood loss, mean and sigma.
+    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+}
+
+double BaseGMM::cluster(MatrixXd data, MatrixXd &post) {
     checkData(data);
     double nLogL = -posterior(data, post);
     return nLogL;
 }
 
-double GMM::cluster(MatrixXd data, MatrixXd &post, VectorXd &idx) {
+double BaseGMM::cluster(MatrixXd data, MatrixXd &post, VectorXd &idx) {
     double nLogL = this->cluster(data, post);
     for (int i = 0; i < data.rows(); ++i)
     {
