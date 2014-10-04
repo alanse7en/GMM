@@ -52,7 +52,7 @@ MatrixXd generateData(){
     Eigen::MatrixXd covar_1(size_1,size_1);
     
     mean_1  <<  0,  0;
-    covar_1 <<  1.5, 0,
+    covar_1 <<  1, 0,
     0,  1.5;
     
     Eigen::MatrixXd normTransform_1(size_1,size_1);
@@ -88,7 +88,7 @@ MatrixXd generateData(){
     
     mean_2  <<  7,  3;
     covar_2 <<  1.5, 0,
-    0,  1.5;
+    0,  1;
     
     Eigen::MatrixXd normTransform_2(size_2,size_2);
     
@@ -121,32 +121,21 @@ int main(int argc, const char * argv[])
 {
     MatrixXd data = generateData();
     fitOption option;
-    option.covType = "diagonal";
-    option.start = "random";
+    option.start = "kmeans";
     option.display = "iter";
     option.maxIter = 1e4;
     option.tolFun = 1e-10;
-    option.sharedCov = true;
 //    option.regularize = 1e-4;
     int nComponents = 2;
     int nDimensions = 2;
-    ShaSpheGMM gmmTest(nComponents, nDimensions, option);
-//    GMM gmm("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
-//    GMM gmm;
-//    ifstream in("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
-//    in >> gmm;
-////    MatrixXd data2 = MatrixXd::Random(3, 1);
+    DiffFullGMM gmmTest(nComponents, nDimensions, option);
     gmmTest.fit(data);
-    ShaSpheGMM gmmTest2 = gmmTest;
-    ofstream out("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
-    out << gmmTest2;
-    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
-    gmmTest.cluster(data, post);
+    gmmTest.showResult();
+//    ShaSpheGMM gmmTest2 = gmmTest;
+//    ofstream out("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
+//    out << gmmTest2;
+//    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+//    gmmTest.cluster(data, post);
     cout << gmmTest << endl;
-//    MatrixXd post = MatrixXd::Zero(data.rows(), 2);
-//    VectorXd idx = VectorXd::Zero(data.rows());
-//    auto nLogL = gmmTest.cluster(data, post, idx);
-//    printf("The negative Log-likelihood is %f \n", nLogL);
-//    gmmTest.save("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
 }
 

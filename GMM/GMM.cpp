@@ -28,10 +28,46 @@ VectorXd randperm(unsigned long n) {
     return randVec;
 }
 
-void kMeans(MatrixXd data, long nComponents, VectorXd &idx,
-        VectorXd &p, MatrixXd &mu, vector<MatrixXd> Sigma)
+void kMeans(MatrixXd data, long nComponents, VectorXd &idx, MatrixXd &mu)
 {
-
+    // Randomly initialize mu
+    VectorXd randPerm = randperm(data.rows()-1);
+    for (int i = 0; i < mu.rows(); ++i)
+    {
+        mu.block(i,0,1,mu.cols()) = data.block(randPerm(i),0,1,mu.cols());
+    }
+    VectorXd idxTmp = idx;
+    while(1) {
+        MatrixXd distances = MatrixXd::Zero(data.rows(), nComponents);
+        for (int i = 0; i < data.rows(); ++i)
+        {
+            for (int j = 0; j < nComponents; ++j)
+            {
+                distances(i,j) = (data.block(i, 0, 1, data.cols()) -
+                                  mu.block(j, 0, 1, mu.cols())).norm();
+            }
+        }
+        // Reassign indexes
+        for (int i = 0; i < data.rows(); ++i) {
+            distances.row(i).minCoeff(&idxTmp(i));
+        }
+        // Update mu
+        for (int i = 0; i < mu.rows(); ++i) {
+            int total = 0;
+            for (int k = 0; k < data.rows(); ++k) {
+                if (idxTmp(k) == i) {
+                    total++;
+                    mu.block(i, 0, 1, mu.cols()) += data.block(k, 0, 1, data.cols());
+                }
+            }
+            mu.block(i, 0, 1, mu.cols()) = mu.block(i, 0, 1, mu.cols())/double(total);
+        }
+        // convergence
+        if (idxTmp == idx) {
+            break;
+        }
+        idx = idxTmp;
+    }
 }
 
 ifstream & operator>>(ifstream &in, BaseGMM &BaseGMM)
@@ -90,9 +126,6 @@ ifstream & operator>>(ifstream &in, BaseGMM &BaseGMM)
     // Read Options
     fitOption option;
     string tmpStr;
-    getline(in, option.covType);
-    getline(in, tmpStr);
-    option.sharedCov = atoi(tmpStr.c_str());;
     getline(in, option.start);
     getline(in ,tmpStr);
     option.regularize = atof(tmpStr.c_str());;
@@ -102,11 +135,13 @@ ifstream & operator>>(ifstream &in, BaseGMM &BaseGMM)
     getline(in, tmpStr);
     option.tolFun = atof(tmpStr.c_str());;
     getline(in, tmpStr);
-    option.converged = atoi(tmpStr.c_str());;
+    fitResult result;
+    result.converged = atoi(tmpStr.c_str());;
     getline(in ,tmpStr);
-    option.iters = atoi(tmpStr.c_str());
+    result.iters = atoi(tmpStr.c_str());
     BaseGMM.checkOption(option);
     BaseGMM.option = option;
+    BaseGMM.result = result;
 
     if (!in)
     {
@@ -118,7 +153,8 @@ ifstream & operator>>(ifstream &in, BaseGMM &BaseGMM)
 
 ostream & operator<<(ostream &os, const BaseGMM &BaseGMM)
 {
-    os << "nComponents: " << BaseGMM.nComponents << "\tnDimensions: " << BaseGMM.nDimensions << endl;
+    os << "nComponents: " << BaseGMM.nComponents << "\tnDimensions: " 
+        << BaseGMM.nDimensions << endl;
     cout << "The p of the model:\n" << BaseGMM.p.transpose() << endl;
     cout << "The mean of the model:\n " << BaseGMM.mu << endl;
     cout << "The sigma of the model:";
@@ -161,15 +197,14 @@ ofstream & operator<<(ofstream &out, const BaseGMM & BaseGMM)
         }
     }
     fitOption option = BaseGMM.option;
-    out << option.covType << "\n";
-    out << option.sharedCov << "\n";
+    fitResult result = BaseGMM.result;
     out << option.start << "\n";
     out << option.regularize << "\n";
     out << option.display << "\n";
     out << option.maxIter << "\n";
     out << option.tolFun << "\n";
-    out << option.converged << "\n";
-    out << option.iters << "\n";
+    out << result.converged << "\n";
+    out << result.iters << "\n";
     if (!out)
     {
         throw runtime_error
@@ -204,6 +239,7 @@ BaseGMM& BaseGMM::operator=(const BaseGMM &BaseGMM) {
     nComponents = BaseGMM.nComponents;
     nDimensions = BaseGMM.nDimensions;
     option = BaseGMM.option;
+    result = BaseGMM.result;
     return *this;
 }
 
@@ -214,6 +250,7 @@ BaseGMM::BaseGMM(BaseGMM& BaseGMM) {
     nComponents = BaseGMM.nComponents;
     nDimensions = BaseGMM.nDimensions;
     option = BaseGMM.option;
+    result = BaseGMM.result;
 }
 
 void BaseGMM::checkData(MatrixXd data) {
@@ -234,15 +271,22 @@ void BaseGMM::checkOption(fitOption option) {
     if (option.regularize < 0) {
         throw runtime_error( "The regularize must be a non-negative scalar.\n");
     }
-    if ( (option.covType != "spherical") 
-            && (option.covType != "diagonal") && (option.covType != "full") ) {
-        throw runtime_error( "Invalid covType option.\n");
-    }
     if ( (option.display != "iter") && (option.display != "final") ) {
         throw runtime_error( "Invalid display option.\n");
     }
     if ( (option.start != "random") && (option.start != "kmeans") ) {
         throw runtime_error( "Invalid start option.\n");
+    }
+}
+
+void BaseGMM::showResult() {
+    if (result.converged == true)
+    {
+        printf("Fit process converged in %i steps.\n", result.iters);
+    }
+    else
+    {
+        printf("Fit process failed to converge in %i steps.\n", result.iters);
     }
 }
 
@@ -277,6 +321,7 @@ void BaseGMM::checkNaN(MatrixXd mat) {
 }
 
 void BaseGMM::initParam(MatrixXd data) {
+    // Initial with random setting
     if (option.start == "random") {
         // Generate random permutation
         VectorXd randPerm = randperm(data.rows()-1);
@@ -290,10 +335,36 @@ void BaseGMM::initParam(MatrixXd data) {
             Sigma.at(i) = sigma;
         }
     }
+    // Initial with kmeans
     else
     {
         VectorXd idx = VectorXd::Zero(data.rows());
-        kMeans(data, nComponents, idx, p, mu, Sigma);
+        // get idx and mu with kmeans
+        kMeans(data, nComponents, idx, mu);
+        for (int i = 0; i < nComponents; ++i) {
+            // total is the num of datapoints belong to i-th component
+            int total = 0;
+            for (int k = 0; k < data.rows(); ++k) {
+                if (idx(k) == i) {
+                    total++;
+                }
+            }
+            p(i) = double(total)/double(data.rows());
+            // Extract data belong to i-th component
+            MatrixXd dataTmp = MatrixXd::Zero(total, data.cols());
+            int k = 0;
+            for (int j = 0; j < data.rows(); ++j) {
+                if (idx(j) == i) {
+                    dataTmp.block(k, 0, 1, dataTmp.cols()) =
+                        data.block(j, 0, 1, data.cols());
+                    k++;
+                }
+            }
+            MatrixXd centered = dataTmp.rowwise() - data.colwise().mean();
+            MatrixXd sigma =
+                (centered.transpose() * centered) / double(total -1);
+            Sigma.at(i) = sigma;
+        }
     }
 }
 
@@ -331,7 +402,7 @@ void DiffFullGMM::fit(MatrixXd data) {
     double oldLoss = 0.0;
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
-        option.iters = ite +1;
+        result.iters = ite +1;
         MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
         auto loss = posterior(data, post);
         if (option.display == "iter")
@@ -342,7 +413,7 @@ void DiffFullGMM::fit(MatrixXd data) {
         double lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
-            option.converged = true;
+            result.converged = true;
             break;
         }
         oldLoss = loss;
@@ -369,7 +440,7 @@ void DiffFullGMM::fit(MatrixXd data) {
 }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
 }
 
 void DiffDiagGMM::fit(MatrixXd data) {
@@ -378,7 +449,7 @@ void DiffDiagGMM::fit(MatrixXd data) {
     double oldLoss = 0.0;
     for (auto ite = 0; ite < option.maxIter; ++ite) { 
         // E step
-        option.iters = ite +1;
+        result.iters = ite +1;
         MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
         auto loss = posterior(data, post);
         if (option.display == "iter")
@@ -389,7 +460,7 @@ void DiffDiagGMM::fit(MatrixXd data) {
         double lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
-            option.converged = true;
+            result.converged = true;
             break;
         }
         oldLoss = loss;
@@ -418,7 +489,7 @@ void DiffDiagGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
 }
 
 void DiffSpheGMM::fit(MatrixXd data) {
@@ -427,7 +498,7 @@ void DiffSpheGMM::fit(MatrixXd data) {
     double oldLoss = 0.0;
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
-        option.iters = ite +1;
+        result.iters = ite +1;
         MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
         auto loss = posterior(data, post);
         if (option.display == "iter")
@@ -438,7 +509,7 @@ void DiffSpheGMM::fit(MatrixXd data) {
         double lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
-            option.converged = true;
+            result.converged = true;
             break;
         }
         oldLoss = loss;
@@ -469,7 +540,7 @@ void DiffSpheGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
 }
 
 void ShaFullGMM::fit(MatrixXd data) {
@@ -478,7 +549,7 @@ void ShaFullGMM::fit(MatrixXd data) {
     double oldLoss = 0.0;
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
-        option.iters = ite +1;
+        result.iters = ite +1;
         MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
         auto loss = posterior(data, post);
         if (option.display == "iter")
@@ -489,7 +560,7 @@ void ShaFullGMM::fit(MatrixXd data) {
         double lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
-            option.converged = true;
+            result.converged = true;
             break;
         }
         oldLoss = loss;
@@ -520,7 +591,7 @@ void ShaFullGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
 }
 
 void ShaDiagGMM::fit(MatrixXd data) {
@@ -529,7 +600,7 @@ void ShaDiagGMM::fit(MatrixXd data) {
     double oldLoss = 0.0;
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
-        option.iters = ite +1;
+        result.iters = ite +1;
         MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
         auto loss = posterior(data, post);
         if (option.display == "iter")
@@ -540,7 +611,7 @@ void ShaDiagGMM::fit(MatrixXd data) {
         double lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
-            option.converged = true;
+            result.converged = true;
             break;
         }
         oldLoss = loss;
@@ -571,7 +642,7 @@ void ShaDiagGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
 }
 
 void ShaSpheGMM::fit(MatrixXd data) {
@@ -580,7 +651,7 @@ void ShaSpheGMM::fit(MatrixXd data) {
     double oldLoss = 0.0;
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
-        option.iters = ite +1;
+        result.iters = ite +1;
         MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
         auto loss = posterior(data, post);
         if (option.display == "iter")
@@ -591,7 +662,7 @@ void ShaSpheGMM::fit(MatrixXd data) {
         double lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
-            option.converged = true;
+            result.converged = true;
             break;
         }
         oldLoss = loss;
@@ -622,7 +693,7 @@ void ShaSpheGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, option.iters);
+    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
 }
 
 double BaseGMM::cluster(MatrixXd data, MatrixXd &post) {

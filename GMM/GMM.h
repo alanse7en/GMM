@@ -15,18 +15,6 @@ using namespace std;
 using namespace Eigen;
 /*!Option structure for the fit function of Gaussian moxiture model.*/ 
 struct fitOption {
-    string covType = "full";
-    /*!<
-     *'diagonal': covariance matrices are restricted to be diagonal;
-
-     *'spherical': covariance matrices are restricted to be spherical;
-
-     *'full': covariance matrices are restricted to be full( default).
-    */
-    bool sharedCov = false;
-    /*!<
-     *True if the component covariance matrices are restricted to be the same, default is false.
-    */
     string start = "kmeans";
     /*!<
      *'random': randomly select from train data to initialize model parameters;
@@ -49,6 +37,10 @@ struct fitOption {
     /*!<
      *The termination tolerance for the log-likelihood function, default is 1e-6.
      */
+};
+
+/*! Training result */
+struct fitResult {
     bool converged = false;
     /*!<
      *True if fit function converged, false for not converged.
@@ -77,6 +69,7 @@ protected:
         * Check the train data to ensure it is valid.
         * @param data The train data matrix to be checked.
     */
+    fitResult result = fitResult();
     void checkData(MatrixXd data);
     /*!
         * Check the option to ensure it is valid.
@@ -120,6 +113,8 @@ public:
     ///  = operator
     BaseGMM& operator=(const BaseGMM& BaseGMM);
     /// Destructor
+    void showResult();
+    /// Show training result
     virtual ~BaseGMM() = default;
     /*!
         * \brief Train BaseGMM to fit data;
@@ -245,8 +240,7 @@ VectorXd randperm(unsigned long n);
     * \brief K-Means class. Provide fit functionality.
 */
 
-void kMeans(MatrixXd data, long nComponents, VectorXd &idx,
-        VectorXd &p, MatrixXd &mu, vector<MatrixXd> Sigma);
+void kMeans(MatrixXd data, long nComponents, VectorXd &idx, MatrixXd &mu);
 
 /*!
     * \brief Read BaseGMM from a file stream.
