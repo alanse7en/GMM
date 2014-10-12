@@ -213,8 +213,9 @@ ofstream & operator<<(ofstream &out, const BaseGMM & BaseGMM)
     return out;
 }
 
-BaseGMM::BaseGMM(long nComponents, long nDimensions, fitOption option) : 
-    nComponents(nComponents), nDimensions(nDimensions), option(option)
+BaseGMM::BaseGMM(long nComponents, long nDimensions, fitOption option,
+                 fitResult result) :
+    nComponents(nComponents), nDimensions(nDimensions), option(option), result(result)
 {
     checkOption(this->option);
     mu = MatrixXd::Zero(nComponents, nDimensions);
@@ -223,34 +224,13 @@ BaseGMM::BaseGMM(long nComponents, long nDimensions, fitOption option) :
     p = VectorXd::Zero(nComponents);
 }
 
-BaseGMM::BaseGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option)
-     : mu(mu), Sigma(Sigma), p(p), option(option)
+BaseGMM::BaseGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option, fitResult result)
+     : mu(mu), Sigma(Sigma), p(p), option(option), result(result)
 {
-    checkModel();
-    checkOption(this->option);
     nComponents = mu.rows();
     nDimensions = mu.cols();
-}
-
-BaseGMM& BaseGMM::operator=(const BaseGMM &BaseGMM) {
-    mu = BaseGMM.mu;
-    Sigma = BaseGMM.Sigma;
-    p = BaseGMM.p;
-    nComponents = BaseGMM.nComponents;
-    nDimensions = BaseGMM.nDimensions;
-    option = BaseGMM.option;
-    result = BaseGMM.result;
-    return *this;
-}
-
-BaseGMM::BaseGMM(BaseGMM& BaseGMM) {
-    mu = BaseGMM.mu;
-    Sigma = BaseGMM.Sigma;
-    p = BaseGMM.p;
-    nComponents = BaseGMM.nComponents;
-    nDimensions = BaseGMM.nDimensions;
-    option = BaseGMM.option;
-    result = BaseGMM.result;
+    checkModel();
+    checkOption(this->option);
 }
 
 void BaseGMM::checkData(MatrixXd data) {

@@ -122,20 +122,17 @@ int main(int argc, const char * argv[])
     MatrixXd data = generateData();
     fitOption option;
     option.start = "kmeans";
-    option.display = "iter";
+    option.display = "final";
     option.maxIter = 1e4;
     option.tolFun = 1e-10;
 //    option.regularize = 1e-4;
     int nComponents = 2;
     int nDimensions = 2;
-    DiffFullGMM gmmTest(nComponents, nDimensions, option);
+    ShaDiagGMM gmmTest(nComponents, nDimensions, option);
     gmmTest.fit(data);
     gmmTest.showResult();
-//    ShaSpheGMM gmmTest2 = gmmTest;
-//    ofstream out("/Users/Apple/Dropbox/xuesong.deng/research/GMM/result.xml");
-//    out << gmmTest2;
-//    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
-//    gmmTest.cluster(data, post);
-    cout << gmmTest << endl;
+    DiffFullGMM gmm2 = gmmTest;
+    gmm2.showResult();
+    gmmTest.showResult();
 }
 

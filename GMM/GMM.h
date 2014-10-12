@@ -105,13 +105,31 @@ public:
     /// Default constructor
     BaseGMM() = default;
     ///  Constructors with nComponents, nDimensions and option
-    BaseGMM(long nComponents, long nDimensions, fitOption option = fitOption());
+    BaseGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
+            fitResult result = fitResult());
     ///  Constructors with mu, Sigma, p, and option
-    BaseGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption());
+    BaseGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
+            fitResult result = fitResult());
     ///  Copy constructors
-    BaseGMM(BaseGMM &BaseGMM);
+    BaseGMM(const BaseGMM &) = default;
     ///  = operator
-    BaseGMM& operator=(const BaseGMM& BaseGMM);
+    BaseGMM& operator= (const BaseGMM &) = default;
+    /// move constructor
+    BaseGMM(BaseGMM &&s) : nComponents(s.nComponents), nDimensions(s.nDimensions), mu(s.mu),
+        Sigma(s.Sigma), p(s.p), option(s.option), result(s.result) {}
+    /// move = operator
+    BaseGMM& operator= (BaseGMM &&rhs){
+        if (this != &rhs) {
+            nComponents = rhs.nComponents;
+            nDimensions = rhs.nDimensions;
+            mu = rhs.mu;
+            Sigma = rhs.Sigma;
+            p = rhs.p;
+            option = rhs.option;
+            result = rhs.result;
+        }
+        return *this;
+    }
     /// Destructor
     void showResult();
     /// Show training result
@@ -141,12 +159,19 @@ public:
 class DiffFullGMM : public BaseGMM {
 public:
     DiffFullGMM() = default;
-    DiffFullGMM(long nComponents, long nDimensions, fitOption option = fitOption()) :
-        BaseGMM(nComponents, nDimensions, option) {}
-    DiffFullGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption()) :
-        BaseGMM(mu, Sigma, p, option) {}
-    DiffFullGMM(DiffFullGMM &dfGMM) : BaseGMM(dfGMM) {}
+    DiffFullGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
+                fitResult result = fitResult()) :
+        BaseGMM(nComponents, nDimensions, option, result) {}
+    DiffFullGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
+                fitResult result = fitResult()) :
+        BaseGMM(mu, Sigma, p, option, result) {}
+    DiffFullGMM(const DiffFullGMM &dfGMM) : BaseGMM(dfGMM) {}
     DiffFullGMM& operator=(const DiffFullGMM& rhs) {
+        BaseGMM::operator=(rhs);
+        return *this;
+    }
+    DiffFullGMM(DiffFullGMM &&s) : BaseGMM(s) {}
+    DiffFullGMM & operator= (DiffFullGMM &&rhs) {
         BaseGMM::operator=(rhs);
         return *this;
     }
@@ -156,14 +181,25 @@ public:
 class DiffDiagGMM : public BaseGMM {
 public:
     DiffDiagGMM() = default;
-    DiffDiagGMM(long nComponents, long nDimensions, fitOption option = fitOption()) :
-        BaseGMM(nComponents, nDimensions, option) {}
-    DiffDiagGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption()) :
-        BaseGMM(mu, Sigma, p, option) {}
-    DiffDiagGMM(DiffDiagGMM &ddGMM) : BaseGMM(ddGMM) {}
+    DiffDiagGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
+                fitResult result = fitResult()) :
+        BaseGMM(nComponents, nDimensions, option, result) {}
+    DiffDiagGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
+                fitResult result = fitResult()) :
+        BaseGMM(mu, Sigma, p, option, result) {}
+    DiffDiagGMM(const DiffDiagGMM &ddGMM) : BaseGMM(ddGMM) {}
     DiffDiagGMM& operator=(const DiffDiagGMM& rhs) {
         BaseGMM::operator=(rhs);
         return *this;
+    }
+    DiffDiagGMM(DiffDiagGMM &&s) : BaseGMM(s) {}
+    DiffDiagGMM & operator= (DiffDiagGMM &&rhs) {
+        BaseGMM::operator=(rhs);
+        return *this;
+    }
+    operator DiffFullGMM () const {
+        DiffFullGMM ret(mu, Sigma, p, option, result);
+        return ret;
     }
     void fit(MatrixXd data) override;
 };
@@ -171,14 +207,29 @@ public:
 class DiffSpheGMM : public BaseGMM {
 public:
     DiffSpheGMM() = default;
-    DiffSpheGMM(long nComponents, long nDimensions, fitOption option = fitOption()) :
-        BaseGMM(nComponents, nDimensions, option) {}
-    DiffSpheGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption()) :
-        BaseGMM(mu, Sigma, p, option) {}
+    DiffSpheGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
+                fitResult result = fitResult()) :
+        BaseGMM(nComponents, nDimensions, option, result) {}
+    DiffSpheGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
+                fitResult result = fitResult()) :
+        BaseGMM(mu, Sigma, p, option, result) {}
     DiffSpheGMM(DiffSpheGMM &dsGMM) : BaseGMM(dsGMM) {}
     DiffSpheGMM& operator=(const DiffSpheGMM& rhs) {
         BaseGMM::operator=(rhs);
         return *this;
+    }
+    DiffSpheGMM(DiffSpheGMM &&s) : BaseGMM(s) {}
+    DiffSpheGMM & operator= (DiffSpheGMM &&rhs) {
+        BaseGMM::operator=(rhs);
+        return *this;
+    }
+    operator DiffFullGMM () const {
+        DiffFullGMM ret(mu, Sigma, p, option, result);
+        return ret;
+    }
+    operator DiffDiagGMM () const {
+        DiffDiagGMM ret(mu, Sigma, p, option, result);
+        return ret;
     }
     void fit(MatrixXd data) override;
 };
@@ -186,14 +237,25 @@ public:
 class ShaFullGMM : public BaseGMM {
 public:
     ShaFullGMM() = default;
-    ShaFullGMM(long nComponents, long nDimensions, fitOption option = fitOption()) :
-        BaseGMM(nComponents, nDimensions, option) {}
-    ShaFullGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption()) :
-        BaseGMM(mu, Sigma, p, option) {}
-    ShaFullGMM(ShaFullGMM &sfGMM) : BaseGMM(sfGMM) {}
+    ShaFullGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
+               fitResult result = fitResult()) :
+        BaseGMM(nComponents, nDimensions, option, result) {}
+    ShaFullGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
+               fitResult result = fitResult()) :
+        BaseGMM(mu, Sigma, p, option, result) {}
+    ShaFullGMM(const ShaFullGMM &sfGMM) : BaseGMM(sfGMM) {}
     ShaFullGMM& operator=(const ShaFullGMM& rhs) {
         BaseGMM::operator=(rhs);
         return *this;
+    }
+    ShaFullGMM(ShaFullGMM &&s) : BaseGMM(s) {}
+    ShaFullGMM & operator= (ShaFullGMM &&rhs) {
+        BaseGMM::operator=(rhs);
+        return *this;
+    }
+    operator DiffFullGMM () const {
+        DiffFullGMM ret(mu, Sigma, p, option, result);
+        return ret;
     }
     void fit(MatrixXd data) override;
 };
@@ -201,14 +263,33 @@ public:
 class ShaDiagGMM : public BaseGMM {
 public:
     ShaDiagGMM() = default;
-    ShaDiagGMM(long nComponents, long nDimensions, fitOption option = fitOption()) :
-        BaseGMM(nComponents, nDimensions, option) {}
-    ShaDiagGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption()) :
-        BaseGMM(mu, Sigma, p, option) {}
-    ShaDiagGMM(ShaDiagGMM &sdGMM) : BaseGMM(sdGMM) {}
+    ShaDiagGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
+               fitResult result = fitResult()) :
+        BaseGMM(nComponents, nDimensions, option, result) {}
+    ShaDiagGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
+               fitResult result = fitResult()) :
+        BaseGMM(mu, Sigma, p, option,result) {}
+    ShaDiagGMM(const ShaDiagGMM &sdGMM) : BaseGMM(sdGMM) {}
     ShaDiagGMM& operator=(const ShaDiagGMM& rhs) {
         BaseGMM::operator=(rhs);
         return *this;
+    }
+    ShaDiagGMM(ShaDiagGMM &&s) : BaseGMM(s) {}
+    ShaDiagGMM & operator= (ShaDiagGMM &&rhs) {
+        BaseGMM::operator=(rhs);
+        return *this;
+    }
+    operator DiffDiagGMM () const {
+        DiffDiagGMM ret(mu, Sigma, p, option, result);
+        return ret;
+    }
+    operator ShaFullGMM () const {
+        ShaFullGMM ret(mu, Sigma, p, option, result);
+        return ret;
+    }
+    operator DiffFullGMM () const {
+        DiffFullGMM ret(mu, Sigma, p, option, result);
+        return ret;
     }
     void fit(MatrixXd data) override;
 };
@@ -216,14 +297,41 @@ public:
 class ShaSpheGMM : public BaseGMM {
 public:
     ShaSpheGMM() = default;
-    ShaSpheGMM(long nComponents, long nDimensions, fitOption option = fitOption()) :
-        BaseGMM(nComponents, nDimensions, option) {}
-    ShaSpheGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption()) :
-        BaseGMM(mu, Sigma, p, option) {}
-    ShaSpheGMM(ShaSpheGMM &ssGMM) : BaseGMM(ssGMM) {}
+    ShaSpheGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
+               fitResult result = fitResult()) :
+        BaseGMM(nComponents, nDimensions, option, result) {}
+    ShaSpheGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
+               fitResult result = fitResult()) :
+        BaseGMM(mu, Sigma, p, option, result) {}
+    ShaSpheGMM(const ShaSpheGMM &ssGMM) : BaseGMM(ssGMM) {}
     ShaSpheGMM& operator=(const ShaSpheGMM& rhs) {
         BaseGMM::operator=(rhs);
         return *this;
+    }
+    ShaSpheGMM(const ShaSpheGMM &&s) : BaseGMM(s) {}
+    ShaSpheGMM & operator= (ShaSpheGMM &&rhs) {
+        BaseGMM::operator=(rhs);
+        return *this;
+    }
+    operator DiffFullGMM () const {
+        DiffFullGMM ret(mu, Sigma, p, option, result);
+        return ret;
+    }
+    operator DiffSpheGMM () const {
+        DiffSpheGMM ret(mu, Sigma, p, option, result);
+        return ret;
+    }
+    operator DiffDiagGMM () const {
+        DiffDiagGMM ret(mu, Sigma, p, option, result);
+        return ret;
+    }
+    operator ShaFullGMM () const {
+        ShaFullGMM ret(mu, Sigma, p, option, result);
+        return ret;
+    }
+    operator ShaDiagGMM () const {
+        ShaDiagGMM ret(mu, Sigma, p, option, result);
+        return ret;
     }
     void fit(MatrixXd data) override;
 };
