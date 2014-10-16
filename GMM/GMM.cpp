@@ -28,7 +28,7 @@ VectorXd randperm(unsigned long n) {
     return randVec;
 }
 
-void kMeans(MatrixXd data, long nComponents, VectorXd &idx, MatrixXd &mu)
+void kMeans(const MatrixXd &data, long nComponents, VectorXd &idx, MatrixXd &mu)
 {
     // Randomly initialize mu
     VectorXd randPerm = randperm(data.rows()-1);
@@ -215,25 +215,25 @@ ofstream & operator<<(ofstream &out, const BaseGMM & BaseGMM)
 
 BaseGMM::BaseGMM(long nComponents, long nDimensions, fitOption option,
                  fitResult result) :
-    nComponents(nComponents), nDimensions(nDimensions), option(option), result(result)
+    nComponents(nComponents), nDimensions(nDimensions), option(option), result(result),
+    mu(MatrixXd::Zero(nComponents, nDimensions)),
+    Sigma(vector<MatrixXd>(nComponents, MatrixXd::Zero(nDimensions, nDimensions))),
+    p(VectorXd::Zero(nComponents))
 {
     checkOption(this->option);
-    mu = MatrixXd::Zero(nComponents, nDimensions);
-    MatrixXd covTmp = MatrixXd::Zero(nDimensions, nDimensions);
-    Sigma = vector<MatrixXd>(nComponents, covTmp);
-    p = VectorXd::Zero(nComponents);
+
 }
 
-BaseGMM::BaseGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option, fitResult result)
-     : mu(mu), Sigma(Sigma), p(p), option(option), result(result)
+BaseGMM::BaseGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const VectorXd &p,
+                 const fitOption &option, const fitResult &result) :
+    mu(mu), Sigma(Sigma), p(p), option(option), result(result),
+    nComponents(mu.rows()), nDimensions(mu.cols())
 {
-    nComponents = mu.rows();
-    nDimensions = mu.cols();
     checkModel();
     checkOption(this->option);
 }
 
-void BaseGMM::checkData(MatrixXd data) {
+void BaseGMM::checkData(const MatrixXd &data) {
     checkNaN(data);
     if (data.cols() != nDimensions) {
         throw runtime_error( "Dimension of Data must agree with the model.");
@@ -247,7 +247,7 @@ void BaseGMM::checkData(MatrixXd data) {
     }
 }
 
-void BaseGMM::checkOption(fitOption option) {
+void BaseGMM::checkOption(const fitOption &option) {
     if (option.regularize < 0) {
         throw runtime_error( "The regularize must be a non-negative scalar.\n");
     }
@@ -284,7 +284,7 @@ void BaseGMM::checkModel() {
     }
 }
 
-void BaseGMM::checkNaN(MatrixXd mat) {
+void BaseGMM::checkNaN(const MatrixXd &mat) {
     for (int i = 0; i < mat.rows(); ++i)
     {
         for (int j = 0; j < mat.cols(); ++j)
@@ -300,7 +300,7 @@ void BaseGMM::checkNaN(MatrixXd mat) {
     }
 }
 
-void BaseGMM::initParam(MatrixXd data) {
+void BaseGMM::initParam(const MatrixXd &data) {
     // Initial with random setting
     if (option.start == "random") {
         // Generate random permutation
@@ -348,7 +348,7 @@ void BaseGMM::initParam(MatrixXd data) {
     }
 }
 
-void BaseGMM::likelihood(MatrixXd data, MatrixXd &lh) {
+void BaseGMM::likelihood(const MatrixXd &data, MatrixXd &lh) {
     for (int i = 0; i < lh.rows(); ++i)
     {
         for (int j = 0; j < lh.cols(); ++j)
@@ -365,7 +365,7 @@ void BaseGMM::likelihood(MatrixXd data, MatrixXd &lh) {
     checkNaN(lh);
 }
 
-double BaseGMM::posterior(MatrixXd data, MatrixXd &post) {
+double BaseGMM::posterior(const MatrixXd &data, MatrixXd &post) {
     MatrixXd lh = MatrixXd::Zero(data.rows(), nComponents);
     likelihood(data, lh);
     MatrixXd P = (p.transpose() ).replicate(data.rows(), 1);
@@ -376,7 +376,7 @@ double BaseGMM::posterior(MatrixXd data, MatrixXd &post) {
     return loss;
 }
 
-void DiffFullGMM::fit(MatrixXd data) {
+void DiffFullGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
@@ -420,10 +420,12 @@ void DiffFullGMM::fit(MatrixXd data) {
 }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    if (option.display != "off") {
+        printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    }
 }
 
-void DiffDiagGMM::fit(MatrixXd data) {
+void DiffDiagGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
@@ -469,10 +471,12 @@ void DiffDiagGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    if (option.display != "off") {
+        printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    }
 }
 
-void DiffSpheGMM::fit(MatrixXd data) {
+void DiffSpheGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
@@ -520,10 +524,12 @@ void DiffSpheGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    if (option.display != "off") {
+        printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    }
 }
 
-void ShaFullGMM::fit(MatrixXd data) {
+void ShaFullGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
@@ -571,10 +577,12 @@ void ShaFullGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    if (option.display != "off") {
+        printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    }
 }
 
-void ShaDiagGMM::fit(MatrixXd data) {
+void ShaDiagGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
@@ -622,10 +630,12 @@ void ShaDiagGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    if (option.display != "off") {
+        printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    }
 }
 
-void ShaSpheGMM::fit(MatrixXd data) {
+void ShaSpheGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
@@ -673,16 +683,18 @@ void ShaSpheGMM::fit(MatrixXd data) {
     }
 
     // Print the final result: the likelihood loss, mean and sigma.
-    printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    if (option.display != "off") {
+        printf("The final loss is %f, takes %d steps\n", oldLoss, result.iters);
+    }
 }
 
-double BaseGMM::cluster(MatrixXd data, MatrixXd &post) {
+double BaseGMM::cluster(const MatrixXd &data, MatrixXd &post) {
     checkData(data);
     double nLogL = -posterior(data, post);
     return nLogL;
 }
 
-double BaseGMM::cluster(MatrixXd data, MatrixXd &post, VectorXd &idx) {
+double BaseGMM::cluster(const MatrixXd &data, MatrixXd &post, VectorXd &idx) {
     double nLogL = this->cluster(data, post);
     for (int i = 0; i < data.rows(); ++i)
     {

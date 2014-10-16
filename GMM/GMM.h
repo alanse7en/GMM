@@ -27,7 +27,7 @@ struct fitOption {
      */
     string display = "iter";
     /*!<
-     *Show information during training (default); 'final' show final information.
+     *Show information during training (default); 'final' show final information; 'off' show nothing
      */
     unsigned int maxIter = 1000;
     /*!<
@@ -65,17 +65,17 @@ protected:
     vector<MatrixXd> Sigma;/*!< A K-by-D-by-D matrix of component covariance matrices; */
     VectorXd p;/*!< A K-by-1 vector of the proportion of each component. */
     fitOption option;/*!< Containing options about the BaseGMM model. */
+    fitResult result = fitResult();/*!< Containing training results about the BaseGMM model. */
     /*! 
         * Check the train data to ensure it is valid.
         * @param data The train data matrix to be checked.
     */
-    fitResult result = fitResult();
-    void checkData(MatrixXd data);
+    void checkData(const MatrixXd &data);
     /*!
         * Check the option to ensure it is valid.
         * @param option The option for fit function to be checked.
     */
-    void checkOption(fitOption option);
+    void checkOption(const fitOption &option);
     /*!
         * Check model to ensure it is valid.
     */
@@ -83,23 +83,23 @@ protected:
     /*!
         * Check if there is Not-a-Number in the matrix
     */
-    void checkNaN(MatrixXd mat);
+    void checkNaN(const MatrixXd &mat);
     /*!
         * Initialize model parameters.
         * @param data The train data matrix.
     */
-    void initParam(MatrixXd data);
+    void initParam(const MatrixXd &data);
     /*!
         * @param data A N-by-D matrix containing the data;
         * @param lh A N-by-K matrix containing the likelihood,
         * lh(i, j) = Pr(datapoint I | component J)
     */
-    void likelihood(MatrixXd data, MatrixXd &lh);
+    void likelihood(const MatrixXd &data, MatrixXd &lh);
     /*! calculate posterior probability of given data and BaseGMM
         * @param data A N-by-D matrix containing the data;
         * @return The Log-likelihood loss
     */
-    double posterior(MatrixXd data, MatrixXd &post);
+    double posterior(const MatrixXd &data, MatrixXd &post);
     
 public:
     /// Default constructor
@@ -108,44 +108,28 @@ public:
     BaseGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
             fitResult result = fitResult());
     ///  Constructors with mu, Sigma, p, and option
-    BaseGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
-            fitResult result = fitResult());
+    BaseGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const VectorXd &p,
+            const fitOption &option = fitOption(), const fitResult &result = fitResult());
     ///  Copy constructors
     BaseGMM(const BaseGMM &) = default;
     ///  = operator
     BaseGMM& operator= (const BaseGMM &) = default;
-    /// move constructor
-    BaseGMM(BaseGMM &&s) : nComponents(s.nComponents), nDimensions(s.nDimensions), mu(s.mu),
-        Sigma(s.Sigma), p(s.p), option(s.option), result(s.result) {}
-    /// move = operator
-    BaseGMM& operator= (BaseGMM &&rhs){
-        if (this != &rhs) {
-            nComponents = rhs.nComponents;
-            nDimensions = rhs.nDimensions;
-            mu = rhs.mu;
-            Sigma = rhs.Sigma;
-            p = rhs.p;
-            option = rhs.option;
-            result = rhs.result;
-        }
-        return *this;
-    }
     /// Destructor
-    void showResult();
-    /// Show training result
     virtual ~BaseGMM() = default;
+    /// Show training result
+    void showResult();
     /*!
         * \brief Train BaseGMM to fit data;
         * @param data A N-by-D matrix containing the train data.
     */
-    virtual void fit(MatrixXd data) = 0;
+    virtual void fit(const MatrixXd &data) = 0;
     /*!
         * \brief Cluster the with trained model.
         * @param data  A N-by-D matrix containing the test data;
         * @param post  A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I);
         * @return The negative Log likelihood
     */
-    double cluster(MatrixXd data, MatrixXd &post);
+    double cluster(const MatrixXd &data, MatrixXd &post);
     /*!
         * \brief Cluster the with trained model.
         * @param data  A N-by-D matrix containing the test data;
@@ -153,29 +137,29 @@ public:
         * @param post  A N-by-K matrix containing the posterior peobability of p(component J | dataPoint I);
         * @return The negative Log likelihood
     */
-    double cluster(MatrixXd data, MatrixXd &post, VectorXd &idx);
+    double cluster(const MatrixXd &data, MatrixXd &post, VectorXd &idx);
 };
 
 class DiffFullGMM : public BaseGMM {
 public:
+    /// default constructor
     DiffFullGMM() = default;
+    /// constructor with nComponents, nDimensions, fit option and fit result
     DiffFullGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
                 fitResult result = fitResult()) :
         BaseGMM(nComponents, nDimensions, option, result) {}
-    DiffFullGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
-                fitResult result = fitResult()) :
+    /// constructor with mu ,Sigma, p, fit option and fit result
+    DiffFullGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const VectorXd &p,
+                const fitOption &option = fitOption(), const fitResult &result = fitResult()) :
         BaseGMM(mu, Sigma, p, option, result) {}
+    /// copy constructor
     DiffFullGMM(const DiffFullGMM &dfGMM) : BaseGMM(dfGMM) {}
+    /// copy assignment operator
     DiffFullGMM& operator=(const DiffFullGMM& rhs) {
         BaseGMM::operator=(rhs);
         return *this;
     }
-    DiffFullGMM(DiffFullGMM &&s) : BaseGMM(s) {}
-    DiffFullGMM & operator= (DiffFullGMM &&rhs) {
-        BaseGMM::operator=(rhs);
-        return *this;
-    }
-    void fit(MatrixXd data) override;
+    void fit(const MatrixXd &data) override;
 };
 
 class DiffDiagGMM : public BaseGMM {
@@ -184,16 +168,11 @@ public:
     DiffDiagGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
                 fitResult result = fitResult()) :
         BaseGMM(nComponents, nDimensions, option, result) {}
-    DiffDiagGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
-                fitResult result = fitResult()) :
+    DiffDiagGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const VectorXd &p,
+                const fitOption &option = fitOption(), const fitResult &result = fitResult()) :
         BaseGMM(mu, Sigma, p, option, result) {}
     DiffDiagGMM(const DiffDiagGMM &ddGMM) : BaseGMM(ddGMM) {}
     DiffDiagGMM& operator=(const DiffDiagGMM& rhs) {
-        BaseGMM::operator=(rhs);
-        return *this;
-    }
-    DiffDiagGMM(DiffDiagGMM &&s) : BaseGMM(s) {}
-    DiffDiagGMM & operator= (DiffDiagGMM &&rhs) {
         BaseGMM::operator=(rhs);
         return *this;
     }
@@ -201,7 +180,7 @@ public:
         DiffFullGMM ret(mu, Sigma, p, option, result);
         return ret;
     }
-    void fit(MatrixXd data) override;
+    void fit(const MatrixXd &data) override;
 };
 
 class DiffSpheGMM : public BaseGMM {
@@ -210,16 +189,11 @@ public:
     DiffSpheGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
                 fitResult result = fitResult()) :
         BaseGMM(nComponents, nDimensions, option, result) {}
-    DiffSpheGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
-                fitResult result = fitResult()) :
+    DiffSpheGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const VectorXd &p,
+                const fitOption &option = fitOption(), const fitResult &result = fitResult()) :
         BaseGMM(mu, Sigma, p, option, result) {}
-    DiffSpheGMM(DiffSpheGMM &dsGMM) : BaseGMM(dsGMM) {}
+    DiffSpheGMM(const DiffSpheGMM &dsGMM) : BaseGMM(dsGMM) {}
     DiffSpheGMM& operator=(const DiffSpheGMM& rhs) {
-        BaseGMM::operator=(rhs);
-        return *this;
-    }
-    DiffSpheGMM(DiffSpheGMM &&s) : BaseGMM(s) {}
-    DiffSpheGMM & operator= (DiffSpheGMM &&rhs) {
         BaseGMM::operator=(rhs);
         return *this;
     }
@@ -231,7 +205,7 @@ public:
         DiffDiagGMM ret(mu, Sigma, p, option, result);
         return ret;
     }
-    void fit(MatrixXd data) override;
+    void fit(const MatrixXd &data) override;
 };
 
 class ShaFullGMM : public BaseGMM {
@@ -240,16 +214,11 @@ public:
     ShaFullGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
                fitResult result = fitResult()) :
         BaseGMM(nComponents, nDimensions, option, result) {}
-    ShaFullGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
-               fitResult result = fitResult()) :
+    ShaFullGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const VectorXd &p,
+               const fitOption &option = fitOption(), const fitResult &result = fitResult()) :
         BaseGMM(mu, Sigma, p, option, result) {}
     ShaFullGMM(const ShaFullGMM &sfGMM) : BaseGMM(sfGMM) {}
     ShaFullGMM& operator=(const ShaFullGMM& rhs) {
-        BaseGMM::operator=(rhs);
-        return *this;
-    }
-    ShaFullGMM(ShaFullGMM &&s) : BaseGMM(s) {}
-    ShaFullGMM & operator= (ShaFullGMM &&rhs) {
         BaseGMM::operator=(rhs);
         return *this;
     }
@@ -257,7 +226,7 @@ public:
         DiffFullGMM ret(mu, Sigma, p, option, result);
         return ret;
     }
-    void fit(MatrixXd data) override;
+    void fit(const MatrixXd &data) override;
 };
 
 class ShaDiagGMM : public BaseGMM {
@@ -266,16 +235,11 @@ public:
     ShaDiagGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
                fitResult result = fitResult()) :
         BaseGMM(nComponents, nDimensions, option, result) {}
-    ShaDiagGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
-               fitResult result = fitResult()) :
+    ShaDiagGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const VectorXd &p,
+               const fitOption &option = fitOption(), const fitResult &result = fitResult()) :
         BaseGMM(mu, Sigma, p, option,result) {}
     ShaDiagGMM(const ShaDiagGMM &sdGMM) : BaseGMM(sdGMM) {}
     ShaDiagGMM& operator=(const ShaDiagGMM& rhs) {
-        BaseGMM::operator=(rhs);
-        return *this;
-    }
-    ShaDiagGMM(ShaDiagGMM &&s) : BaseGMM(s) {}
-    ShaDiagGMM & operator= (ShaDiagGMM &&rhs) {
         BaseGMM::operator=(rhs);
         return *this;
     }
@@ -291,7 +255,7 @@ public:
         DiffFullGMM ret(mu, Sigma, p, option, result);
         return ret;
     }
-    void fit(MatrixXd data) override;
+    void fit(const MatrixXd &data) override;
 };
 
 class ShaSpheGMM : public BaseGMM {
@@ -300,16 +264,11 @@ public:
     ShaSpheGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
                fitResult result = fitResult()) :
         BaseGMM(nComponents, nDimensions, option, result) {}
-    ShaSpheGMM(MatrixXd mu, vector<MatrixXd> Sigma, VectorXd p, fitOption option = fitOption(),
-               fitResult result = fitResult()) :
+    ShaSpheGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const VectorXd &p,
+               const fitOption &option = fitOption(), const fitResult &result = fitResult()) :
         BaseGMM(mu, Sigma, p, option, result) {}
     ShaSpheGMM(const ShaSpheGMM &ssGMM) : BaseGMM(ssGMM) {}
     ShaSpheGMM& operator=(const ShaSpheGMM& rhs) {
-        BaseGMM::operator=(rhs);
-        return *this;
-    }
-    ShaSpheGMM(const ShaSpheGMM &&s) : BaseGMM(s) {}
-    ShaSpheGMM & operator= (ShaSpheGMM &&rhs) {
         BaseGMM::operator=(rhs);
         return *this;
     }
@@ -333,7 +292,7 @@ public:
         ShaDiagGMM ret(mu, Sigma, p, option, result);
         return ret;
     }
-    void fit(MatrixXd data) override;
+    void fit(const MatrixXd &data) override;
 };
 
 /// Random number generator
@@ -348,7 +307,7 @@ VectorXd randperm(unsigned long n);
     * \brief K-Means class. Provide fit functionality.
 */
 
-void kMeans(MatrixXd data, long nComponents, VectorXd &idx, MatrixXd &mu);
+void kMeans(const MatrixXd &data, long nComponents, VectorXd &idx, MatrixXd &mu);
 
 /*!
     * \brief Read BaseGMM from a file stream.
