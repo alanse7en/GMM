@@ -19,17 +19,14 @@ int main(int argc, const char * argv[])
     MatrixXd data = generateData();
     fitOption option;
     option.start = "kmeans";
-    option.display = "final";
+    option.display = "iter";
     option.maxIter = 1e4;
     option.tolFun = 1e-10;
 //    option.regularize = 1e-4;
     int nComponents = 2;
     int nDimensions = 2;
-    ShaDiagGMM gmmTest(nComponents, nDimensions, option);
+    ShaFullGMM gmmTest(nComponents, nDimensions, option);
     gmmTest.fit(data);
-    gmmTest.showResult();
-    DiffFullGMM gmm2 = gmmTest;
-    gmm2.showResult();
-    gmmTest.showResult();
+    cout << gmmTest << endl;
 }
 

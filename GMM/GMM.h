@@ -75,7 +75,7 @@ protected:
         * Check the option to ensure it is valid.
         * @param option The option for fit function to be checked.
     */
-    void checkOption(const fitOption &option);
+    void checkOption();
     /*!
         * Check model to ensure it is valid.
     */
@@ -105,8 +105,8 @@ public:
     /// Default constructor
     BaseGMM() = default;
     ///  Constructors with nComponents, nDimensions and option
-    BaseGMM(long nComponents, long nDimensions, fitOption option = fitOption(),
-            fitResult result = fitResult());
+    BaseGMM(long nComponents, long nDimensions, const fitOption &option = fitOption(),
+            const fitResult &result = fitResult());
     ///  Constructors with mu, Sigma, p, and option
     BaseGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const VectorXd &p,
             const fitOption &option = fitOption(), const fitResult &result = fitResult());

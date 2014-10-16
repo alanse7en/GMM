@@ -37,8 +37,8 @@ void kMeans(const MatrixXd &data, long nComponents, VectorXd &idx, MatrixXd &mu)
         mu.block(i,0,1,mu.cols()) = data.block(randPerm(i),0,1,mu.cols());
     }
     VectorXd idxTmp = idx;
+    MatrixXd distances = MatrixXd::Zero(data.rows(), nComponents);
     while(1) {
-        MatrixXd distances = MatrixXd::Zero(data.rows(), nComponents);
         for (int i = 0; i < data.rows(); ++i)
         {
             for (int j = 0; j < nComponents; ++j)
@@ -124,24 +124,20 @@ ifstream & operator>>(ifstream &in, BaseGMM &BaseGMM)
         }
     }
     // Read Options
-    fitOption option;
     string tmpStr;
-    getline(in, option.start);
+    getline(in, BaseGMM.option.start);
     getline(in ,tmpStr);
-    option.regularize = atof(tmpStr.c_str());;
-    getline(in, option.display);
+    BaseGMM.option.regularize = atof(tmpStr.c_str());;
+    getline(in, BaseGMM.option.display);
     getline(in, tmpStr);
-    option.maxIter = atoi(tmpStr.c_str());;
+    BaseGMM.option.maxIter = atoi(tmpStr.c_str());;
     getline(in, tmpStr);
-    option.tolFun = atof(tmpStr.c_str());;
+    BaseGMM.option.tolFun = atof(tmpStr.c_str());;
     getline(in, tmpStr);
-    fitResult result;
-    result.converged = atoi(tmpStr.c_str());;
+    BaseGMM.result.converged = atoi(tmpStr.c_str());;
     getline(in ,tmpStr);
-    result.iters = atoi(tmpStr.c_str());
-    BaseGMM.checkOption(option);
-    BaseGMM.option = option;
-    BaseGMM.result = result;
+    BaseGMM.result.iters = atoi(tmpStr.c_str());
+    BaseGMM.checkOption();
 
     if (!in)
     {
@@ -196,15 +192,13 @@ ofstream & operator<<(ofstream &out, const BaseGMM & BaseGMM)
             out << "\n";
         }
     }
-    fitOption option = BaseGMM.option;
-    fitResult result = BaseGMM.result;
-    out << option.start << "\n";
-    out << option.regularize << "\n";
-    out << option.display << "\n";
-    out << option.maxIter << "\n";
-    out << option.tolFun << "\n";
-    out << result.converged << "\n";
-    out << result.iters << "\n";
+    out << BaseGMM.option.start << "\n";
+    out << BaseGMM.option.regularize << "\n";
+    out << BaseGMM.option.display << "\n";
+    out << BaseGMM.option.maxIter << "\n";
+    out << BaseGMM.option.tolFun << "\n";
+    out << BaseGMM.result.converged << "\n";
+    out << BaseGMM.result.iters << "\n";
     if (!out)
     {
         throw runtime_error
@@ -213,14 +207,14 @@ ofstream & operator<<(ofstream &out, const BaseGMM & BaseGMM)
     return out;
 }
 
-BaseGMM::BaseGMM(long nComponents, long nDimensions, fitOption option,
-                 fitResult result) :
+BaseGMM::BaseGMM(long nComponents, long nDimensions, const fitOption &option,
+                 const fitResult &result) :
     nComponents(nComponents), nDimensions(nDimensions), option(option), result(result),
     mu(MatrixXd::Zero(nComponents, nDimensions)),
     Sigma(vector<MatrixXd>(nComponents, MatrixXd::Zero(nDimensions, nDimensions))),
     p(VectorXd::Zero(nComponents))
 {
-    checkOption(this->option);
+    checkOption();
 
 }
 
@@ -230,7 +224,7 @@ BaseGMM::BaseGMM(const MatrixXd &mu, const vector<MatrixXd> &Sigma, const Vector
     nComponents(mu.rows()), nDimensions(mu.cols())
 {
     checkModel();
-    checkOption(this->option);
+    checkOption();
 }
 
 void BaseGMM::checkData(const MatrixXd &data) {
@@ -247,7 +241,7 @@ void BaseGMM::checkData(const MatrixXd &data) {
     }
 }
 
-void BaseGMM::checkOption(const fitOption &option) {
+void BaseGMM::checkOption() {
     if (option.regularize < 0) {
         throw runtime_error( "The regularize must be a non-negative scalar.\n");
     }
@@ -380,17 +374,18 @@ void DiffFullGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
+    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+    double lossDiff = 0.0;
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
         result.iters = ite +1;
-        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
         auto loss = posterior(data, post);
         if (option.display == "iter")
         {
             printf("Iteration: %d  Loss: %f\n", ite+1,loss);
         }
         // Check the converge condition.
-        double lossDiff = oldLoss -loss;
+        lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
             result.converged = true;
@@ -400,6 +395,7 @@ void DiffFullGMM::fit(const MatrixXd &data) {
         // M step
         p = post.colwise().sum();
         // different sigma
+        MatrixXd centered = MatrixXd::Zero(1, data.cols());
         for (int i = 0; i < nComponents; ++i)
         {
             MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
@@ -407,7 +403,7 @@ void DiffFullGMM::fit(const MatrixXd &data) {
             for (int j = 0; j < data.rows(); ++j)
             {
                 muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                centered = data.block(j, 0, 1, data.cols())
                     - mu.block(i,0,1,mu.cols());
                 sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
             }
@@ -429,17 +425,19 @@ void DiffDiagGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
-    for (auto ite = 0; ite < option.maxIter; ++ite) { 
+    double lossDiff = 0.0;
+    double loss = 0.0;
+    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
+    for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
         result.iters = ite +1;
-        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
-        auto loss = posterior(data, post);
+        loss = posterior(data, post);
         if (option.display == "iter")
         {
             printf("Iteration: %d  Loss: %f\n", ite+1,loss);
         }
         // Check the converge condition.
-        double lossDiff = oldLoss -loss;
+        lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
             result.converged = true;
@@ -450,6 +448,7 @@ void DiffDiagGMM::fit(const MatrixXd &data) {
         p = post.colwise().sum();
         // different sigma
         // diagonal sigma
+        MatrixXd centered = MatrixXd::Zero(1, data.cols());
         for (int i = 0; i < nComponents; ++i)
         {
             MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
@@ -457,15 +456,14 @@ void DiffDiagGMM::fit(const MatrixXd &data) {
             for (int j = 0; j < data.rows(); ++j)
             {
                 muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                centered = data.block(j, 0, 1, data.cols())
                     - mu.block(i,0,1,mu.cols());
                 sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
             }
-            sigmaTmp = sigmaTmp/p(i) + option.regularize * 
-                MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols());
-            MatrixXd sigma = (sigmaTmp.diagonal()).asDiagonal();
             mu.block(i,0,1,mu.cols()) = muTmp/p(i);
-            Sigma.at(i) = sigma;
+            Sigma.at(i) = ((sigmaTmp/p(i) + option.regularize *
+                           MatrixXd::Identity(sigmaTmp.rows(), sigmaTmp.cols())).
+                           diagonal()).asDiagonal();
         }                
         p = p/double(data.rows());
     }
@@ -480,17 +478,19 @@ void DiffSpheGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
     double oldLoss = 0.0;
+    double loss = 0.0;
+    double lossDiff = 0.0;
+    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
         result.iters = ite +1;
-        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
-        auto loss = posterior(data, post);
+        loss = posterior(data, post);
         if (option.display == "iter")
         {
             printf("Iteration: %d  Loss: %f\n", ite+1,loss);
         }
         // Check the converge condition.
-        double lossDiff = oldLoss -loss;
+        lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
             result.converged = true;
@@ -501,6 +501,7 @@ void DiffSpheGMM::fit(const MatrixXd &data) {
         p = post.colwise().sum();
         // different sigma
         // spherical sigma
+        MatrixXd centered = MatrixXd::Zero(1, data.cols());
         for (int i = 0; i < nComponents; ++i)
         {
             MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
@@ -508,7 +509,7 @@ void DiffSpheGMM::fit(const MatrixXd &data) {
             for (int j = 0; j < data.rows(); ++j)
             {
                 muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                centered = data.block(j, 0, 1, data.cols())
                     - mu.block(i,0,1,mu.cols());
                 sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
             }
@@ -532,18 +533,20 @@ void DiffSpheGMM::fit(const MatrixXd &data) {
 void ShaFullGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
-    double oldLoss = 0.0;
+    double oldLoss =  0.0;
+    double loss    =  0.0;
+    double lossDiff = 0.0;
+    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
         result.iters = ite +1;
-        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
-        auto loss = posterior(data, post);
+        loss = posterior(data, post);
         if (option.display == "iter")
         {
             printf("Iteration: %d  Loss: %f\n", ite+1,loss);
         }
         // Check the converge condition.
-        double lossDiff = oldLoss -loss;
+        lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
             result.converged = true;
@@ -554,7 +557,8 @@ void ShaFullGMM::fit(const MatrixXd &data) {
         p = post.colwise().sum();
         // sharing sigma
         MatrixXd sigma = MatrixXd::Zero(data.cols(), data.cols());
-        // full sigma                
+        // full sigma
+        MatrixXd centered = MatrixXd::Zero(1, data.cols());
         for (int i = 0; i < nComponents; ++i)
         {
             MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
@@ -562,7 +566,7 @@ void ShaFullGMM::fit(const MatrixXd &data) {
             for (int j = 0; j < data.rows(); ++j)
             {
                 muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                centered = data.block(j, 0, 1, data.cols()) 
                     - mu.block(i,0,1,mu.cols());
                 sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
             }
@@ -585,18 +589,20 @@ void ShaFullGMM::fit(const MatrixXd &data) {
 void ShaDiagGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
-    double oldLoss = 0.0;
+    double oldLoss =  0.0;
+    double loss    =  0.0;
+    double lossDiff = 0.0;
+    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
         result.iters = ite +1;
-        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
-        auto loss = posterior(data, post);
+        loss = posterior(data, post);
         if (option.display == "iter")
         {
             printf("Iteration: %d  Loss: %f\n", ite+1,loss);
         }
         // Check the converge condition.
-        double lossDiff = oldLoss -loss;
+        lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
             result.converged = true;
@@ -607,6 +613,7 @@ void ShaDiagGMM::fit(const MatrixXd &data) {
         p = post.colwise().sum();
         MatrixXd sigma = MatrixXd::Zero(data.cols(), data.cols());
         // diagonal sigma
+        MatrixXd centered = MatrixXd::Zero(1, data.cols());
         for (int i = 0; i < nComponents; ++i)
         {
             MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
@@ -614,7 +621,7 @@ void ShaDiagGMM::fit(const MatrixXd &data) {
             for (int j = 0; j < data.rows(); ++j)
             {
                 muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                centered = data.block(j, 0, 1, data.cols()) 
                     - mu.block(i,0,1,mu.cols());
                 sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
             }
@@ -638,18 +645,20 @@ void ShaDiagGMM::fit(const MatrixXd &data) {
 void ShaSpheGMM::fit(const MatrixXd &data) {
     checkData(data);
     initParam(data);
-    double oldLoss = 0.0;
+    double oldLoss =  0.0;
+    double loss    =  0.0;
+    double lossDiff = 0.0;
+    MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
     for (auto ite = 0; ite < option.maxIter; ++ite) {
         // E step
         result.iters = ite +1;
-        MatrixXd post = MatrixXd::Zero(data.rows(), nComponents);
-        auto loss = posterior(data, post);
+        loss = posterior(data, post);
         if (option.display == "iter")
         {
             printf("Iteration: %d  Loss: %f\n", ite+1,loss);
         }
         // Check the converge condition.
-        double lossDiff = oldLoss -loss;
+        lossDiff = oldLoss -loss;
         if (lossDiff >= 0 && lossDiff <= option.tolFun * abs(loss))
         {
             result.converged = true;
@@ -660,6 +669,7 @@ void ShaSpheGMM::fit(const MatrixXd &data) {
         p = post.colwise().sum();
         // sharing sigma
         MatrixXd sigma = MatrixXd::Zero(data.cols(), data.cols());
+        MatrixXd centered = MatrixXd::Zero(1, data.cols());
         for (int i = 0; i < nComponents; ++i)
         {
             MatrixXd muTmp = MatrixXd::Zero(1, data.cols());
@@ -667,7 +677,7 @@ void ShaSpheGMM::fit(const MatrixXd &data) {
             for (int j = 0; j < data.rows(); ++j)
             {
                 muTmp = muTmp + post(j,i)*data.block(j, 0, 1, data.cols());
-                MatrixXd centered = data.block(j, 0, 1, data.cols()) 
+                centered = data.block(j, 0, 1, data.cols()) 
                     - mu.block(i,0,1,mu.cols());
                 sigmaTmp = sigmaTmp + post(j, i) * centered.transpose() * centered;
             }
